@@ -1,6 +1,3 @@
-// actions: adventuring, resting, shopping
-// resources: health, money, weapons
-
 max_hp 10. damage sword 4. cost sword 10.
 
 context init_ctx = {init_tok}.

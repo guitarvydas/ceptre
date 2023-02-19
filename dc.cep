@@ -34,8 +34,8 @@ qui * stage rest  -o  stage main * main_screen.
 stage shop = {
       leave :   shop_screen  -o  main_screen.
       buy   :   treasure T * cost W C * damage_of W D * weapon_damage _
-      	        * subtract T C (some T’)
-             -o treasure T’ * weapon_damage D.
+      	        * subtract T C (some T')
+             -o treasure T' * weapon_damage D.
 }
 #interactive shop.
 
@@ -61,13 +61,13 @@ try_fight : pred.
 fight_in_progress : pred.
 stage fight_auto = {
   fight/hit :   try_fight * $fight_in_progress * monster_hp MHP * $weapon_damage D
-                  * subtract MHP D (some MHP’)
-  	     -o monster_hp MHP’.
+                  * subtract MHP D (some MHP')
+  	     -o monster_hp MHP'.
   win :    fight_in_progress * monster_hp MHP * $weapon_damage D * subtract MHP D none
         -o win_screen.
   fight/miss :    try_fight * $fight_in_progress * $monster Size * health HP
-                    * subtract HP Size (some HP’)
-	       -o health HP’.
+                    * subtract HP Size (some HP')
+	       -o health HP'.
   die_from_damages :    health z * fight_in_progress
                      -o die_screen.
   fight/die :    try_fight * fight_in_progress * monster Size * health HP

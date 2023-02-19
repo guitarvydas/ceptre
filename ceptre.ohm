@@ -39,9 +39,10 @@ Arg =
   
 Expr =
   | "(" Expr ")" -- nested
-  | value Operator Expr -- op
-  | logicVariable
-  | value
+  | Expr Operator Expr -- op
+  | SimplePredicate -- pred
+  | logicVariable -- lvar
+  | value -- value
 
 Operator = "+"
 
@@ -51,7 +52,11 @@ logicVariable =
   | lVfirst nameRest* -- named
 lVfirst = upper
 nameFirst = lower
-nameRest = alnum | "_" | "/"
+nameRest =
+  | alnum -- char
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- quote
 
 value = number | quotedSymbol
 number = digit+
