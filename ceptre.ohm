@@ -1,20 +1,25 @@
 Ceptre {
 
-Main = Constant* Context (Rule | StageDefinition)+
+TopLevel = Main+
 
-Constant = ConstantTriple | ConstantDouble
+Main =
+  | PredicateDeclaration "." -- predicateDeclaration
+  | SimplePredicate "." -- predicateApplication
+  | Context "." -- context
+  | Rule "." -- rule
+  | StageDefinition -- stageDefinition
+  
+Context = "context" name "=" "{" name+ "}"
 
-Context = "context" name "=" "{" name+ "}" "."
-
-ConstantTriple = name name value "."
-ConstantDouble = name value "."
 StageDefinition = "stage" name "=" "{" NamedRule+ "}" Interactive?
 StageReference = "stage" name
-NamedRule = name ":" Rule
-Rule = LHSPredicate+ "-o" Replacement+ "."
+NamedRule = name ":" Rule "."
+Rule = LHSPredicate+ "-o" Replacement+
 comment = "%" (~nl any)* nl
 Interactive = "#interactive" name "."
-PredicateDeclaraction = name ":" "pred" "."
+PredicateDeclaration = name formal* ":" resultType
+formal = name
+resultType = name
 LHSPredicate =
   | LHSPredicateTest "*" LHSPredicate -- and
   | LHSPredicateTest -- pred
@@ -57,6 +62,7 @@ nameRest =
   | "_" -- underscore
   | "/" -- slash
   | "'" -- quote
+  | "’" -- endquote
 
 value = number | quotedSymbol
 number = digit+
@@ -65,4 +71,3 @@ quotedSymbol = name
 space += comment
 nl = "\n"
 }
-  
