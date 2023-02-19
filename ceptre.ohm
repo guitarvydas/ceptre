@@ -4,7 +4,7 @@ TopLevel = Main+
 
 Main =
   | PredicateDeclaration "." -- predicateDeclaration
-  | SimplePredicate "." -- predicateApplication
+  | SimplePredicate "." -- simplePredicate
   | Context "." -- context
   | Rule "." -- rule
   | StageDefinition -- stageDefinition
@@ -40,7 +40,7 @@ Replacement =
 
 Arg =
   | "(" ")" -- nothing
-  | Expr
+  | Expr -- expr
   
 Expr =
   | "(" Expr ")" -- nested

@@ -1,0 +1,51 @@
+Ceptre {
+
+TopLevel [Main+] = ‛«Main»’
+
+Main_predicateDeclaration [PredicateDeclaration kdot] = ‛«PredicateDeclaration»«kdot»’
+Main_simplePredicate [SimplePredicate kdot] = ‛«SimplePredicate»«kdot»’
+Main_context [Context kdot] = ‛«Context»«kdot»’
+Main_rule [Rule kdot] = ‛«Rule»«kdot»’
+Main_stageDefinition [StageDefinition] = ‛«StageDefinition»’
+
+Context [kcontext cname keq lb name+ rb] = ‛«kcontext»«cname»«keq»«lb»«name»«rb»’
+
+StageDefinition [kstage sname keq lb NamedRule+ rb Interactive?] = ‛«kstage»«sname»«keq»«lb»«NamedRule»«rb»«Interactive»’
+StageReference [kstage sname] = ‛«kstage»«sname»’
+NamedRule [name kcolon Rule kdot] = ‛«name»«kcolon»«Rule»«kdot»’
+Rule [LHSPredicate+ klolli Replacement+] = ‛«LHSPredicate»«klolli»«Replacement»’
+comment [kpercent any* nl] = ‛«kpercent»«any»«nl»’
+Interactive [kinteractive name kdot] = ‛«kinteractive»«name»«kdot»’
+PredicateDeclaration [name formal* kcolon resultType] = ‛«name»«formal»«kcolon»«resultType»’
+formal [name] = ‛«name»’
+resultType [name] = ‛«name»’
+LHSPredicate_and [ptest kasterisk p] = ‛«ptest»«kasterisk»«p»’
+LHSPredicate_pred [ptest] = ‛«ptest»’
+LHSPredicateTest_quiescent [kqui] = ‛«kqui»’
+LHSPredicateTest_keep [kdollar SimplePredicate] = ‛«kdollar»«SimplePredicate»’
+LHSPredicateTest_pred [SimplePredicate] = ‛«SimplePredicate»’
+SimplePredicate_withArgs [name Arg+] = ‛«name»«Arg»’
+SimplePredicate_noArgs [name] = ‛«name»’
+Replacement_nothing [lb rb] = ‛«lb»«rb»’
+Replacement_and [SimplePredicate kasterisk Replacement] = ‛«SimplePredicate»«kasterisk»«Replacement»’
+Replacement_pred [SimplePredicate] = ‛«SimplePredicate»’
+Arg_nothing [lp rp] = ‛«lp»«rp»’
+Arg_expr [Expr] = ‛«Expr»’
+Expr_nested [lp Expr rp] = ‛«lp»«Expr»«rp»’
+Expr_op [e1 op e2] = ‛«e1»«op»«e2»’
+Expr_pred [SimplePredicate] = ‛«SimplePredicate»’
+Expr_lvar [v] = ‛«v»’
+Expr_value [v] = ‛«v»’
+Operator [x] = ‛«x»’
+name [nf nr*] = ‛«nf»«nr»’
+logicVariable_dontcare [kunderscore] = ‛«kunderscore»’
+logicVariable_named [lvf nr*] = ‛«lvf»«nr»’
+lVfirst [c] = ‛«c»’
+nameFirst [c] = ‛«c»’
+nameRest [c] = ‛«c»’
+value [v] = ‛«v»’
+number [d+] = ‛«d»’
+quotedSymbol [s] = ‛«s»’
+space [c] = ‛«c»’
+nl [c] = ‛«c»’
+}
