@@ -1,0 +1,63 @@
+Ceptre {
+
+Main = Constant* Context (Rule | StageDefinition)+
+
+Constant = ConstantTriple | ConstantDouble
+
+Context = "context" name "=" "{" name+ "}" "."
+
+ConstantTriple = name name value "."
+ConstantDouble = name value "."
+StageDefinition = "stage" name "=" "{" NamedRule+ "}" Interactive?
+StageReference = "stage" name
+NamedRule = name ":" Rule
+Rule = LHSPredicate+ "-o" Replacement+ "."
+comment = "%" (~nl any)* nl
+Interactive = "#interactive" name "."
+PredicateDeclaraction = name ":" "pred" "."
+LHSPredicate =
+  | LHSPredicateTest "*" LHSPredicate -- and
+  | LHSPredicateTest -- pred
+
+LHSPredicateTest =
+  | "qui" -- quiescent
+  | "$" SimplePredicate -- keep
+  | SimplePredicate -- pred
+
+SimplePredicate =
+  | name Arg+ -- withArgs
+  | name -- noArgs
+
+Replacement =
+  | "(" ")" -- nothing
+  | SimplePredicate "*" Replacement -- and
+  | SimplePredicate -- pred
+
+Arg =
+  | "(" ")" -- nothing
+  | Expr
+  
+Expr =
+  | "(" Expr ")" -- nested
+  | value Operator Expr -- op
+  | logicVariable
+  | value
+
+Operator = "+"
+
+name = nameFirst nameRest*
+logicVariable =
+  | "_" -- dontcare
+  | lVfirst nameRest* -- named
+lVfirst = upper
+nameFirst = lower
+nameRest = alnum | "_" | "/"
+
+value = number | quotedSymbol
+number = digit+
+quotedSymbol = name
+
+space += comment
+nl = "\n"
+}
+  

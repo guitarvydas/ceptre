@@ -1,0 +1,31 @@
+Ceptre {
+
+ConstantTriple = name name value "."
+ConstantDouble = name value "."
+StageDefinition = "stage" name "{" NamedRule+ "}"
+StageReference = "stage" name
+NamedRule = name ":" Rule
+Rule = Guard+ "-o" Replacement+ "."
+comment = "%" (~ nl)* nl
+Interactive = "#interactive" name "."
+PredicateDeclaraction = name ":" "pred" "."
+Guard =
+  | GuardName "*" GuardName -- and
+  | GuardName -- name
+
+GuardName =
+  | "$" name -- keep
+  | name -- name
+
+Replacement =
+  | name "*" name -- and
+  | name -- name
+
+name = nameFirst nameRest*
+nameFirst = letter
+nameRest = alnum | "_"
+
+space += comment
+nl = "\n"
+}
+  
