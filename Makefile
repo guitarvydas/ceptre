@@ -1,5 +1,7 @@
-gall:
-	./fab/fab - Ceptre ceptre.ohm ceptre.fab --support=support.js <dc.cep
+all:
+	./fab/fab ceptre.ohm ceptre.fab support.js <dc.cep
+dev:
+	./fab/fab ceptre.ohm ceptre.fab support.js <test.cep
 
 install: repos npmstuff
 
