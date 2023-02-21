@@ -1,7 +1,7 @@
 all: rewrite-dollar
 
 rewrite-dollar:
-	@cat test-simple.cep
+	@cat test.cep
 	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <test.cep
 
 identity:
