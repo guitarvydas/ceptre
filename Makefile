@@ -5,24 +5,26 @@ production:
 
 rewrite-dollar-simple:
 	@cat test-simple.cep
-	@./fab/fab rewrite-dollar-simple.ohm rewrite-dollar-simple.fab support.js <test-simple.cep | sed -E 's/ +/ /g'
+	@./fab/fab rewrite-dollar-simple.ohm rewrite-dollar-simple.fab support.js <test-simple.cep
 
 rewrite-dollar-simple-with-stuff:
-	@cat test-simple-with-stuff.cep
 	@./fab/fab rewrite-dollar-simple.ohm rewrite-dollar-simple.fab support.js <test-simple-with-stuff.cep
 
 rewrite-dollar:
 	@cat test.cep
-	@./fab/fab ceptre.ohm rewrite-dollar.fab support.js <test.cep | sed -E 's/ +/ /g'
+	@./fab/fab ceptre.ohm rewrite-dollar.fab support.js <test.cep
 
 dev: rewrite-dollar
 
 devs: rewrite-dollar-simple
 
-devstuff: rewrite-dollar-simple-with-stuff
+devstuff: identity-simple-with-stuff rewrite-dollar-simple-with-stuff
 
 identity:
 	./fab/fab ceptre.ohm identity-ceptre.fab support.js <dc.cep
+
+identity-simple-with-stuff:
+	./fab/fab rewrite-dollar-simple.ohm identity-ceptre.fab support.js <test-simple-with-stuff.cep
 
 install: repos npmstuff
 
