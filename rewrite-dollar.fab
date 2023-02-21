@@ -16,10 +16,16 @@ MatchClause_bottom [predicate] = ‛«predicate»’
 MatchPredicate_dollar [kdollar predicate] = ‛«pushKeep (predicate)» ’
 MatchPredicate_pure [predicate] = ‛«predicate» ’
   
-predicate [name] = ‛«name»’
+Predicate [name Args*] = ‛«name» «Args»’
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
 nameRest [c] = ‛«c»’
+
+Arg [a] = ‛«a»’
+logicVariable_dontcare [k] = ‛_ ’
+logicVariable_named [cap rest] = ‛«cap»«rest» ’
+symbol [s] = ‛«s» ’
+number [digits+] = ‛«digits» ’
 
 }
 
