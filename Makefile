@@ -1,11 +1,11 @@
-all: rewrite-dollar-simple
+all: rewrite-dollar
 
-rewrite-dollar-simple:
+rewrite-dollar:
 	@cat test-simple.cep
-	@./fab/fab rewrite-dollar-simple.ohm rewrite-dollar-simple.fab support.js <test-simple.cep
+	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <test.cep
 
 identity:
-	@./fab/fab rewrite-dollar-simple.ohm identity-ceptre.fab support.js <test-simple.cep
+	@./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js <test.cep
 
 install: npmstuff
 

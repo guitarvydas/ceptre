@@ -1,51 +1,25 @@
-Ceptre {
+DollarRewriter {
 
-TopLevel [Main+] = ‛«Main»’
+top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
 
-Main_predicateDeclaration [PredicateDeclaration kdot] = ‛\n«PredicateDeclaration»«kdot»’
-Main_simplePredicate [SimplePredicate kdot] = ‛\n«SimplePredicate»«kdot»’
-Main_context [Context kdot] = ‛\n«Context»«kdot»’
-Main_rule [Rule kdot] = ‛\n«Rule»«kdot»’
-Main_stageDefinition [StageDefinition] = ‛\n«StageDefinition»’
+oneCharOrMacro_rule [rule] = ‛«rule»’ 
+oneCharOrMacro_other [c] = ‛«c»’ 
+oneCharOrMacro_space [c] = ‛«c»’ 
 
-Context [kcontext cname keq lb name+ rb] = ‛«kcontext»«cname»«keq»«lb»«name»«rb»’
+ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»’ = ‛«MatchClause» «klolli» «getKeep ()»«ReplacementClause»«kdot»’
 
-StageDefinition [kstage sname keq lb NamedRule+ rb Interactive?] = ‛«kstage»«sname»«keq»«lb»«NamedRule»\n«rb»«Interactive»’
-StageReference [kstage sname] = ‛«kstage» «sname»’
-NamedRule [name kcolon Rule kdot] = ‛\n«name» «kcolon» «Rule»«kdot»’
-Rule [LHSPredicate+ klolli Replacement+] ‛«resetKeep ()»’= ‛«LHSPredicate» «klolli» «getKeep ()»«Replacement»’
-comment [kpercent any* nl] = ‛«kpercent»«any»«nl»’
-Interactive [kinteractive name kdot] = ‛\n«kinteractive» «name»«kdot»’
-PredicateDeclaration [name formal* kcolon resultType] = ‛«name»«formal» «kcolon» «resultType»’
-formal [name] = ‛«name»’
-resultType [name] = ‛«name»’
-LHSPredicate_and [ptest kasterisk p] = ‛«ptest» «kasterisk» «p»’
-LHSPredicate_pred [ptest] = ‛«ptest»’
-LHSPredicateTest_quiescent [kqui] = ‛«kqui» ’
-LHSPredicateTest_keep [kdollar SimplePredicate] = ‛«pushKeep (SimplePredicate)»’
-LHSPredicateTest_pred [SimplePredicate] = ‛«SimplePredicate»’
-SimplePredicate_withArgs [name Arg+] = ‛«name» «Arg»’
-SimplePredicate_noArgs [name] = ‛«name»’
-Replacement_nothing [lb rb] = ‛«lb»«rb»’
-Replacement_and [SimplePredicate kasterisk Replacement] = ‛«SimplePredicate» «kasterisk» «Replacement»’
-Replacement_pred [SimplePredicate] = ‛«SimplePredicate»’
-Arg_nothing [lp rp] = ‛«lp»«rp» ’
-Arg_expr [Expr] = ‛«Expr» ’
-Expr_nested [lp Expr rp] = ‛«lp»«Expr»«rp»’
-Expr_op [e1 op e2] = ‛«e1»«op»«e2»’
-Expr_pred [SimplePredicate] = ‛«SimplePredicate»’
-Expr_lvar [v] = ‛«v»’
-Expr_value [v] = ‛«v»’
-Operator [x] = ‛«x»’
-name [nf nr*] = ‛«nf»«nr»’
-logicVariable_dontcare [kunderscore] = ‛«kunderscore»’
-logicVariable_named [lvf nr*] = ‛«lvf»«nr»’
-lVfirst [c] = ‛«c»’
+ReplacementClause_rec [predicate kstar ReplacementClause] = ‛«predicate»«kstar»«ReplacementClause»’
+ReplacementClause_bottom [predicate] = ‛«predicate»’
+MatchClause_rec [predicate kstar MatchClause] = ‛«predicate»«kstar» «MatchClause»’
+MatchClause_bottom [predicate] = ‛«predicate»’
+
+MatchPredicate_dollar [kdollar predicate] = ‛«pushKeep (predicate)» ’
+MatchPredicate_pure [predicate] = ‛«predicate» ’
+  
+predicate [name] = ‛«name»’
+name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
 nameRest [c] = ‛«c»’
-value [v] = ‛«v»’
-number [d+] = ‛«d»’
-quotedSymbol [s] = ‛«s»’
-space [c] = ‛«c»’
-nl [c] = ‛«c»’
+
 }
+
