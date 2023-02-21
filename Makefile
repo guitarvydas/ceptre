@@ -3,9 +3,6 @@ all: rewrite-dollar
 rewrite-dollar:
 	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <test.cep
 
-dev:
-	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <dev.cep
-
 identity:
 	@./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js <test.cep
 
