@@ -24,7 +24,7 @@ MatchPredicate =
 predicate = name
 name = nameFirst nameRest*
 nameFirst = letter
-nameRest = alnum
+nameRest = alnum | "_"
 
 }
 
