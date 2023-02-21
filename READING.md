@@ -1,2 +1,0 @@
-- actions: adventuring, resting, shopping
-- resources: health, money, weapons

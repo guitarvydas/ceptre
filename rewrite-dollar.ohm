@@ -1,0 +1,30 @@
+DollarRewriter {
+
+top = oneCharOrMacro+
+
+oneCharOrMacro =
+  | space -- space
+  | ceptreRule -- rule
+  | any -- other
+
+ceptreRule = applySyntactic<MatchClause> "-o" applySyntactic<ReplacementClause> "."
+
+ReplacementClause =
+  | predicate "*" ReplacementClause -- rec
+  | predicate -- bottom
+
+MatchClause = 
+  | MatchPredicate "*" MatchClause -- rec
+  | MatchPredicate -- bottom
+
+MatchPredicate =
+  | "$" predicate -- dollar
+  | predicate -- pure
+  
+predicate = name
+name = nameFirst nameRest*
+nameFirst = letter
+nameRest = alnum
+
+}
+

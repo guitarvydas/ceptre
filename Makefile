@@ -1,10 +1,10 @@
-all: rewrite-dollar-simple-with-stuff
+all: rewrite-dollar
 
-rewrite-dollar-simple-with-stuff:
-	@./fab/fab rewrite-dollar-simple.ohm rewrite-dollar-simple.fab support.js <test-simple-with-stuff.cep
+rewrite-dollar:
+	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <test-simple-with-stuff.cep
 
 identity:
-	@./fab/fab rewrite-dollar-simple.ohm identity-ceptre.fab support.js <test-simple-with-stuff.cep
+	@./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js <test-simple-with-stuff.cep
 
 install: repos npmstuff
 
