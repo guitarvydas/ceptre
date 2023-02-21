@@ -1,0 +1,25 @@
+DollarRewriter {
+
+top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
+
+oneCharOrMacro_rule [rule] = ‛«rule»’ 
+oneCharOrMacro_other [c] = ‛«c»’ 
+oneCharOrMacro_space [c] = ‛«c»’ 
+
+ceptreRule [MatchClause klolli ReplacementClause kdot] = ‛«MatchClause»«klolli»«ReplacementClause»«kdot»’
+
+ReplacementClause_rec [predicate kstar ReplacementClause] = ‛«predicate»«kstar»«ReplacementClause»’
+ReplacementClause_bottom [predicate] = ‛«predicate»’
+MatchClause_rec [predicate kstar MatchClause] = ‛«predicate»«kstar»«MatchClause»’
+MatchClause_bottom [predicate] = ‛«predicate»’
+
+MatchPredicate_dollar [kdollar predicate] = ‛«kdollar»«predicate»’
+MatchPredicate_pure [predicate] = ‛«predicate»’
+  
+predicate [name] = ‛«name»’
+name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
+nameFirst [c] = ‛«c»’
+nameRest [c] = ‛«c»’
+
+}
+

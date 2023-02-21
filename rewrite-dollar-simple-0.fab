@@ -1,0 +1,12 @@
+Ceptre {
+
+CeptreRule = Clause "-o" Clause "."
+
+Clause = "$"? predicate ("*" Clause)?
+
+predicate = name
+name = nameFirst nameRest*
+nameFirst = letter
+nameRest = alnum
+
+}
