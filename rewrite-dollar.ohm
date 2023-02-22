@@ -24,7 +24,12 @@ MatchPredicate =
 Predicate = name Arg*
 name = nameFirst nameRest*
 nameFirst = letter
-nameRest = alnum | "_" | "/" | "'" | "’"
+nameRest = 
+  | alnum -- alnum
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- squote
+  | "’" -- equote
 
 Arg =
   | logicVariable

@@ -6,25 +6,29 @@ oneCharOrMacro_rule [rule] = ‛«rule»’
 oneCharOrMacro_other [c] = ‛«c»’ 
 oneCharOrMacro_space [c] = ‛«c»’ 
 
-ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»’ = ‛«MatchClause» «klolli» «getKeep ()»«ReplacementClause»«kdot»’
+ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»’ = ‛(-o «MatchClause» «getKeep ()»«ReplacementClause»)’
 
-ReplacementClause_rec [predicate kstar ReplacementClause] = ‛«predicate»«kstar»«ReplacementClause»’
+ReplacementClause_rec [predicate kstar ReplacementClause] = ‛(& «predicate» «ReplacementClause»)’
 ReplacementClause_bottom [predicate] = ‛«predicate»’
-MatchClause_rec [predicate kstar MatchClause] = ‛«predicate»«kstar» «MatchClause»’
+MatchClause_rec [predicate kstar MatchClause] = ‛(& «predicate» «MatchClause»)’
 MatchClause_bottom [predicate] = ‛«predicate»’
 
 MatchPredicate_dollar [kdollar predicate] = ‛«pushKeep (predicate)» ’
 MatchPredicate_pure [predicate] = ‛«predicate» ’
   
-Predicate [name Args*] = ‛«name» «Args»’
+Predicate [name Args*] = ‛(«name» «Args»)’
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
-nameRest [c] = ‛«c»’
+nameRest_alnum [c] = ‛«c»’
+nameRest_underscore [c] = ‛_’
+nameRest_slash [c] = ‛%’
+nameRest_squote [c] = ‛~’
+nameRest_equote [c] = ‛~’
 
 Arg [a] = ‛«a»’
-logicVariable_dontcare [k] = ‛_ ’
-logicVariable_named [cap rest] = ‛«cap»«rest» ’
-symbol [s] = ‛«s» ’
+logicVariable_dontcare [k] = ‛(dontcare)’
+logicVariable_named [cap rest*] = ‛(? «cap»«rest»)’
+symbol [s] = ‛'«s» ’
 number [digits+] = ‛«digits» ’
 
 }
