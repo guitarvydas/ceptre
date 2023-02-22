@@ -1,10 +1,10 @@
 all: rewrite-dollar
 
 rewrite-dollar:
-	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <test.cep
+	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <dc/dc.cep
 
 identity:
-	@./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js <test.cep
+	@./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js <dc/dc.cep
 
 install: repos npmstuff
 

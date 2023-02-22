@@ -25,7 +25,7 @@ nameRest [c] = ‛«c»’
 
 Arg [a] = ‛«a»’
 logicVariable_dontcare [k] = ‛_ ’
-logicVariable_named [cap rest] = ‛«cap»«rest» ’
+logicVariable_named [cap rest*] = ‛«cap»«rest» ’
 symbol [s] = ‛«s» ’
 number [digits+] = ‛«digits» ’
 
