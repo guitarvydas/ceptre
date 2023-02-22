@@ -1,7 +1,7 @@
 all: rewrite
 
 rewrite:
-	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
+	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./vstrip
 
@@ -12,7 +12,7 @@ identity:
 
 pl:
 	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
-	./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <dc/dc.cep \
+	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./vstrip \
 	>dc/swipl/dc.pl
 
