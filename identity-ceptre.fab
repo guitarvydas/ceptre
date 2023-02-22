@@ -18,7 +18,8 @@ MatchPredicate_pure [predicate] = ‛«predicate» ’
   
 Predicate_quiescent [kqui] = ‛«kqui»’
 Predicate_stage [kstage name] = ‛«kstage» «name»’
-Predicate_pred [name Args*] = ‛«name» «Args»’
+Predicate_predWithArgs [name Args+] = ‛«name» «Args»’
+Predicate_predNoArgs [name] = ‛«name»’
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
 nameRest [c] = ‛«c»’

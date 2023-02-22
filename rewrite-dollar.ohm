@@ -24,7 +24,9 @@ MatchPredicate =
 Predicate =
   | "qui" -- quiescent
   | "stage" name -- stage
-  | name Arg* -- pred
+  | name Arg+ -- predWithArgs
+  | name -- predNoArgs
+
 name = nameFirst nameRest*
 nameFirst = letter
 nameRest = alnum | "_" | "/" | "'" | "’"
