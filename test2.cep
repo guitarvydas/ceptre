@@ -1,0 +1,3 @@
+stage die = {
+  quit : die_screen  -o  end.
+}

@@ -1,14 +1,18 @@
-all: rewrite-dollar
+all: rewrite
 
-rewrite-dollar:
-	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <dc/dc.cep \
+rewrite:
+	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
+	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./vstrip
 
+
 identity:
-	@./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js <dc/dc.cep
+	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
+	./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js <dc/dc.cep
 
 pl:
-	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <dc/dc.cep \
+	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
+	./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <dc/dc.cep \
 	| ./vstrip \
 	>dc/swipl/dc.pl
 

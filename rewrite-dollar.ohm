@@ -22,8 +22,8 @@ MatchPredicate =
   | Predicate -- pure
 
 Predicate =
-  | "qui" -- quiescent
-  | "stage" name -- stage
+  | "qui" ~nameRest -- quiescent
+  | "stage" ~nameRest name -- stage
   | name Arg+ -- predWithArgs
   | name -- predNoArgs
 
