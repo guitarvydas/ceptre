@@ -160,8 +160,7 @@ stage(fight_init ),
 assert(context(fight_screen)).
 
 % drop_amount M N means a monster of size M can drop N coins
-drop_amount nat % nat %
-bwd.
+drop_amount nat nat : bwd.
 drop_amount X X. % for now
 
 stage fight_init = {
@@ -194,10 +193,8 @@ retract(stage(fight_init )),
 stage(fight ),
 assert(context(choice)).
 
-% try_fight %
-pred.
-% fight_in_progress %
-pred.
+try_fight : pred.
+fight_in_progress : pred.
 stage fight_auto = {
   % fight/hit %
 try_fight * $fight_in_progress * monster_hp MHP * $weapon_damage D
@@ -247,8 +244,7 @@ retract(subtract(HP Size none )),
 assert(context(die_screen)).
 }
 
-% choice %
-pred.
+choice : pred.
 
 context(qui),
 stage(fight_auto ),
@@ -348,8 +344,7 @@ retract(stage(flee )),
 stage(main ),
 assert(context(main_screen)).
 
-% go_home_or_continue %
-pred.
+go_home_or_continue : pred.
 stage win = {
   % win %
 context(win_screen),
@@ -420,8 +415,7 @@ retract(context(fight_screen)),
 %
 assert(context(fight_screen)),
 assert(stage(fight_init )).
-% end %
-pred.
+end : pred.
 stage die = {
   % quit %
 context(die_screen),
