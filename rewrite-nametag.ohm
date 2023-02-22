@@ -7,7 +7,7 @@ oneCharOrMacro =
   | applySyntactic<Nametag> -- nametag
   | any -- other
 
-Nametag = name ":"
+Nametag = name ":" ~(name* ".")
 
 name = nameFirst nameRest*
 nameFirst = letter
