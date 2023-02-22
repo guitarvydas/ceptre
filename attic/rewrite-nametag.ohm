@@ -1,0 +1,17 @@
+NametagRewriter {
+
+top = oneCharOrMacro+
+
+oneCharOrMacro =
+  | space -- space
+  | applySyntactic<Nametag> -- nametag
+  | any -- other
+
+Nametag = name ":"
+
+name = nameFirst nameRest*
+nameFirst = letter
+nameRest = alnum | "_" | "/" | "'" | "’"
+
+}
+
