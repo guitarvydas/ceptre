@@ -22,7 +22,8 @@ MatchPredicate =
   | Predicate -- pure
 
 Predicate =
-  | "qui" "*" "stage" name -- quiescent
+  | "qui" -- quiescent
+  | "stage" name -- stage
   | name Arg* -- pred
 name = nameFirst nameRest*
 nameFirst = letter

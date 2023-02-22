@@ -16,7 +16,8 @@ MatchClause_bottom [predicate] = ‛«predicate»’
 MatchPredicate_dollar [kdollar predicate] = ‛«pushKeep (predicate)» ’
 MatchPredicate_pure [predicate] = ‛«predicate» ’
   
-Predicate_quiescent [kqui kstar kstage name] = ‛qui * stage «name»’
+Predicate_quiescent [kqui] = ‛qui’
+Predicate_stage [kstage name] = ‛stage «name»’
 Predicate_pred [name Args*] = ‛«name» «Args»’
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
