@@ -1,10 +1,10 @@
-all: rewrite-dollar
+all: rewrite-nametag
 
-rewrite-dollar:
-	@./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js <dc/dc.cep
+rewrite-nametag:
+	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep
 
 identity:
-	@./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js <dc/dc.cep
+	@./fab/fab rewrite-nametag.ohm identity-ceptre.fab support.js <dc/dc.cep
 
 install: repos npmstuff
 
