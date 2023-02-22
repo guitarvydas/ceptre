@@ -21,7 +21,10 @@ MatchPredicate =
   | "$" Predicate -- dollar
   | Predicate -- pure
 
-Predicate = name Arg*
+Predicate =
+  | "qui" -- quiescent
+  | "stage" name -- stage
+  | name Arg* -- pred
 name = nameFirst nameRest*
 nameFirst = letter
 nameRest = alnum | "_" | "/" | "'" | "’"
