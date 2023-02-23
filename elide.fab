@@ -1,0 +1,12 @@
+VerbatimElider {
+
+top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
+
+oneCharOrMacro [x] = ‛«x»’
+
+verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_bottom [c] = ‛«c»’
+
+}
+

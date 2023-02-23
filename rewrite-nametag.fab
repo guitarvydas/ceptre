@@ -6,7 +6,7 @@ oneCharOrMacro_nametag [tag] = ‛«tag»’
 oneCharOrMacro_other [c] = ‛«c»’ 
 oneCharOrMacro_space [c] = ‛«c»’ 
 
-Nametag [name kcolon] = ‛% «name» %\n’
+Nametag [name kcolon] = ‛name «name» %\n’
 
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’

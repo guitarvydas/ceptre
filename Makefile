@@ -3,6 +3,11 @@ all: rewrite
 rewrite:
 	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
+	| ./fab/fab elide.ohm elide.fab support.js
+
+old-rewrite:
+	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
+	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./vstrip
 
 rewrite-dollar:
