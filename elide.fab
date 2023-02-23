@@ -2,11 +2,18 @@ VerbatimElider {
 
 top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
 
-oneCharOrMacro [x] = ‛«x»’
+oneCharOrMacro_comment [x] = ‛ ’
+oneCharOrMacro_space [x+] = ‛ ’
+oneCharOrMacro_verbatim [x] = ‛’
+oneCharOrMacro_other [x] = ‛«x»’
 
-verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
-verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
-verbatimInnard_bottom [c] = ‛«c»’
+verbatim [lb verbatimInnard* rb] = ‛’
+verbatimInnard_rec [lb verbatimInnard* rb] = ‛’
+verbatimInnard_bottom [c] = ‛’
+
+comment [kpercent cs* nl] = ‛’
+space [x] = ‛’
+nl [c+] = ‛ ’
 
 }
 

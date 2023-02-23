@@ -3,7 +3,8 @@ VerbatimElider {
 top = oneCharOrMacro+
 
 oneCharOrMacro =
-  | space -- space
+  | comment -- comment
+  | space+ -- space
   | verbatim -- verbatim
   | any -- other
 
@@ -12,5 +13,8 @@ verbatimInnard =
   | "«" verbatimInnard* "»" -- rec
   | ~"«" ~"»" any -- bottom
 
+comment = "%" (~nl any)* nl
+space += comment
+nl = "\n"+
 }
 
