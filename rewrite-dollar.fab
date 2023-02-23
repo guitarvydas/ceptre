@@ -16,7 +16,7 @@ MatchClause_bottom [predicate] = ‛\««predicate»\»’
 MatchPredicate_dollar [kdollar predicate] = ‛«pushKeep (predicate)»«pushRetract (predicate)»«predicate»’
 MatchPredicate_pure [predicate] = ‛«pushRetract (predicate)»«predicate»’
   
-Predicate_quiescent [kqui] = ‛context(qui)’
+Predicate_quiescent [kqui] = ‛qui’
 Predicate_stage [kstage name] = ‛stage(«name»)’
 Predicate_predWithArgs [name Args+] = ‛«name»(«Args»)’
 Predicate_predNoArgs [name] = ‛context(«name»)’

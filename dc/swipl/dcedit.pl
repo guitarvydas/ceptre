@@ -180,8 +180,44 @@ step :-
     retract(quit),
     %
     nothing.
----
 
+
+%% stage rest = {
+%%   recharge : rest_screen
+%% 	* health HP * max_hp Max * recharge_hp Recharge 
+%% 	* cplus HP Recharge Max N
+%% 	* ndays NDAYS
+%%      -o   health N * ndays (NDAYS + 1).
+%% }
+
+stagestep :-
+    stage(rest),
+    \+ qui,
+    rest_screen,
+    health(HP),
+    max_hp(Max),
+    recharge_hp(Recharge),
+    cplus(HP,Recharge,Max,N),
+    ndays(NDAYS),
+    !,
+    assert(rule_name("rest", "recharge")),
+    % -o
+    retract(rest_screen),
+    retract(health(HP)),
+    retract(max_hp(Max)),
+    retract(recharge_hp(Recharge)),
+    retract(cplus(HP,Recharge,Max,N)),
+    retract(ndays(NDAYS)),
+    %
+    assert(health(N)),
+    assert(ndays((NDAYS + 1))).
+
+stagestep :-
+    stage(rest),
+    \+ qui,
+    !,
+    assert(rule_name("rest", "final")),
+    assert(qui).
 
 
 stage rest = {
@@ -193,10 +229,10 @@ rest_screen
      -o   health N * ndays (NDAYS + 1).
 }
 
-context(qui),
+qui,
 stage(rest ),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(rest )),
 
 %
@@ -218,11 +254,11 @@ treasure T * cost W C * damage_of W D * weapon_damage _
 }
 #interactive shop.
 
-context(qui),
+qui,
 stage(shop ),
 context(main_screen),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(shop )),
 retract(context(main_screen)),
 
@@ -239,10 +275,10 @@ retract(context(adventure_screen)),
 %
 assert(spoils(z )).
 }
-context(qui),
+qui,
 stage(adventure ),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(adventure )),
 
 %
@@ -273,10 +309,10 @@ retract(monster_size(Size )),
 monster(Size ),
 assert(monster_hp(Size )).
 }
-context(qui),
+qui,
 stage(fight_init ),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(fight_init )),
 
 %
@@ -336,11 +372,11 @@ assert(context(die_screen)).
 
 choice : pred.
 
-context(qui),
+qui,
 stage(fight_auto ),
 context(fight_in_progress),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(fight_auto )),
 retract(context(fight_in_progress)),
 
@@ -348,22 +384,22 @@ retract(context(fight_in_progress)),
 assert(context(fight_in_progress)),
 stage(fight ),
 assert(context(choice)).
-context(qui),
+qui,
 stage(fight_auto ),
 context(win_screen),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(fight_auto )),
 retract(context(win_screen)),
 
 %
 assert(context(win_screen)),
 assert(stage(win )).
-context(qui),
+qui,
 stage(fight_auto ),
 context(die_screen),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(fight_auto )),
 retract(context(die_screen)),
 
@@ -394,22 +430,22 @@ assert(context(flee_screen)).
 }
 #interactive fight.
 
-context(qui),
+qui,
 stage(fight ),
 context(fight_in_progress),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(fight )),
 retract(context(fight_in_progress)),
 
 %
 assert(context(fight_in_progress)),
 assert(stage(fight_auto )).
-context(qui),
+qui,
 stage(fight ),
 context(flee_screen),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(fight )),
 retract(context(flee_screen)),
 
@@ -424,10 +460,10 @@ flee_screen * spoils X * monster _ * monster_hp _
             -o ().
 }
 
-context(qui),
+qui,
 stage(flee ),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(flee )),
 
 %
@@ -483,22 +519,22 @@ assert(context(fight_screen)).
 }
 #interactive win.
 
-context(qui),
+qui,
 stage(win ),
 context(main_screen),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(win )),
 retract(context(main_screen)),
 
 %
 assert(context(main_screen)),
 assert(stage(main )).
-context(qui),
+qui,
 stage(win ),
 context(fight_screen),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(win )),
 retract(context(fight_screen)),
 
@@ -535,11 +571,11 @@ assert(context(init_tok)).
 #interactive die.
 
 qui * stage die * end  -o  ().
-context(qui),
+qui,
 stage(die ),
 context(init_tok),
 % o-
-retract(context(qui)),
+retract(qui),
 retract(stage(die )),
 retract(context(init_tok)),
 
