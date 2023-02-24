@@ -8,7 +8,7 @@ oneCharOrMacro_verbatim [x] = ‛«x»’
 oneCharOrMacro_defstage [x] = ‛«x»’
 oneCharOrMacro_other [x] = ‛«x»’
 
-Stagedefinition [kstage name keq Block] = ‛«kstage»«name»«keq»«Block»’
+Stagedefinition [kstage name keq Block] ‛«resetStageName ()»«pushStageName(name)»’= ‛\nstagestep :-\n«Block».’
 
 Block [lb NamedRule+ BlockError? rb] = ‛«lb»«NamedRule»«BlockError»«rb»’
 

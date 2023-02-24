@@ -37,3 +37,23 @@ function getRetract () {
     });
     return result;
 }
+
+var stageNameStack = [];
+
+function resetStageName () {
+    stageNameStack = [];
+    return '';
+}
+
+function pushStageName (s) {
+    stageNameStack.push (s);
+    return '';
+}
+
+function getStageName () {
+    result = '';
+    stageNameStack.forEach (function (s) {
+	result += "«stage(" + s + '),»\n';
+    });
+    return result;
+}
