@@ -6,7 +6,17 @@ oneCharOrMacro_rule [rule] = ‛«rule»’
 oneCharOrMacro_other [c] = ‛«c»’ 
 oneCharOrMacro_space [c] = ‛«c»’ 
 
-ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»«resetRetract ()»’ = ‛rule {«MatchClause»\«,»\n% o-\n«getRetract ()»\n%\n«getKeep ()»«ReplacementClause»\«.\»}’
+ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»«resetRetract ()»’ = ‛rule {\(-
+match {(-
+«MatchClause»\«,»
+-)}
+retract {(-
+«getRetract ()»
+-)}
+assert {(-
+«getKeep ()»«ReplacementClause»\«.\»
+-)}
+-)}’
 
 ReplacementClause_empty [lb rb] = ‛\«empty,\»’
 ReplacementClause_rec [predicate kstar ReplacementClause] = ‛\««predicate»,\»\n«ReplacementClause»’

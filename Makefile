@@ -14,7 +14,7 @@ e:
 	| sed -E 's/\{ +\}/{}/g'
 
 dev:
-	./fab/fab stage.ohm stage.fab support.js </tmp/1
+	./fab/fab stage.ohm stage.fab support.js </tmp/1 | ./indenter
 
 old-rewrite:
 	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
