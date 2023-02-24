@@ -10,6 +10,7 @@ oneCharOrMacro =
 ceptreRule = applySyntactic<MatchClause> "-o" applySyntactic<ReplacementClause> "."
 
 ReplacementClause =
+  | "(" ")" -- empty
   | Predicate "*" ReplacementClause -- rec
   | Predicate -- bottom
 
@@ -29,9 +30,15 @@ Predicate =
 
 name = nameFirst nameRest*
 nameFirst = letter
-nameRest = alnum | "_" | "/" | "'" | "’"
+nameRest = 
+  | alnum -- alnum
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- squote
+  | "’" -- equote
 
 Arg =
+  | parenthesizedExpr
   | logicVariable
   | number
   | symbol
@@ -39,6 +46,11 @@ Arg =
 logicVariable =
   | "_" ~nameRest   -- dontcare
   | upper nameRest* -- named
+
+parenthesizedExpr = "(" estuff* ")"
+estuff =
+  | "(" estuff* ")" -- rec
+  | ~"(" ~")" any -- bottom
 
 symbol = name
 number = digit+

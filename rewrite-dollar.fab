@@ -8,6 +8,7 @@ oneCharOrMacro_space [c] = ‛«c»’
 
 ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»«resetRetract ()»’ = ‛rule {«MatchClause»\«,»\n% o-\n«getRetract ()»\n%\n«getKeep ()»«ReplacementClause»\«.\»}’
 
+ReplacementClause_empty [lb rb] = ‛\«empty,\»’
 ReplacementClause_rec [predicate kstar ReplacementClause] = ‛\««predicate»,\»\n«ReplacementClause»’
 ReplacementClause_bottom [predicate] = ‛\«assert(«predicate»)\»’
 MatchClause_rec [predicate kstar MatchClause] = ‛\««predicate»\«,\»\»\n«MatchClause»’
@@ -18,17 +19,25 @@ MatchPredicate_pure [predicate] = ‛«pushRetract (predicate)»«predicate»’
   
 Predicate_quiescent [kqui] = ‛qui ’
 Predicate_stage [kstage name] = ‛stage(«name») ’
-Predicate_predWithArgs [name Args+] = ‛@«name»(«Args») ’
-Predicate_predNoArgs [name] = ‛@«name»() ’
+Predicate_predWithArgs [name Args+] = ‛«name» «Args» ’
+Predicate_predNoArgs [name] = ‛«name» ’
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
-nameRest [c] = ‛«c»’
+nameRest_alnum [c] = ‛«c»’
+nameRest_underscore [c] = ‛«c»’
+nameRest_slash [c] = ‛«c»’
+nameRest_squote [c] = ‛«c»’
+nameRest_equote [c] = ‛«c»’
 
 Arg [a] = ‛«a» ’
 logicVariable_dontcare [k] = ‛_’
 logicVariable_named [cap rest*] = ‛«cap»«rest» ’
 symbol [s] = ‛«s» ’
 number [digits+] = ‛«digits» ’
+
+parenthesizedExpr [lp e* rp] = ‛«lp»«e»«rp»’
+estuff_rec [lp e* rp] = ‛«lp»«e»«rp»’
+estuff_bottom [c] = ‛«c»’
 
 }
 

@@ -5,10 +5,16 @@ rewrite:
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js >/tmp/1
 	./fab/fab elide.ohm elide.fab support.js </tmp/1
 
-dev:
+1:
 	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js >/tmp/1
-	./fab/fab elide.ohm elide.fab support.js </tmp/1
+
+e:
+	./fab/fab elide.ohm elide.fab support.js </tmp/1 \
+	| sed -E 's/\{ +\}/{}/g'
+
+dev:
+	./fab/fab stage.ohm stage.fab support.js </tmp/1
 
 old-rewrite:
 	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \

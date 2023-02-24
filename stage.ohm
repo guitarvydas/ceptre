@@ -1,0 +1,40 @@
+StageParser {
+
+top = oneCharOrMacro+
+
+oneCharOrMacro =
+  | comment -- comment
+  | space+ -- space
+  | verbatim -- verbatim
+  | applySyntactic<Stagedefinition> -- defstage
+  | any -- other
+
+Stagedefinition = "stage" name "=" Block
+
+Block = "{" NamedRule+ BlockError? "}"
+
+NamedRule = "name" name "rule" "{" verbatim+ NamedRuleError? "}"
+BlockError = BlockErrorInner+
+BlockErrorInner = ~"{" ~"}" any
+NamedRuleError = NamedRuleErrorInner+
+NamedRuleErrorInner = ~"{" ~"}" any
+
+verbatim = "«" verbatimInnard* "»"
+verbatimInnard =
+  | "«" verbatimInnard* "»" -- rec
+  | ~"«" ~"»" any -- bottom
+
+comment = "%" commentInner* nl
+commentInner = ~nl any
+space += comment
+nl = "\n"+
+name = nameFirst nameRest*
+nameFirst = letter
+nameRest = 
+  | alnum -- alnum
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- squote
+  | "’" -- equote
+}
+

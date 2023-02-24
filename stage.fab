@@ -1,0 +1,37 @@
+StageParser {
+
+top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
+
+oneCharOrMacro_comment [x] = ‛«x»’
+oneCharOrMacro_space [x] = ‛«x»’
+oneCharOrMacro_verbatim [x] = ‛«x»’
+oneCharOrMacro_defstage [x] = ‛«x»’
+oneCharOrMacro_other [x] = ‛«x»’
+
+Stagedefinition [kstage name keq Block] = ‛«kstage»«name»«keq»«Block»’
+
+Block [lb NamedRule+ BlockError? rb] = ‛«lb»«NamedRule»«BlockError»«rb»’
+
+NamedRule [kname name krule lb verbatim+ NamedRuleError? rb] = ‛«kname»«name»«krule»«lb»«verbatim»«NamedRuleError»«rb»’
+BlockError [BlockErrorInner+] = ‛«BlockErrorInner»’
+BlockErrorInner [any] = ‛«any»’
+NamedRuleError [NamedRuleInner+] = ‛«NamedRuleInner»’
+NamedRuleError [any] = ‛«any»’
+
+verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_bottom [any] = ‛«any»’
+
+comment [kpercent inner* nl] = ‛«kpercent»«inner»«nl»’
+commentInner [c] = ‛«c»’
+space [x] = ‛«x»’
+nl [cs+] = ‛«cs»’
+name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
+nameFirst [c] = ‛«c»’
+nameRest_alnum [c] = ‛«c»’
+nameRest_underscore [c] = ‛«c»’
+nameRest_slash [c] = ‛«c»’
+nameRest_squote [c] = ‛«c»’
+nameRest_equote [c] = ‛«c»’
+}
+
