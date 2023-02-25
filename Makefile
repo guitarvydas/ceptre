@@ -2,15 +2,22 @@ all: rewrite
 
 rewrite:
 	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
-	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js >/tmp/1
-	./fab/fab elide.ohm elide.fab support.js </tmp/1
+	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
+	| ./fab/fab rulename.ohm rulename.fab support.js \
+	| ./fab/fab stage.ohm stage.fab support.js \
+	| ./indenter.py
+	 
 
 1:
 	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js >/tmp/1
 
-dev: 1
-	./fab/fab stage.ohm stage.fab support.js </tmp/1 | ./indenter.py
+2: 1
+	./fab/fab rulename.ohm rulename.fab support.js </tmp/1 >/tmp/2
+
+dev: 2
+	./fab/fab stage.ohm stage.fab support.js </tmp/2 >/tmp/3
+	./indenter.py </tmp/3
 
 
 rewrite-dollar:

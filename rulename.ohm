@@ -1,0 +1,18 @@
+RulenameRewriter {
+
+top = oneCharOrMacro+
+
+oneCharOrMacro =
+  | space -- space
+  | applySyntactic<RuleName> -- named
+  | any -- other
+
+RuleName = "name" name "%" kwRule
+
+kwRule = "rule" ~nameRest
+
+name = nameFirst nameRest*
+nameFirst = letter
+nameRest = alnum | "_" | "/" | "'" | "’"
+
+}

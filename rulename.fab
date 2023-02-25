@@ -1,0 +1,16 @@
+RulenameRewriter {
+
+top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
+
+oneCharOrMacro_named [n] = ‛«n»’ 
+oneCharOrMacro_other [c] = ‛«c»’ 
+oneCharOrMacro_space [c] = ‛«c»’ 
+
+
+RuleName [kname name kpercent kwRule] = ‛rule "«name»" ’
+kwRule [krule] = ‛«krule»’
+
+name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
+nameFirst [c] = ‛«c»’
+nameRest [c] = ‛«c»’
+}
