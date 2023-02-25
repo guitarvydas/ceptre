@@ -1,46 +1,28 @@
-#!/usr/bin/env node
+#!/usr/bin/env python3
+import sys
+import re
 
-# indenter
+indentation = []
 
-function indenter (str) {
-    indentation = [];
-    let result = '';
-    if (str) {
-	str.split ('\n').forEach (line => {
-	    let s = indent1 (line);
-	    result += '\n' + s;
-	});
-    }
-    return result;
-}
+#  // we emit code using bracketed notation (- and -) which is compatible
+#  // lisp pretty-printing, which allows easier debugging of the transpiled code
+#  // then, for Python, we convert the bracketing into indentation...
+def indent1 (s):
+    global indentation
+    nOpens = len (re.findall ("\(\-", s))
+    nCloses = len (re.findall ("\-\)", s))
+    clean = s.strip ().replace ('(-', '').replace ('-)', '')
+    diff = nOpens - nCloses
+    if (diff > 0):
+        while (diff > 0):
+            indentation = [' '] + indentation
+            diff = diff - 1
+    else:
+        while (diff < 0):
+            indentation = indentation [1:]
+            diff = diff + 1
+    result = ''.join (indentation) + clean
+    return result
 
-
-
- let indentation = [];
- // we emit code using bracketed notation (- and -) which is compatible
- // lisp pretty-printing, which allows easier debugging of the transpiled code
- // then, for Python, we convert the bracketing into indentation...
- function indent1 (s) {
-   let opens = (s.match (/\(-/g) || []).length;
-   let closes = (s.match (/-\)/g) || []).length;
-     // let r0 = s.trim ();
-     let r0 = s;
-   let r1 = r0.replace (/\(-/g, '');
-   let r2 = r1.replace (/-\)/g, '');
-   let spaces = indentation.join ('');
-   let r  = spaces + r2.replace (/\n/g, spaces);
-   let diff = opens - closes;
-   if (diff > 0) {
-       while (diff > 0) {
-           indentation.push ('  ');
-           diff -=1;
-       }
-   } else {
-     while (diff < 0) {
-         indentation.pop ();
-         diff += 1;
-     }
-   }
-   return r;
- }
- 
+for line in sys.stdin:
+    print (indent1 (line))

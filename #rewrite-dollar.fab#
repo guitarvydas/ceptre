@@ -18,11 +18,11 @@ assert {(-
 -)}
 -)}’
 
-ReplacementClause_empty [lb rb] = ‛\«empty,\»’
-ReplacementClause_rec [predicate kstar ReplacementClause] = ‛\««predicate»\»\n«ReplacementClause»’
-ReplacementClause_bottom [predicate] = ‛\«assert(«predicate»)\»’
-MatchClause_rec [predicate kstar MatchClause] = ‛\««predicate» \»\n«MatchClause»’
-MatchClause_bottom [predicate] = ‛\««predicate»\»’
+ReplacementClause_empty [lb rb] = ‛empty’
+ReplacementClause_rec [predicate kstar ReplacementClause] = ‛«predicate»\n«ReplacementClause»’
+ReplacementClause_bottom [predicate] = ‛assert(«predicate»)’
+MatchClause_rec [predicate kstar MatchClause] = ‛«predicate» \n«MatchClause»’
+MatchClause_bottom [predicate] = ‛«predicate»’
 
 MatchPredicate_dollar [kdollar predicate] = ‛«pushKeep (predicate)»«pushRetract (predicate)»«predicate»’
 MatchPredicate_pure [predicate] = ‛«pushRetract (predicate)»«predicate»’
