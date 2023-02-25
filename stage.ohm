@@ -5,24 +5,30 @@ top = oneCharOrMacro+
 oneCharOrMacro =
   | comment -- comment
   | space+ -- space
-  | verbatim -- verbatim
   | applySyntactic<Stagedefinition> -- defstage
   | any -- other
 
-Stagedefinition = "stage" name "=" Block
+Stagedefinition = 
+  | "stage" name "=" "{" NamedRule+ "}" -- ok
+  | "stage" name "=" "{" BlockError "}" -- err
 
-Block = "{" NamedRule+ BlockError? "}"
+NamedRule = 
+  | "(" "namedrule" ruleName Match Retractions Assertions ")" -- ok
+  | "(" "namedrule" ruleName NamedRuleError? ")" -- error
 
-NamedRule = "name" name "rule" "{" verbatim+ NamedRuleError? "}"
+Match = "(" "match" Sexpr* ")"
+Retractions = "(" "retract" Sexpr* ")"
+Assertions = "(" "assert" Sexpr* ")"
+ruleName = string
+
 BlockError = BlockErrorInner+
-BlockErrorInner = ~"{" ~"}" any
+BlockErrorInner = ~"(" ~")" any
 NamedRuleError = NamedRuleErrorInner+
-NamedRuleErrorInner = ~"{" ~"}" any
+NamedRuleErrorInner = ~"(" ~")" any
 
-verbatim = "«" verbatimInnard* "»"
-verbatimInnard =
-  | "«" verbatimInnard* "»" -- rec
-  | ~"«" ~"»" any -- bottom
+Sexpr = 
+  | "(" Sexpr* ")" -- rec
+  | atom -- bottom
 
 comment = "%" commentInner* nl
 commentInner = ~nl any
@@ -36,5 +42,16 @@ nameRest =
   | "/" -- slash
   | "'" -- squote
   | "’" -- equote
+
+atom =
+  | number
+  | string
+  | name
+
+number = digit+
+string = "“" schar* "”"
+schar = 
+  | string
+  | ~"“" ~"”" any
 }
 

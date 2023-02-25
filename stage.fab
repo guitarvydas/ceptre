@@ -4,36 +4,44 @@ top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
 
 oneCharOrMacro_comment [x] = ‛«x»’
 oneCharOrMacro_space [x+] = ‛«x»’
-oneCharOrMacro_verbatim [x] = ‛«x»’
 oneCharOrMacro_defstage [x] = ‛«x»’
 oneCharOrMacro_other [x] = ‛«x»’
 
-Stagedefinition [kstage name keq Block] ‛«resetStageName ()»«pushStageName(name)»’= ‛\nstagestep :-(-
-«Block».
--)’
+Stagedefinition_ok [kstage name keq lb rules+ rb] ‛«resetStageName ()»«pushStageName(name)»’= ‛(stagestep “«name»” «rules»)’
+Stagedefinition_err [kstage name keq lb err rb] ‛«resetStageName ()»«pushStageName(name)»’= ‛\n«err»«name»’
 
-Block [lb NamedRule+ BlockError? rb] = ‛\n«NamedRule»«BlockError»’
 
-NamedRule [kname name krule lb verbatim+ NamedRuleError? rb] = ‛\nstage «name»«verbatim»«NamedRuleError»’
-BlockError [BlockErrorInner+] = ‛«BlockErrorInner»’
+NamedRule_ok [lp knamedrule name m r a rp] = ‛\n(stage «name»«m»«r»«a»)’
+NamedRule_error [lp knamedrule name err rp] = ‛\n«err»«name»’
+
+Match [lp k e* rp] = ‛«lp»«k»«e»«rp»’
+Retractions [lp k e* rp] = ‛«lp»«k»«e»«rp»’
+Assertions [lp k e* rp] = ‛«lp»«k»«e»«rp»’
+
+BlockError [BlockErrorInner+] = ‛(*** Block Error)’
 BlockErrorInner [any] = ‛«any»’
-NamedRuleError [NamedRuleInner+] = ‛«NamedRuleInner»’
+NamedRuleError [NamedRuleInner+] = ‛(*** Named Rule Error)’
 NamedRuleError [any] = ‛«any»’
 
-verbatim [lb verbatimInnard* rb] = ‛\n«lb»«verbatimInnard»«rb»’
-verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
-verbatimInnard_bottom [any] = ‛«any»’
-
-comment [kpercent inner* nl] = ‛«kpercent»«inner»«nl»’
+comment [kpercent inner* nl] = ‛;; «inner»«nl»’
 commentInner [c] = ‛«c»’
 space [x] = ‛«x»’
 nl [cs+] = ‛«cs»’
-name [nameFirst nameRest*] = ‛«nameFirst»«nameRest» ’
+name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
 nameRest_alnum [c] = ‛«c»’
 nameRest_underscore [c] = ‛«c»’
 nameRest_slash [c] = ‛«c»’
 nameRest_squote [c] = ‛«c»’
 nameRest_equote [c] = ‛«c»’
+
+atom [x] = ‛«x»’
+number [digits+] = ‛«digits»’
+string [bq cs* eq] = ‛«bq»«cs»«eq»’
+schar [c] = ‛«c»’
+
+Sexpr_rec [lp e* rp] = ‛«lp»«e»«rp»’
+Sexpr_bottom [atom] = ‛«atom»’
+
 }
 
