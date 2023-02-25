@@ -24,5 +24,7 @@ def indent1 (s):
     result = ''.join (indentation) + clean
     return result
 
-for line in sys.stdin:
+raw = sys.stdin.read ()
+s = raw.split ('\n')
+for line in s:
     print (indent1 (line))

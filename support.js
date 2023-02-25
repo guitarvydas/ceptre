@@ -33,7 +33,7 @@ function pushRetract (s) {
 function getRetract () {
     result = '';
     retractStack.forEach (function (s) {
-	result += " s\n";
+	result += s + "\n";
     });
     return result;
 }

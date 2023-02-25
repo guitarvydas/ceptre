@@ -1,5 +1,7 @@
-a b_1 c. qui * stage main * v_2 * Var * p 1 * p 2 s A * $ p 3 4 B * $z'’/zyx -o x_4. d e f
-stage die = {
-  quit : die_screen  -o  end.
+max_hp 10. damage sword 4. cost sword 10.
+
+context init_ctx = {init_tok}.
+
+stage init = {
+  i : init_tok * max_hp N  -o  health N * treasure z * ndays z * weapon_damage 4.
 }
-#interactive die.
