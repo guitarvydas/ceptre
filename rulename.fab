@@ -7,7 +7,7 @@ oneCharOrMacro_other [c] = ‛«c»’
 oneCharOrMacro_space [c] = ‛«c»’ 
 
 
-RuleName [kname name kpercent kwRule] = ‛rule "«name»" ’
+RuleName [kname name kpercent kwRule] = ‛(namedrule "«name»"\n’
 kwRule [krule] = ‛«krule»’
 
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’

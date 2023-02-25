@@ -9,7 +9,7 @@ oneCharOrMacro =
 
 RuleName = "name" name "%" kwRule
 
-kwRule = "rule" ~nameRest
+kwRule = "(rule" ~nameRest
 
 name = nameFirst nameRest*
 nameFirst = letter
