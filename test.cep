@@ -1,8 +1,5 @@
-stage rest = {
-  recharge : rest_screen
-	* health HP * max_hp Max * recharge_hp Recharge 
-	* cplus HP Recharge Max N
-	* ndays NDAYS
-     -o   health N * ndays (NDAYS + 1).
+stage flee = {
+  % lose spoils
+  do/flee :    flee_screen * spoils X * monster _ * monster_hp _
+            -o ().
 }
-
