@@ -4,8 +4,7 @@ rewrite:
 	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./fab/fab rulename.ohm rulename.fab support.js \
-	| ./fab/fab stage.ohm stage.fab support.js \
-	| ./indenter.py
+	| ./fab/fab stage.ohm stage.fab support.js
 	 
 
 0:

@@ -18,7 +18,7 @@ ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»«rese
 )
 )’
 
-ReplacementClause_empty [lb rb] = ‛empty ()’
+ReplacementClause_empty [lb rb] = ‛(empty)’
 ReplacementClause_rec [predicate kstar ReplacementClause] = ‛«predicate»\n«ReplacementClause»’
 ReplacementClause_bottom [predicate] = ‛«predicate»’
 MatchClause_rec [predicate kstar MatchClause] = ‛«predicate»\n«MatchClause»’
