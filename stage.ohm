@@ -47,11 +47,14 @@ atom =
   | number
   | string
   | name
+  | operator
 
 number = digit+
 string = "“" schar* "”"
 schar = 
   | string
   | ~"“" ~"”" any
+
+operator = ~alnum ~"(" ~")" any
 }
 

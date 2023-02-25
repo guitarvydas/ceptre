@@ -1,4 +1,8 @@
-m 10.
-stage init = {
-  i : a -o  b.
+stage rest = {
+  recharge : rest_screen
+	* health HP * max_hp Max * recharge_hp Recharge 
+	* cplus HP Recharge Max N
+	* ndays NDAYS
+     -o   health N * ndays (NDAYS + 1).
 }
+

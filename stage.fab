@@ -35,7 +35,7 @@ nameRest_slash [c] = ‛«c»’
 nameRest_squote [c] = ‛«c»’
 nameRest_equote [c] = ‛«c»’
 
-atom [x] = ‛«x»’
+atom [x] = ‛«x» ’
 number [digits+] = ‛«digits»’
 string [bq cs* eq] = ‛«bq»«cs»«eq»’
 schar [c] = ‛«c»’
