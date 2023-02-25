@@ -3,7 +3,7 @@ StageParser {
 top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
 
 oneCharOrMacro_comment [x] = ‛«x»’
-oneCharOrMacro_space [x] = ‛«x»’
+oneCharOrMacro_space [x+] = ‛«x»’
 oneCharOrMacro_verbatim [x] = ‛«x»’
 oneCharOrMacro_defstage [x] = ‛«x»’
 oneCharOrMacro_other [x] = ‛«x»’
