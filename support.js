@@ -11,11 +11,7 @@ function pushKeep (s) {
 }
 
 function getKeep () {
-    result = '';
-    keepStack.forEach (function (s) {
-	result += "s\n";
-    });
-    return result;
+    return keepStack.join ('\n');
 }
 
 var retractStack = [];
@@ -31,11 +27,7 @@ function pushRetract (s) {
 }
 
 function getRetract () {
-    result = '';
-    retractStack.forEach (function (s) {
-	result += s + "\n";
-    });
-    return result;
+    return retractStack.join ('\n');
 }
 
 var stageNameStack = [];
@@ -51,9 +43,5 @@ function pushStageName (s) {
 }
 
 function getStageName () {
-    result = '';
-    stageNameStack.forEach (function (s) {
-	result += "«stage(" + s + '),»\n';
-    });
-    return result;
+    return stageNameStack.join ('\n');
 }
