@@ -1,7 +1,4 @@
-max_hp 10. damage sword 4. cost sword 10.
-
-context init_ctx = {init_tok}.
-
+m 10.
 stage init = {
-  i : init_tok * max_hp N  -o  health N * treasure z * ndays z * weapon_damage 4.
+  i : a -o  b.
 }

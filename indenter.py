@@ -13,15 +13,18 @@ def indent1 (s):
     nCloses = len (re.findall ("\-\)", s))
     clean = s.strip ().replace ('(-', '').replace ('-)', '')
     diff = nOpens - nCloses
-    if (diff > 0):
+    previousIndentation = indentation.copy ()
+    if (diff == 0):
+        pass
+    elif (diff > 0):
         while (diff > 0):
-            indentation = [' '] + indentation
+            indentation = ['    '] + indentation
             diff = diff - 1
-    else:
+    elif (diff < 0):
         while (diff < 0):
             indentation = indentation [1:]
             diff = diff + 1
-    result = ''.join (indentation) + clean
+    result = ''.join (previousIndentation) + clean
     return result
 
 raw = sys.stdin.read ()

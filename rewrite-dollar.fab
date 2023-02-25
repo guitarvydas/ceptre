@@ -9,14 +9,14 @@ oneCharOrMacro_space [c] = ‛«c»’
 ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»«resetRetract ()»’ = ‛rule {(-
 match {(-
 «MatchClause»
--)}
+}-)
 retract {(-
 «getRetract ()»
--)}
+}-)
 assert {(-
 «getKeep ()»«ReplacementClause»
--)}
--)}’
+}-)
+}-)’
 
 ReplacementClause_empty [lb rb] = ‛\«empty,\»’
 ReplacementClause_rec [predicate kstar ReplacementClause] = ‛\««predicate»\»\n«ReplacementClause»’
@@ -27,10 +27,10 @@ MatchClause_bottom [predicate] = ‛\««predicate»\»’
 MatchPredicate_dollar [kdollar predicate] = ‛«pushKeep (predicate)»«pushRetract (predicate)»«predicate»’
 MatchPredicate_pure [predicate] = ‛«pushRetract (predicate)»«predicate»’
   
-Predicate_quiescent [kqui] = ‛qui() ’
-Predicate_stage [kstage name] = ‛stage(«name») ’
+Predicate_quiescent [kqui] = ‛qui () ’
+Predicate_stage [kstage name] = ‛stage («name») ’
 Predicate_predWithArgs [name Args+] = ‛«name» («Args»)’
-Predicate_predNoArgs [name] = ‛«name»() ’
+Predicate_predNoArgs [name] = ‛«name» () ’
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
 nameRest_alnum [c] = ‛«c»’
