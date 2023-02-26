@@ -9,13 +9,13 @@ oneCharOrMacro_other [x] = ‛«x»’
 oneCharOrMacro_sexpr [x] = ‛«x»’
 oneCharOrMacro_defx [x] = ‛«x»’
 
-DefineExternal [opAndArgs kcolon type kperiod] = ‛(defexternal («opAndArgs») «type»)’
+defineExternal [opAndArgs+ kcolon s1 type kperiod] = ‛(defexternal («opAndArgs») «type»)’
 
-comment [k inner* nl] = ‛(% «inner»)\n’
+comment [k inner* nl] = ‛(// «inner»)\n’
 commentInner [c] = ‛«c»’
 space [x] = ‛«x»’
 nl [cs+] = ‛«cs»’
-name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
+name [nameFirst nameRest* s] = ‛«nameFirst»«nameRest» ’
 nameFirst [c] = ‛«c»’
 nameRest_alnum [c] = ‛«c»’
 nameRest_underscore [c] = ‛«c»’
@@ -28,9 +28,9 @@ number [digits+] = ‛«digits»’
 string [bq cs* eq] = ‛«bq»«cs»«eq»’
 schar [c] = ‛«c»’
 
-Sexpr [lp e* rp] = ‛«lp»«e»«rp»’
-SexprInnard_rec [lp e* rp] = ‛«lp»«e»«rp»’
-SexprInnard_bottom [atom] = ‛«atom»’
+sexpr [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
+sexprInnard_rec [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
+sexprInnard_bottom [atom s] = ‛«atom»«s»’
 
 }
 

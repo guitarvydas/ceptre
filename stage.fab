@@ -23,7 +23,7 @@ BlockErrorInner [any] = ‛«any»’
 NamedRuleError [NamedRuleInner+] = ‛(*** Named Rule Error)’
 NamedRuleError [any] = ‛«any»’
 
-comment [kpercent inner* nl] = ‛;; «inner»«nl»’
+comment [kpercent inner* nl] = ‛«kpercent»«inner»«nl»’
 commentInner [c] = ‛«c»’
 space [x] = ‛«x»’
 nl [cs+] = ‛«cs»’

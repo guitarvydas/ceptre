@@ -3,27 +3,27 @@ DefineExternal {
 top = oneCharOrMacro+
 
 oneCharOrMacro =
-  | space+ -- space
   | comment -- comment
-  | applySyntactic<Sexpr> -- sexpr
-  | applySyntactic<DefineExternal> -- defx
+  | space+ -- space
+  | sexpr -- sexpr
+  | defineExternal -- defx
   | any -- other
 
-DefineExternal = name+ ":" name "."
+defineExternal = name+ ":" spaces name "."
 
 
-Sexpr = 
-  | "(" SexprInnard* ")"
+sexpr = 
+  | "(" spaces sexprInnard* ")" spaces
 
-SexprInnard = 
-  | "(" Sexpr* ")" -- rec
-  | atom -- bottom
+sexprInnard = 
+  | "(" spaces sexpr* ")" spaces -- rec
+  | atom spaces -- bottom
 
 comment = "%" commentInner* nl
 commentInner = ~nl any
 space += comment
 nl = "\n"+
-name = nameFirst nameRest*
+name = nameFirst nameRest* spaces
 nameFirst = letter
 nameRest = 
   | alnum -- alnum
