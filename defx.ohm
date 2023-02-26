@@ -1,0 +1,49 @@
+DefineExternal {
+
+top = oneCharOrMacro+
+
+oneCharOrMacro =
+  | space+ -- space
+  | comment -- comment
+  | applySyntactic<Sexpr> -- sexpr
+  | applySyntactic<DefineExternal> -- defx
+  | any -- other
+
+DefineExternal = name+ ":" name "."
+
+
+Sexpr = 
+  | "(" SexprInnard* ")"
+
+SexprInnard = 
+  | "(" Sexpr* ")" -- rec
+  | atom -- bottom
+
+comment = "%" commentInner* nl
+commentInner = ~nl any
+space += comment
+nl = "\n"+
+name = nameFirst nameRest*
+nameFirst = letter
+nameRest = 
+  | alnum -- alnum
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- squote
+  | "’" -- equote
+
+atom =
+  | number
+  | string
+  | name
+  | operator
+
+number = digit+
+string = "“" schar* "”"
+schar = 
+  | string
+  | ~"“" ~"”" any
+
+operator = ~alnum ~"(" ~")" any
+
+}

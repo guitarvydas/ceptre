@@ -16,10 +16,13 @@ rewrite:
 2: 1
 	./fab/fab rulename.ohm rulename.fab support.js </tmp/1 >/tmp/2
 
-dev: 2
-	./fab/fab stage.ohm stage.fab support.js </tmp/2
+3: 2
 	./fab/fab stage.ohm stage.fab support.js </tmp/2 >/tmp/3
-	cat /tmp/3
+
+dev: 3
+	./fab/fab defx.ohm defx.fab support.js </tmp/3
+	./fab/fab defx.ohm defx.fab support.js </tmp/3 >/tmp/4
+	cat /tmp/4
 
 
 rewrite-dollar:
