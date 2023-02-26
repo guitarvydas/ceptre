@@ -25,7 +25,7 @@ nl = "\n"+
 logicVariable = lvFirst nameRest* spaces
 name = nameFirst nameRest* spaces
 lvFirst = upper
-nameFirst = lower
+nameFirst = lower | "/"
 nameRest = 
   | alnum -- alnum
   | "_" -- underscore
@@ -41,11 +41,11 @@ atom =
   | operator
 
 number = digit+
-string = "“" schar* "”"
+string = "[" schar* "]"
 schar = 
   | string
-  | ~"“" ~"”" any
+  | ~"[" ~"]" any
 
-operator = ~alnum ~"(" ~")" "." any
+operator = ~alnum ~"(" ~")" ~"." any
 
 }

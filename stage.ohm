@@ -50,10 +50,10 @@ atom =
   | operator
 
 number = digit+
-string = "“" schar* "”"
+string = "[" schar* "]"
 schar = 
   | string
-  | ~"“" ~"”" any
+  | ~"[" ~"]" any
 
 operator = ~alnum ~"(" ~")" any
 }
