@@ -1,0 +1,8 @@
+%c
+d n n : b.
+d X X. % for now
+stage flee = {
+  % lose spoils
+  do/flee :    flee_screen * spoils X * monster _ * monster_hp _
+            -o ().
+}

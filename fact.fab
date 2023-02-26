@@ -2,7 +2,7 @@ Fact {
 
 top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
 
-oneCharOrMacro_space [x+] = ‛«x»’
+oneCharOrMacro_space [x] = ‛«x»’
 oneCharOrMacro_comment [x] = ‛«x»’
 oneCharOrMacro_other [x] = ‛«x»’
 
@@ -11,7 +11,7 @@ oneCharOrMacro_fact [x] = ‛«x»’
 
 fact [name atom+ kperiod] = ‛(fact «name»«atom»)’
 
-comment [k inner* nl] = ‛(// «inner»)\n’
+comment [k inner* nl] = ‛(% «inner»)\n’
 commentInner [c] = ‛«c»’
 space [x] = ‛«x»’
 nl [cs+] = ‛«cs»’
