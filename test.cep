@@ -1,1 +1,12 @@
+max_hp 10. damage sword 4. cost sword 10.
+
+context init_ctx = {init_tok}.
+
+%c
+d n n : b.
 d X X. % for now
+stage flee = {
+  % lose spoils
+  do/flee :    flee_screen * spoils X * monster _ * monster_hp _
+            -o ().
+}

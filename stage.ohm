@@ -55,6 +55,6 @@ schar =
   | string
   | ~"[" ~"]" any
 
-operator = ~alnum ~"(" ~")" any
+operator = ~alnum ~"(" ~")" ~"=" ~"#" ~"." any
 }
 

@@ -5,7 +5,8 @@ rewrite:
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./fab/fab rulename.ohm rulename.fab support.js \
 	| ./fab/fab stage.ohm stage.fab support.js \
-	| ./fab/fab defx.ohm defx.fab support.js
+	| ./fab/fab defx.ohm defx.fab support.js \
+	| ./fab/fab fact.ohm fact.fab support.js
 	 
 
 0:
