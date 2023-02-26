@@ -1,4 +1,4 @@
-DefineExternal {
+Fact {
 
 top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
 
@@ -7,14 +7,15 @@ oneCharOrMacro_comment [x] = ‛«x»’
 oneCharOrMacro_other [x] = ‛«x»’
 
 oneCharOrMacro_sexpr [x] = ‛«x»’
-oneCharOrMacro_defx [x] = ‛«x»’
+oneCharOrMacro_fact [x] = ‛«x»’
 
-defineExternal [opAndArgs+ kcolon s1 type kperiod] = ‛(defexternal («opAndArgs») «type»)’
+fact [name atom+ kperiod] = ‛(fact «name»«atom»)’
 
 comment [k inner* nl] = ‛(// «inner»)\n’
 commentInner [c] = ‛«c»’
 space [x] = ‛«x»’
 nl [cs+] = ‛«cs»’
+logicVariable [lvFirst nameRest* s] = ‛(? «lvFirst»«nameRest»)’
 name [nameFirst nameRest* s] = ‛«nameFirst»«nameRest» ’
 nameFirst [c] = ‛«c»’
 nameRest_alnum [c] = ‛«c»’

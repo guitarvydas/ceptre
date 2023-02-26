@@ -1,0 +1,51 @@
+Fact {
+
+top = oneCharOrMacro+
+
+oneCharOrMacro =
+  | comment -- comment
+  | space+ -- space
+  | sexpr -- sexpr
+  | fact -- fact
+  | any -- other
+
+fact = name atom+ "."
+
+sexpr = 
+  | "(" spaces sexprInnard* ")" spaces
+
+sexprInnard = 
+  | "(" spaces sexpr* ")" spaces -- rec
+  | atom spaces -- bottom
+
+comment = "%" commentInner* nl
+commentInner = ~nl any
+space += comment
+nl = "\n"+
+logicVariable = lvFirst nameRest* spaces
+name = nameFirst nameRest* spaces
+lvFirst = upper
+nameFirst = lower
+nameRest = 
+  | alnum -- alnum
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- squote
+  | "’" -- equote
+
+atom =
+  | number
+  | string
+  | logicVariable
+  | name
+  | operator
+
+number = digit+
+string = "“" schar* "”"
+schar = 
+  | string
+  | ~"“" ~"”" any
+
+operator = ~alnum ~"(" ~")" "." any
+
+}

@@ -4,7 +4,8 @@ rewrite:
 	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./fab/fab rulename.ohm rulename.fab support.js \
-	| ./fab/fab stage.ohm stage.fab support.js
+	| ./fab/fab stage.ohm stage.fab support.js \
+	| ./fab/fab defx.ohm defx.fab support.js
 	 
 
 0:
@@ -19,10 +20,13 @@ rewrite:
 3: 2
 	./fab/fab stage.ohm stage.fab support.js </tmp/2 >/tmp/3
 
-dev: 3
-	./fab/fab defx.ohm defx.fab support.js </tmp/3
+4: 3
 	./fab/fab defx.ohm defx.fab support.js </tmp/3 >/tmp/4
-	cat /tmp/4
+
+dev: 4
+	./fab/fab fact.ohm fact.fab support.js </tmp/4
+	./fab/fab fact.ohm fact.fab support.js </tmp/4 >/tmp/5
+	cat /tmp/5
 
 
 rewrite-dollar:
