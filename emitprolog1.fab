@@ -1,0 +1,34 @@
+Fact {
+
+top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
+
+oneCharOrMacro_space [x] = ‛«x»’
+oneCharOrMacro_comment [x] = ‛«x»’
+oneCharOrMacro_other [x] = ‛«x»’
+
+oneCharOrMacro_tree [x] = ‛«x»’
+
+comment [k inner* nl] = ‛(% «inner»)\n’
+commentInner [c] = ‛«c»’
+space [x] = ‛«x»’
+nl [cs+] = ‛«cs»’
+logicVariable [lvFirst nameRest* s] = ‛(? «lvFirst»«nameRest»)’
+name [nameFirst nameRest* s] = ‛«nameFirst»«nameRest» ’
+nameFirst [c] = ‛«c»’
+nameRest_alnum [c] = ‛«c»’
+nameRest_underscore [c] = ‛«c»’
+nameRest_slash [c] = ‛«c»’
+nameRest_squote [c] = ‛«c»’
+nameRest_equote [c] = ‛«c»’
+
+atom [x] = ‛«x» ’
+number [digits+] = ‛«digits»’
+string [bq cs* eq] = ‛«bq»«cs»«eq»’
+schar [c] = ‛«c»’
+
+tree [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
+treeInnard_rec [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
+treeInnard_bottom [atom s] = ‛«atom»«s»’
+
+}
+
