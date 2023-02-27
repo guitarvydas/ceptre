@@ -12,7 +12,7 @@ comment [k inner* nl] = ‛(% «inner»)\n’
 commentInner [c] = ‛«c»’
 space [x] = ‛«x»’
 nl [cs+] = ‛«cs»’
-logicVariable [lvFirst nameRest* s] = ‛(? «lvFirst»«nameRest»)’
+logicVariable [lvFirst nameRest* s] = ‛«lvFirst»«nameRest»’
 name [nameFirst nameRest* s] = ‛«nameFirst»«nameRest» ’
 nameFirst [c] = ‛«c»’
 nameRest_alnum [c] = ‛«c»’
@@ -29,6 +29,10 @@ schar [c] = ‛«c»’
 tree [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
 treeInnard_rec [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
 treeInnard_bottom [atom s] = ‛«atom»«s»’
+
+verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_bottom [c] = ‛«c»’
 
 }
 

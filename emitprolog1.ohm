@@ -13,6 +13,7 @@ tree =
 
 treeInnard = 
   | "(" spaces tree* ")" spaces -- rec
+  | verbatim -- verbatim
   | atom spaces -- bottom
 
 comment = "%" commentInner* nl
@@ -44,4 +45,10 @@ schar =
   | ~"[" ~"]" any
 
 operator = ~alnum ~"(" ~")" ~"=" ~"#" ~"." any
+
+verbatim = "«" verbatimInnard* "»"
+verbatimInnard =
+  | "«" verbatimInnard* "»" -- rec
+  | ~"«" ~"»" any -- bottom
+
 }

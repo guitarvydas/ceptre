@@ -18,7 +18,7 @@ ceptreRule [MatchClause klolli ReplacementClause kdot] ‛«resetKeep ()»«rese
 )
 )’
 
-ReplacementClause_empty [lb rb] = ‛(empty)’
+ReplacementClause_empty [lb rb] = ‛(predicate empty)’
 ReplacementClause_rec [predicate kstar ReplacementClause] = ‛«predicate»\n«ReplacementClause»’
 ReplacementClause_bottom [predicate] = ‛«predicate»’
 MatchClause_rec [predicate kstar MatchClause] = ‛«predicate»\n«MatchClause»’
@@ -27,10 +27,10 @@ MatchClause_bottom [predicate] = ‛«predicate»’
 MatchPredicate_dollar [kdollar predicate] = ‛«pushKeep (predicate)»«pushRetract (predicate)»«predicate»’
 MatchPredicate_pure [predicate] = ‛«pushRetract (predicate)»«predicate»’
   
-Predicate_quiescent [kqui] = ‛(qui) ’
+Predicate_quiescent [kqui] = ‛(predicate qui) ’
 Predicate_stage [kstage name] = ‛(stage «name») ’
-Predicate_predWithArgs [name Args+] = ‛(«name» «Args»)’
-Predicate_predNoArgs [name] = ‛(«name»)’
+Predicate_predWithArgs [name Args+] = ‛(predicate «name» «Args»)’
+Predicate_predNoArgs [name] = ‛(predicate «name»)’
 name [nameFirst nameRest*] = ‛«nameFirst»«nameRest»’
 nameFirst [c] = ‛«c»’
 nameRest_alnum [c] = ‛«c»’
