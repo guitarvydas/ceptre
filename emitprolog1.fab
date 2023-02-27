@@ -28,7 +28,9 @@ schar [c] = ‛«c»’
 
 tree [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
 treeInnard_rec [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
+treeInnard_predicate [lp s1 kpredicate s2 relationName args* rp s3] = ‛\««relationName»(«args»)\»’
 treeInnard_bottom [atom s] = ‛«atom»«s»’
+treeInnard_verbatim [v] = ‛«v»’
 
 verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’

@@ -1,4 +1,4 @@
-Fact {
+EmitProlog1 {
 
 top = oneCharOrMacro+
 
@@ -12,8 +12,9 @@ tree =
   | "(" spaces treeInnard* ")" spaces
 
 treeInnard = 
-  | "(" spaces tree* ")" spaces -- rec
+  | "(" spaces "predicate" spaces name treeInnard* ")" spaces -- predicate
   | verbatim -- verbatim
+  | "(" spaces tree* ")" spaces -- rec
   | atom spaces -- bottom
 
 comment = "%" commentInner* nl
