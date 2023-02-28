@@ -1,21 +1,21 @@
-EmitProlog1 {
+Fact {
 
 top = oneCharOrMacro+
 
 oneCharOrMacro =
   | comment -- comment
   | space -- space
-  | tree -- tree
+  | sexpr -- sexpr
+  | fact -- fact
   | any -- other
 
-tree = 
-  | "(" spaces "predicate" spaces name treeInnard* ")" spaces -- predicate
-  | "(" spaces "comment" spaces string ")" spaces -- comment
-  | "(" spaces treeInnard* ")" spaces -- general
+fact = name atom+ "."
 
-treeInnard = 
-  | verbatim -- verbatim
-  | "(" spaces tree* ")" spaces -- rec
+sexpr = 
+  | "(" spaces sexprInnard* ")" spaces
+
+sexprInnard = 
+  | "(" spaces sexpr* ")" spaces -- rec
   | atom spaces -- bottom
 
 comment = "%" commentInner* nl
@@ -46,14 +46,5 @@ schar =
   | string
   | ~"[" ~"]" any
 
-operator = ~alnum ~"(" ~")" ~"=" ~"#" ~"." ~sq ~fq any
-
-sq = "["
-fq = "]"
-
-verbatim = "«" verbatimInnard* "»"
-verbatimInnard =
-  | "«" verbatimInnard* "»" -- rec
-  | ~"«" ~"»" any -- bottom
-
+operator = ~alnum ~"(" ~")" ~"=" ~"#" ~"." any
 }
