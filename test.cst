@@ -1,0 +1,15 @@
+(fact max_hp 10 ) (fact damage sword  4 ) (fact cost sword  10 )
+
+context init_ctx = {(fact init_tok } )
+
+(comment  [c]  )
+(defexternal (d  n  n  ) b )
+(fact d X X ) (comment  [ for now]  )
+(defstage [flee]
+(namedrule [do/flee]
+(match(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _   )(predicate  monster_hp  _   ))(retract(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _   )(predicate  monster_hp  _   ))(assert(predicate  empty  )))
+(namedrule [infix]
+(match(predicate  ndays  NDAYS ))(retract(predicate  ndays  NDAYS ))(assert(predicate  health  N )(predicate ndays (+  NDAYS 1    )))))
+
+
+

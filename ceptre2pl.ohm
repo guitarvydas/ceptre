@@ -38,15 +38,12 @@ atom =
   | string
   | logicVariable
   | name
-  | operator
 
 number = digit+
 string = "[" schar* "]"
 schar = 
   | string
   | ~"[" ~"]" any
-
-operator = ~alnum ~"(" ~")" ~"=" ~"#" ~"." ~sq ~fq any
 
 sq = "["
 fq = "]"
