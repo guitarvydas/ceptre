@@ -1,18 +1,17 @@
-Fact {
+Prefix {
 
 top = oneCharOrMacro+
 
 oneCharOrMacro =
   | comment -- comment
   | space -- space
+  | infix -- infix
   | sexpr -- sexpr
-  | fact -- fact
   | any -- other
 
-fact = name atom+ "."
+infix = "(" spaces sexprInnard operator spaces sexprInnard ")" spaces
 
-sexpr = 
-  | "(" spaces sexprInnard* ")" spaces
+sexpr = "(" spaces sexprInnard* ")" spaces
 
 sexprInnard = 
   | "(" spaces sexpr* ")" spaces -- rec
@@ -46,5 +45,5 @@ schar =
   | string
   | ~"[" ~"]" any
 
-operator = ~alnum ~"(" ~")" ~"=" ~"#" ~"." any
+operator = "+"
 }

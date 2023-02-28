@@ -24,13 +24,14 @@ rewrite:
 4: 3
 	./fab/fab defx.ohm defx.fab support.js </tmp/3 >/tmp/4
 
-5 : 4
-	./fab/fab fact.ohm fact.fab support.js </tmp/4 >/tmp/5
+dev: 4
+	./fab/fab prefix.ohm prefix.fab support.js </tmp/4
+	./fab/fab prefix.ohm prefix.fab support.js </tmp/4 >/tmp/5
+	cat /tmp/5
 
-dev: 5
-	./fab/fab emitprolog1.ohm emitprolog1.fab support.js </tmp/5
-	./fab/fab emitprolog1.ohm emitprolog1.fab support.js </tmp/5 >/tmp/6.pl
-	cat /tmp/6.pl
+# 5 : 4
+# 	./fab/fab fact.ohm fact.fab support.js </tmp/4 >/tmp/5
+
 
 
 rewrite-dollar:
