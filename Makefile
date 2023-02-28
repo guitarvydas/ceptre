@@ -1,13 +1,15 @@
-all: rewrite
+all: ceptre2cst
 
-rewrite:
+ceptre2rt:
 	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./fab/fab rulename.ohm rulename.fab support.js \
 	| ./fab/fab stage.ohm stage.fab support.js \
 	| ./fab/fab defx.ohm defx.fab support.js \
+	| ./fab/fab prefix.ohm prefix.fab support.js \
 	| ./fab/fab fact.ohm fact.fab support.js
 	 
+ceptre2cst : ceptre2rt
 
 0:
 	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <test.cep >/tmp/0
@@ -24,14 +26,13 @@ rewrite:
 4: 3
 	./fab/fab defx.ohm defx.fab support.js </tmp/3 >/tmp/4
 
-dev: 4
-	./fab/fab prefix.ohm prefix.fab support.js </tmp/4
+5: 4
 	./fab/fab prefix.ohm prefix.fab support.js </tmp/4 >/tmp/5
-	cat /tmp/5
 
-# 5 : 4
-# 	./fab/fab fact.ohm fact.fab support.js </tmp/4 >/tmp/5
-
+dev: 5
+	./fab/fab fact.ohm fact.fab support.js </tmp/5
+	./fab/fab fact.ohm fact.fab support.js </tmp/5 >/tmp/6
+	cat /tmp/6
 
 
 rewrite-dollar:
