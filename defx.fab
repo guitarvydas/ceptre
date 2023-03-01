@@ -9,7 +9,7 @@ oneCharOrMacro_other [x] = ‛«x»’
 oneCharOrMacro_sexpr [x] = ‛«x»’
 oneCharOrMacro_defx [x] = ‛«x»’
 
-defineExternal [opAndArgs+ kcolon s1 type kperiod] = ‛(defexternal («opAndArgs») «type»)’
+defineExternal_other [opAndArgs+ kcolon s1 type kperiod] = ‛(defexternal («opAndArgs») «type»)’
 
 comment [k inner* nl] = ‛(comment [«inner»])\n’
 commentInner [c] = ‛«c»’

@@ -9,7 +9,8 @@ oneCharOrMacro =
   | defineExternal -- defx
   | any -- other
 
-defineExternal = name+ ":" spaces name "."
+defineExternal =
+  | name+ ":" spaces name "." -- other
 
 
 sexpr = 
