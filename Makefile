@@ -1,6 +1,9 @@
 all: ceptre.cst
 
-ceptre.rt:
+GRAMMARS=rewrite-nametag.ohm rewrite-dollar.ohm rulename.ohm stage.ohm defx.ohm prefix.ohm fact.ohm
+FABS=rewrite-nametag.fab rewrite-dollar.fab rulename.fab stage.fab defx.fab prefix.fab fact.fab
+
+ceptre.rt: $(GRAMMARS) $(FABS) 
 	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./fab/fab rulename.ohm rulename.fab support.js \
@@ -44,6 +47,7 @@ dev: test.cst
 	./fab/fab stage.ohm stage.fab support.js </tmp/2 >/tmp/3
 
 4: 3
+	./fab/fab defx.ohm defx.fab support.js </tmp/3
 	./fab/fab defx.ohm defx.fab support.js </tmp/3 >/tmp/4
 
 5: 4
@@ -54,6 +58,13 @@ dev: test.cst
 	./fab/fab fact.ohm fact.fab support.js </tmp/5 >/tmp/6
 	cat /tmp/6
 
+
+400:
+	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <test.cep \
+	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
+	| ./fab/fab rulename.ohm rulename.fab support.js \
+	| ./fab/fab stage.ohm stage.fab support.js \
+	| ./fab/fab defx.ohm defx.fab support.js >/tmp/400
 
 
 rewrite-dollar:
