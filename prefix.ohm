@@ -43,7 +43,10 @@ number = digit+
 string = "[" schar* "]"
 schar = 
   | string
-  | ~"[" ~"]" any
+  | ~sq ~fq any
+
+sq = "["
+fq = "]"
 
 operator = "+"
 }
