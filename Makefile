@@ -1,19 +1,23 @@
-all: ceptre.cst
+all: dc.cst
 
 GRAMMARS=rewrite-nametag.ohm rewrite-dollar.ohm rulename.ohm stage.ohm defx.ohm prefix.ohm fact.ohm
 FABS=rewrite-nametag.fab rewrite-dollar.fab rulename.fab stage.fab defx.fab prefix.fab fact.fab
 
-ceptre.rt: $(GRAMMARS) $(FABS) 
-	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
+define ceptre2rt
+	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <$1 \
 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
 	| ./fab/fab rulename.ohm rulename.fab support.js \
 	| ./fab/fab stage.ohm stage.fab support.js \
 	| ./fab/fab defx.ohm defx.fab support.js \
 	| ./fab/fab prefix.ohm prefix.fab support.js \
-	| ./fab/fab fact.ohm fact.fab support.js >ceptre.rt
+	| ./fab/fab fact.ohm fact.fab support.js >$2
+endef
 	 
-ceptre.cst : ceptre.rt
-	cp ceptre.rt ceptre.cst
+dc.rt: $(GRAMMARS) $(FABS) dc/dc.cep
+	$(call ceptre2rt,dc/dc.cep,dc.rt)
+
+dc.cst : dc.rt
+	cp dc.rt dc.cst
 
 test.rt:
 	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <test.cep \

@@ -1,0 +1,373 @@
+(fact max_hp 10 ) (fact damage sword  4 ) (fact cost sword  10 )
+
+context init_ctx = {(fact init_tok } )
+
+(defstage [init]
+(namedrule [i]
+(match(predicate  init_tok  )(predicate  max_hp  N ))(retract(predicate  init_tok  )(predicate  max_hp  N ))(assert(predicate  health  N )(predicate  treasure  z  )(predicate  ndays  z  )(predicate  weapon_damage  4    ))))(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  init  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  init  )
+)
+(assert
+(predicate  stage  main  )
+(predicate  main_screen  )
+)
+)
+
+(defstage [main]
+(namedrule [do/rest]
+(match(predicate  main_screen  ))(retract(predicate  main_screen  ))(assert(predicate  rest_screen  )))
+(namedrule [do/adventure]
+(match(predicate  main_screen  ))(retract(predicate  main_screen  ))(assert(predicate  adventure_screen  )))
+(namedrule [do/shop]
+(match(predicate  main_screen  ))(retract(predicate  main_screen  ))(assert(predicate  shop_screen  )))
+(namedrule [do/quit]
+(match(predicate  main_screen  ))(retract(predicate  main_screen  ))(assert(predicate  quit  ))))#(fact interactive main  )
+
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  main  )
+(predicate  rest_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  main  )
+(predicate  rest_screen  )
+)
+(assert
+(predicate  rest_screen  )(predicate  stage  rest  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  main  )
+(predicate  shop_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  main  )
+(predicate  shop_screen  )
+)
+(assert
+(predicate  shop_screen  )(predicate  stage  shop  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  main  )
+(predicate  adventure_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  main  )
+(predicate  adventure_screen  )
+)
+(assert
+(predicate  adventure_screen  )(predicate  stage  adventure  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  main  )
+(predicate  quit  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  main  )
+(predicate  quit  )
+)
+(assert
+(predicate  empty  )
+)
+)
+
+(defstage [rest]
+(namedrule [recharge]
+(match(predicate  rest_screen  )(predicate  health  HP )(predicate  max_hp  Max )(predicate  recharge_hp  Recharge )(predicate  cplus  HP Recharge Max N )(predicate  ndays  NDAYS ))(retract(predicate  rest_screen  )(predicate  health  HP )(predicate  max_hp  Max )(predicate  recharge_hp  Recharge )(predicate  cplus  HP Recharge Max N )(predicate  ndays  NDAYS ))(assert(predicate  health  N )(predicate ndays (+  NDAYS 1    )))))(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  rest  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  rest  )
+)
+(assert
+(predicate  stage  main  )
+(predicate  main_screen  )
+)
+)
+
+(defstage [shop]
+(namedrule [leave]
+(match(predicate  shop_screen  ))(retract(predicate  shop_screen  ))(assert(predicate  main_screen  )))
+(namedrule [buy]
+(match(predicate  treasure  T )(predicate  cost  W C )(predicate  damage_of  W D )(predicate  weapon_damage  _   )(predicate subtract T C (some  T' )))(retract(predicate  treasure  T )(predicate  cost  W C )(predicate  damage_of  W D )(predicate  weapon_damage  _   )(predicate subtract T C (some  T' )))(assert(predicate  treasure  T' )(predicate  weapon_damage  D ))))#(fact interactive shop  )
+
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  shop  )
+(predicate  main_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  shop  )
+(predicate  main_screen  )
+)
+(assert
+(predicate  main_screen  )(predicate  stage  main  )
+)
+)
+
+(defstage [adventure]
+(namedrule [init]
+(match(predicate  adventure_screen  ))(retract(predicate  adventure_screen  ))(assert(predicate  spoils  z  ))))(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  adventure  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  adventure  )
+)
+(assert
+(predicate  stage  fight_init  )
+(predicate  fight_screen  )
+)
+)
+
+(comment  [ drop_amount M N means a monster of size M can drop N coins]  )
+(defexternal (drop_amount  nat  nat  ) bwd )
+(fact drop_amount X X ) (comment  [ for now]  )
+(defstage [fight_init]
+(namedrule [init]
+(match(predicate  fight_screen  ))(retract(predicate  fight_screen  ))(assert(predicate  gen_monster  )(predicate  fight_in_progress  )))
+(namedrule [gen_a_monster]
+(match(predicate  gen_monster  )(predicate  monster_size  Size ))(retract(predicate  gen_monster  )(predicate  monster_size  Size ))(assert(predicate  monster  Size )(predicate  monster_hp  Size ))))(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  fight_init  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  fight_init  )
+)
+(assert
+(predicate  stage  fight  )
+(predicate  choice  )
+)
+)
+
+(defexternal (try_fight  ) pred )
+(defexternal (fight_in_progress  ) pred )
+(defstage [fight_auto]
+(namedrule [fight/hit]
+(match(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster_hp  MHP )(predicate  weapon_damage  D )(predicate subtract MHP D (some  MHP' )))(retract(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster_hp  MHP )(predicate  weapon_damage  D )(predicate subtract MHP D (some  MHP' )))(assert(predicate  fight_in_progress  )(predicate  weapon_damage  D )(predicate  monster_hp  MHP' )))
+(namedrule [win]
+(match(predicate  fight_in_progress  )(predicate  monster_hp  MHP )(predicate  weapon_damage  D )(predicate  subtract  MHP D none  ))(retract(predicate  fight_in_progress  )(predicate  monster_hp  MHP )(predicate  weapon_damage  D )(predicate  subtract  MHP D none  ))(assert(predicate  weapon_damage  D )(predicate  win_screen  )))
+(namedrule [fight/miss]
+(match(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP )(predicate subtract HP Size (some  HP' )))(retract(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP )(predicate subtract HP Size (some  HP' )))(assert(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP' )))
+(namedrule [die_from_damages]
+(match(predicate  health  z  )(predicate  fight_in_progress  ))(retract(predicate  health  z  )(predicate  fight_in_progress  ))(assert(predicate  die_screen  )))
+(namedrule [fight/die]
+(match(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP )(predicate  subtract  HP Size none  ))(retract(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP )(predicate  subtract  HP Size none  ))(assert(predicate  die_screen  ))))(defexternal (choice  ) pred )
+
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  fight_auto  )
+(predicate  fight_in_progress  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  fight_auto  )
+(predicate  fight_in_progress  )
+)
+(assert
+(predicate  fight_in_progress  )(predicate  stage  fight  )
+(predicate  choice  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  fight_auto  )
+(predicate  win_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  fight_auto  )
+(predicate  win_screen  )
+)
+(assert
+(predicate  win_screen  )(predicate  stage  win  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  fight_auto  )
+(predicate  die_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  fight_auto  )
+(predicate  die_screen  )
+)
+(assert
+(predicate  die_screen  )(predicate  stage  die  )
+)
+)
+
+(defstage [fight]
+(namedrule [do_fight]
+(match(predicate  choice  )(predicate  fight_in_progress  ))(retract(predicate  choice  )(predicate  fight_in_progress  ))(assert(predicate  fight_in_progress  )(predicate  try_fight  )))
+(namedrule [do_flee]
+(match(predicate  choice  )(predicate  fight_in_progress  ))(retract(predicate  choice  )(predicate  fight_in_progress  ))(assert(predicate  flee_screen  ))))#(fact interactive fight  )
+
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  fight  )
+(predicate  fight_in_progress  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  fight  )
+(predicate  fight_in_progress  )
+)
+(assert
+(predicate  fight_in_progress  )(predicate  stage  fight_auto  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  fight  )
+(predicate  flee_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  fight  )
+(predicate  flee_screen  )
+)
+(assert
+(predicate  flee_screen  )(predicate  stage  flee  )
+)
+)
+
+(defstage [flee]
+(namedrule [do/flee]
+(match(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _   )(predicate  monster_hp  _   ))(retract(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _   )(predicate  monster_hp  _   ))(assert(predicate  empty  ))))(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  flee  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  flee  )
+)
+(assert
+(predicate  stage  main  )
+(predicate  main_screen  )
+)
+)
+
+(defexternal (go_home_or_continue  ) pred )
+(defstage [win]
+(namedrule [win]
+(match(predicate  win_screen  )(predicate  monster  Size )(predicate  drop_amount  Size Drop ))(retract(predicate  win_screen  )(predicate  monster  Size )(predicate  drop_amount  Size Drop ))(assert(predicate  drop  Drop )))
+(namedrule [collect_spoils]
+(match(predicate  drop  X )(predicate  spoils  Y )(predicate  plus  X Y Z ))(retract(predicate  drop  X )(predicate  spoils  Y )(predicate  plus  X Y Z ))(assert(predicate  spoils  Z )(predicate  go_home_or_continue  )))
+(namedrule [go_home]
+(match(predicate  go_home_or_continue  )(predicate  spoils  X )(predicate  treasure  Y )(predicate  plus  X Y Z ))(retract(predicate  go_home_or_continue  )(predicate  spoils  X )(predicate  treasure  Y )(predicate  plus  X Y Z ))(assert(predicate  treasure  Z )(predicate  main_screen  )))
+(namedrule [continue]
+(match(predicate  go_home_or_continue  ))(retract(predicate  go_home_or_continue  ))(assert(predicate  fight_screen  ))))#(fact interactive win  )
+
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  win  )
+(predicate  main_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  win  )
+(predicate  main_screen  )
+)
+(assert
+(predicate  main_screen  )(predicate  stage  main  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  win  )
+(predicate  fight_screen  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  win  )
+(predicate  fight_screen  )
+)
+(assert
+(predicate  fight_screen  )(predicate  stage  fight_init  )
+)
+)
+(defexternal (end  ) pred )
+(defstage [die]
+(namedrule [quit]
+(match(predicate  die_screen  ))(retract(predicate  die_screen  ))(assert(predicate  end  )))
+(namedrule [restart]
+(match(predicate  die_screen  )(predicate  monster_hp  _   )(predicate  spoils  _   )(predicate  ndays  _   )(predicate  treasure  _   )(predicate  weapon_damage  _   ))(retract(predicate  die_screen  )(predicate  monster_hp  _   )(predicate  spoils  _   )(predicate  ndays  _   )(predicate  treasure  _   )(predicate  weapon_damage  _   ))(assert(predicate  init_tok  ))))#(fact interactive die  )
+
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  die  )
+(predicate  end  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  die  )
+(predicate  end  )
+)
+(assert
+(predicate  empty  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  die  )
+(predicate  init_tok  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  die  )
+(predicate  init_tok  )
+)
+(assert
+(predicate  init_tok  )(predicate  stage  init  )
+)
+)
+
+
+
+
+
+
+
+
+
+
