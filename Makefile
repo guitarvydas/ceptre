@@ -4,12 +4,12 @@ GRAMMARS=rewrite-nametag.ohm rewrite-dollar.ohm rulename.ohm stage.ohm defx.ohm 
 FABS=rewrite-nametag.fab rewrite-dollar.fab rulename.fab stage.fab defx.fab prefix.fab fact.fab
 
 define ceptre2rt
-	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <$1 \
-	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
-	| ./fab/fab rulename.ohm rulename.fab support.js \
-	| ./fab/fab stage.ohm stage.fab support.js \
-	| ./fab/fab defx.ohm defx.fab support.js \
-	| ./fab/fab prefix.ohm prefix.fab support.js \
+	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <$1 | tee /tmp/1 \
+	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js | tee /tmp/2 \
+	| ./fab/fab rulename.ohm rulename.fab support.js | tee /tmp/3 \
+	| ./fab/fab stage.ohm stage.fab support.js | tee /tmp/4 \
+	| ./fab/fab defx.ohm defx.fab support.js | tee /tmp/5 \
+	| ./fab/fab prefix.ohm prefix.fab support.js | tee /tmp/6 \
 	| ./fab/fab fact.ohm fact.fab support.js >$2
 endef
 	 
@@ -18,6 +18,8 @@ dc.rt: $(GRAMMARS) $(FABS) dc/dc.cep
 
 dc.cst : dc.rt
 	cp dc.rt dc.cst
+
+
 
 test.rt:
 	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <test.cep \
