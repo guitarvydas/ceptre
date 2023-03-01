@@ -43,7 +43,7 @@ atom =
   | operator
 
 number = digit+
-string = "[" schar* "]"
+string = sq schar* fq
 schar = 
   | string
   | ~sq ~fq any
