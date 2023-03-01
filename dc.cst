@@ -147,7 +147,7 @@ context init_ctx = {(fact init_tok } )
 )
 
 (comment  [ drop_amount M N means a monster of size M can drop N coins]  )
-(defexternal (drop_amount  nat  nat  ) bwd )
+(defbwd (drop_amount  nat  nat  ) bwd)
 (fact drop_amount X X ) (comment  [ for now]  )
 (defstage [fight_init]
 (namedrule [init]
@@ -168,8 +168,8 @@ context init_ctx = {(fact init_tok } )
 )
 )
 
-(defexternal (try_fight  ) pred )
-(defexternal (fight_in_progress  ) pred )
+(defpred (try_fight  ) pred)
+(defpred (fight_in_progress  ) pred)
 (defstage [fight_auto]
 (namedrule [fight/hit]
 (match(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster_hp  MHP )(predicate  weapon_damage  D )(predicate subtract MHP D (some  MHP' )))(retract(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster_hp  MHP )(predicate  weapon_damage  D )(predicate subtract MHP D (some  MHP' )))(assert(predicate  fight_in_progress  )(predicate  weapon_damage  D )(predicate  monster_hp  MHP' )))
@@ -180,7 +180,7 @@ context init_ctx = {(fact init_tok } )
 (namedrule [die_from_damages]
 (match(predicate  health  z  )(predicate  fight_in_progress  ))(retract(predicate  health  z  )(predicate  fight_in_progress  ))(assert(predicate  die_screen  )))
 (namedrule [fight/die]
-(match(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP )(predicate  subtract  HP Size none  ))(retract(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP )(predicate  subtract  HP Size none  ))(assert(predicate  die_screen  ))))(defexternal (choice  ) pred )
+(match(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP )(predicate  subtract  HP Size none  ))(retract(predicate  try_fight  )(predicate  fight_in_progress  )(predicate  monster  Size )(predicate  health  HP )(predicate  subtract  HP Size none  ))(assert(predicate  die_screen  ))))(defpred (choice  ) pred)
 
 (rule 
 (match
@@ -283,7 +283,7 @@ context init_ctx = {(fact init_tok } )
 )
 )
 
-(defexternal (go_home_or_continue  ) pred )
+(defpred (go_home_or_continue  ) pred)
 (defstage [win]
 (namedrule [win]
 (match(predicate  win_screen  )(predicate  monster  Size )(predicate  drop_amount  Size Drop ))(retract(predicate  win_screen  )(predicate  monster  Size )(predicate  drop_amount  Size Drop ))(assert(predicate  drop  Drop )))
@@ -324,7 +324,7 @@ context init_ctx = {(fact init_tok } )
 (predicate  fight_screen  )(predicate  stage  fight_init  )
 )
 )
-(defexternal (end  ) pred )
+(defpred (end  ) pred)
 (defstage [die]
 (namedrule [quit]
 (match(predicate  die_screen  ))(retract(predicate  die_screen  ))(assert(predicate  end  )))

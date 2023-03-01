@@ -10,6 +10,9 @@ oneCharOrMacro =
   | any -- other
 
 defineExternal =
+  | name+ ":" spaces "pred" "." -- pred
+  | name+ ":" spaces "bwd" "." -- bwd
+  | name+ ":" spaces "type" "." -- type
   | name+ ":" spaces name "." -- other
 
 
