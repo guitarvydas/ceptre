@@ -19,19 +19,25 @@ dc.rt: $(GRAMMARS) $(FABS) dc/dc.cep
 dc.cst : dc.rt
 	cp dc.rt dc.cst
 
+test.rt: $(GRAMMARS) $(FABS) test.cep
+	$(call ceptre2rt,test.cep,test.rt)
 
-
-test.rt:
-	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <test.cep \
-	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
-	| ./fab/fab rulename.ohm rulename.fab support.js \
-	| ./fab/fab stage.ohm stage.fab support.js \
-	| ./fab/fab defx.ohm defx.fab support.js \
-	| ./fab/fab prefix.ohm prefix.fab support.js \
-	| ./fab/fab fact.ohm fact.fab support.js >test.rt
-	 
 test.cst : test.rt
 	cp test.rt test.cst
+
+
+
+# test.rt:
+# 	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <test.cep \
+# 	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
+# 	| ./fab/fab rulename.ohm rulename.fab support.js \
+# 	| ./fab/fab stage.ohm stage.fab support.js \
+# 	| ./fab/fab defx.ohm defx.fab support.js \
+# 	| ./fab/fab prefix.ohm prefix.fab support.js \
+# 	| ./fab/fab fact.ohm fact.fab support.js >test.rt
+	 
+# test.cst : test.rt
+# 	cp test.rt test.cst
 
 
 dev: test.cst
