@@ -12,3 +12,8 @@ stage flee = {
   infix: ndays NDAYS
      -o   health N * ndays (NDAYS + 1).
 }
+
+drop_amount nat nat : bwd.
+try_fight : pred.
+nat : type.
+d n n : b.

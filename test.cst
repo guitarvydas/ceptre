@@ -9,7 +9,14 @@ context init_ctx = {(fact init_tok } )
 (namedrule [do/flee]
 (match(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _   )(predicate  monster_hp  _   ))(retract(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _   )(predicate  monster_hp  _   ))(assert(predicate  empty  )))
 (namedrule [infix]
-(match(predicate  ndays  NDAYS ))(retract(predicate  ndays  NDAYS ))(assert(predicate  health  N )(predicate ndays (+  NDAYS 1    )))))
+(match(predicate  ndays  NDAYS ))(retract(predicate  ndays  NDAYS ))(assert(predicate  health  N )(predicate ndays (+  NDAYS 1    )))))(defbwd (drop_amount  nat  nat  ) bwd)
+(defpred (try_fight  ) pred)
+(deftype (nat  ) type)
+(defexternal (d  n  n  ) b )
+
+
+
+
 
 
 
