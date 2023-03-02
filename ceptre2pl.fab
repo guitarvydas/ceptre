@@ -27,7 +27,7 @@ string [bq cs* eq] = ‛«bq»«cs»«eq»’
 schar [c] = ‛«c»’
 
 tree_general [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
-tree_predicate [lp s1 kpredicate s2 relation args* rp s3] = ‛\«relation»(«args»)\»’
+tree_predicate [lp s1 kpredicate s2 relation args* rp s3] = ‛\««relation»(«args»)\»’
 tree_comment [lp s1 kcomment s2 str rp s3] = ‛% «str»’
 
 treeInnard_rec [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’

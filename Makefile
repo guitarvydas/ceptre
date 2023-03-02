@@ -25,7 +25,9 @@ test.rt: $(GRAMMARS) $(FABS) test.cep
 test.cst : test.rt
 	cp test.rt test.cst
 
-dev: test.cst
+dev: dc.cst
+	./fab/fab ceptre2pl.ohm ceptre2pl.fab support.js <dc.cst
+devsmall: test.cst
 	./fab/fab ceptre2pl.ohm ceptre2pl.fab support.js <test.cst
 
 
