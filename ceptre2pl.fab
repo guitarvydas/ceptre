@@ -1,9 +1,8 @@
-Fact {
+Ceptre2plFAB {
 
 top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
 
 oneCharOrMacro_space [x] = ‛«x»’
-oneCharOrMacro_comment [x] = ‛«x»’
 oneCharOrMacro_other [x] = ‛«x»’
 
 oneCharOrMacro_tree [x] = ‛«x»’
@@ -23,22 +22,43 @@ nameRest_equote [c] = ‛«c»’
 
 atom [x] = ‛«x» ’
 number [digits+] = ‛«digits»’
-string [bq cs* eq] = ‛«bq»«cs»«eq»’
+string [bq cs* eq s] = ‛«bq»«cs»«eq»’
 schar [c] = ‛«c»’
 
-tree_general [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
-tree_predicate [lp s1 kpredicate s2 relation args* rp s3] = ‛\««relation»(«args»)\»’
-tree_comment [lp s1 kcomment s2 str rp s3] = ‛% «str»’
+tree [lookahead i] = ‛«i»’
 
+pattern_predicate [lp s1 kpredicate s2 relation args* rp s3] = ‛\««relation»(«args»)\»’
+pattern_comment [lp s1 kcomment s2 str rp s3] = ‛% «str»’
+pattern_match [lp s1 kmatch s2 clauses+ rp s3] = ‛\nMATCH\n«clauses»,???.\n’
+pattern_retract [lp s1 k s2 clauses+ rp s3] = ‛\nRETRACT\n«clauses»,???.\n’
+pattern_assert [lp s1 k s2 clauses+ rp s3] = ‛\nASSERT \n«clauses»,???.\n’
+
+treeInnard_pattern [p] = ‛«p»’
+treeInnard_general [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
 treeInnard_rec [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
-treeInnard_bottom [atom s] = ‛«atom»«s»’
 treeInnard_verbatim [v] = ‛«v»’
+treeInnard_bottom [atom s] = ‛«atom»«s»’
 
 verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_bottom [c] = ‛«c»’
 
+verbatimAsClause [lb verbatimInnard* rb] = ‛\n«lb»«verbatimInnard»«rb»,’
+verbatimInnardAsClause_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnardAsClause_bottom [c] = ‛«c»’
+
+retractClause [lb verbatimInnard* rb] = ‛\nZZZ«lb»«verbatimInnard»«rb»,’
+verbatimInnardRetractClause_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnardRetractClause_bottom [c] = ‛«c»’
+
+
 sq [c] = ‛«c»’
 fq [c] = ‛«c»’
+
+clause_verbatim [clause s] = ‛«clause»’
+clause_tree [e s] = ‛«e»’
+
+operator [c] = ‛«c»’
+
 }
 

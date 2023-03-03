@@ -1,22 +1,26 @@
-EmitProlog1 {
+Ceptre2PROLOG {
 
 top = oneCharOrMacro+
 
 oneCharOrMacro =
-  | comment -- comment
   | space -- space
   | tree -- tree
   | any -- other
 
-tree = 
+tree = &"(" treeInnard
+treeInnard =
+  | pattern -- pattern
+  | "(" spaces treeInnard* ")" spaces -- general
+  | "(" spaces treeInnard* ")" spaces -- rec
+  | verbatim -- verbatim
+  | atom spaces -- bottom
+
+pattern =
   | "(" spaces "predicate" spaces name treeInnard* ")" spaces -- predicate
   | "(" spaces "comment" spaces string ")" spaces -- comment
-  | "(" spaces treeInnard* ")" spaces -- general
-
-treeInnard = 
-  | verbatim -- verbatim
-  | "(" spaces tree* ")" spaces -- rec
-  | atom spaces -- bottom
+  | "(" spaces "match" spaces clause+ ")" spaces -- match
+  | "(" spaces "retract" spaces clause+ ")" spaces -- retract
+  | "(" spaces "assert" spaces clause+ ")" spaces -- assert
 
 comment = "%" commentInner* nl
 commentInner = ~nl any
@@ -25,7 +29,7 @@ nl = "\n"+
 logicVariable = lvFirst nameRest* spaces
 name = nameFirst nameRest* spaces
 lvFirst = upper
-nameFirst = lower | "/"
+nameFirst = lower | "/" | "_"
 nameRest = 
   | alnum -- alnum
   | "_" -- underscore
@@ -37,20 +41,37 @@ atom =
   | number
   | string
   | logicVariable
+  | operator
   | name
 
 number = digit+
-string = "[" schar* "]"
+string = sq schar* fq spaces
 schar = 
   | string
-  | ~"[" ~"]" any
+  | ~sq ~fq any
 
 sq = "["
 fq = "]"
 
+operator = "+"
+
 verbatim = "«" verbatimInnard* "»"
 verbatimInnard =
   | "«" verbatimInnard* "»" -- rec
+  | ~"«" ~"»" any -- bottom
+
+clause =
+  | verbatimAsClause spaces -- verbatim
+  | tree spaces -- tree
+  
+verbatimAsClause = "«" verbatimInnardAsClause* "»"
+verbatimInnardAsClause =
+  | "«" verbatimInnardAsClause* "»" -- rec
+  | ~"«" ~"»" any -- bottom
+
+retractClause = "«" verbatimInnardRetractClause* "»"
+verbatimInnardRetractClause =
+  | "«" verbatimInnardRetractClause* "»" -- rec
   | ~"«" ~"»" any -- bottom
 
 }
