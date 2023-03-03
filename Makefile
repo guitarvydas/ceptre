@@ -26,21 +26,14 @@ test.cst : test.rt
 	cp test.rt test.cst
 
 dev: dc.cst
-	./fab/fab c2pl.ohm c2pl.fab support.js <dc.cst
+	./fab/fab c2pl0.ohm c2pl0.fab support.js <dc.cst
 devsmall: test.cst
-	./fab/fab c2pl.ohm c2pl.fab support.js <test.cst
+	./fab/fab c2pl0.ohm c2pl0.fab support.js <test.cst
 
 
 
-identity:
-	./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
-	./fab/fab rewrite-dollar.ohm identity-ceptre.fab support.js
-
-pl:
-	@./fab/fab rewrite-nametag.ohm rewrite-nametag.fab support.js <dc/dc.cep \
-	| ./fab/fab rewrite-dollar.ohm rewrite-dollar.fab support.js \
-	| ./vstrip \
-	>dc/swipl/dc.pl
+identity: dc.cst
+	./fab/fab c2pl.ohm identity-c2pl.fab support.js <dc.cst
 
 install: repos npmstuff
 
