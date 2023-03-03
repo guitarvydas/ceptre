@@ -8,9 +8,14 @@ oneCharOrRexpr =
   | any -- other
 
 rexpr =
+  | "(" spaces "fact" spaces name arg* ")" spaces -- fact
   | "(" spaces rexpr* ")" spaces -- general
-  | verbatim -- verbatim
+  | verbatim spaces -- verbatim
   | atom spaces -- bottom
+
+arg =
+  | rexpr arg -- multiple
+  | rexpr -- single
 
 nl = "\n"
 logicVariable = lvFirst nameRest* spaces

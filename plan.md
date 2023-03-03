@@ -36,18 +36,19 @@ invariant: tool can only match rt exprs, everything else is left untouched
 --- step 0 ---
 delete "(comment ...)" recursively / everywhere
 
+--- step 1 ---
 for-every "(fact Name ...)" replace with "«Name»«...»"
 
---- step 3 ---
+--- step 2 ---
 for-every "(stage Name ...)" -->
   find-and-replace "(namedrule Rname ...2)" in ... to "(namedrule «stage_name»_«Rname» ...2)"
 
---- Step 1 ---
+--- Step 3 ---
 for-every "(match ...)" find-and-replace "(predicate ...2)" in "..." to "«match(...2),»"
 for-every "(retract ...)" find-and-replace "(predicate ...2)" in "..." to "«retract(...2),»"
 for-every "(assert ...)" find-and-replace "(predicate ...2)" in "..." to "«assert(...2),»"
 
---- step 2 ---
+--- step 4 ---
 for-every "(namedrule Name (match ...) ...2)" --> replace with
 stagestep :-
   match(stage(«?stage_name»)),

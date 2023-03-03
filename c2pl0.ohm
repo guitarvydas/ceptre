@@ -10,7 +10,7 @@ oneCharOrRexpr =
 rexpr =
   | "(" spaces "comment" spaces string ")" spaces -- comment
   | "(" spaces rexpr* ")" spaces -- general
-  | verbatim -- verbatim
+  | verbatim spaces -- verbatim
   | atom spaces -- bottom
 
 nl = "\n"
