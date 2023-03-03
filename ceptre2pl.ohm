@@ -18,9 +18,6 @@ treeInnard =
 pattern =
   | "(" spaces "predicate" spaces name treeInnard* ")" spaces -- predicate
   | "(" spaces "comment" spaces string ")" spaces -- comment
-  | "(" spaces "match" spaces clause+ ")" spaces -- match
-  | "(" spaces "retract" spaces clause+ ")" spaces -- retract
-  | "(" spaces "assert" spaces clause+ ")" spaces -- assert
 
 comment = "%" commentInner* nl
 commentInner = ~nl any
@@ -68,10 +65,4 @@ verbatimAsClause = "«" verbatimInnardAsClause* "»"
 verbatimInnardAsClause =
   | "«" verbatimInnardAsClause* "»" -- rec
   | ~"«" ~"»" any -- bottom
-
-retractClause = "«" verbatimInnardRetractClause* "»"
-verbatimInnardRetractClause =
-  | "«" verbatimInnardRetractClause* "»" -- rec
-  | ~"«" ~"»" any -- bottom
-
 }

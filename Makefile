@@ -26,9 +26,9 @@ test.cst : test.rt
 	cp test.rt test.cst
 
 dev: dc.cst
-	./fab/fab ceptre2pl.ohm ceptre2pl.fab support.js <dc.cst
+	./fab/fab c2pl.ohm c2pl.fab support.js <dc.cst
 devsmall: test.cst
-	./fab/fab ceptre2pl.ohm ceptre2pl.fab support.js <test.cst
+	./fab/fab c2pl.ohm c2pl.fab support.js <test.cst
 
 
 
