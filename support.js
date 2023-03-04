@@ -36,23 +36,26 @@ function namestacktop () {
     return namestack[namestack.length - 1];
 }
 
-function down_resetnamestack () {
+function _eval (x) {
     try {
-	namestack = [];
-	return '';
+	return x._fab ();
     } catch (err) {
-	console.error (`internal error in down_pushname: ${err}`);
+	console.error (`internal error in _eval: ${err}`);
 	return '';
     }
 }
+    
+function resetnamestack () {
+    namestack = [];
+    return '';
+}
 
-function down_pushname (typ, s) {
+function pushname (typ, s) {
     try {
-	var s = s._fab ();
 	namestack.push ({'kind':typ, 'val':s});
 	return '';
     } catch (err) {
-	console.error (`internal error in down_pushname: ${err}`);
+	console.error (`internal error in pushname: ${err}`);
 	return '';
     }
 }

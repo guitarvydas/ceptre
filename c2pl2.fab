@@ -18,7 +18,7 @@ rexpr_bottom [a s] = ‛«a»«s»’
 
 rexpr_pattern [p s] = ‛«p»«s»’
 
-pattern [lp s kstage s2 stagename namedRules+ rp] ‛«down_resetnamestack (), down_pushname('stage', stagename)»’ = ‛«lp»«s»«kstage»«s2»«stagename»«namedRules»«rp»«popname ()»’
+pattern [lp s kstage s2 stagename namedRules+ rp] ‛«resetnamestack (), pushname('stage', _eval (stagename))»’ = ‛«lp»«s»«kstage»«s2»«stagename»«namedRules»«rp»«popname ()»’
 
 space [x] = ‛«x»’
 nl [c] = ‛«c»’
