@@ -40,7 +40,7 @@ delete "(comment ...)" recursively / everywhere
 for-every "(fact Name ...)" replace with "«Name»«...»"
 
 --- step 2 ---
-for-every "(stage Name ...)" -->
+for-every "(defstage Name ...)" -->
   find-and-replace "(namedrule Rname ...2)" in ... to "(namedrule «stage_name»_«Rname» ...2)"
 
 --- Step 3 ---

@@ -1,0 +1,71 @@
+C2PL2 {
+
+//--- step 2 ---
+//for-every "(stage Name ...)" -->
+//  find-and-replace "(namedrule Rname ...2)" in ... to "(namedrule «stage_name»_«Rname» ...2)"
+
+top = oneCharOrRexpr+
+
+oneCharOrRexpr =
+  | space -- space
+  | &"(" rexpr -- rexpr
+  | any -- other
+
+rexpr =
+  | pattern spaces -- pattern
+  | "(" spaces rexpr* ")" spaces -- general
+  | verbatim spaces -- verbatim
+  | atom spaces -- bottom
+
+pattern = "(" spaces "defstage" spaces stagename namedRule+ ")"
+namedRule = "(" spaces "namedrule" spaces rulename matches retractions assertions ")" spaces
+stagename = string
+rulename = string
+matches = rexpr spaces
+retractions = rexpr spaces
+assertions = rexpr spaces
+
+
+nl = "\n"
+logicVariable = lvFirst nameRest* spaces
+name = nameFirst nameRest* spaces
+lvFirst =
+  | upper -- upper
+  | "_" -- underscore
+  | ellipses -- ellipses
+
+nameFirst = lower | "/" | "_"
+nameRest = 
+  | alnum -- alnum
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- squote
+  | "’" -- equote
+  | ellipses -- ellipses
+
+ellipses = "..."
+
+atom =
+  | number
+  | string
+  | logicVariable
+  | operator
+  | name
+
+number = digit+
+string = sq schar* fq spaces
+schar = 
+  | string
+  | ~sq ~fq any
+
+sq = "["
+fq = "]"
+
+operator = "+"
+
+verbatim = "«" verbatimInnard* "»"
+verbatimInnard =
+  | "«" verbatimInnard* "»" -- rec
+  | ~"«" ~"»" any -- bottom
+
+}
