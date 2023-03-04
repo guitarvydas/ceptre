@@ -61,7 +61,6 @@ function pushname (typ, s) {
 }
 
 function getname (typ) {
-    console.error (`getname ${typ}`);
     var item = namestacktop ();
     if (typ === item.kind) {
 	return item.val;
@@ -71,7 +70,6 @@ function getname (typ) {
 }
 
 function popname () {
-    console.error (`popname`);
     namestack.pop ();
     return '';
 }

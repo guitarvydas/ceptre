@@ -28,7 +28,8 @@ test.cst : test.rt
 dev: dc.cst
 	./fab/fab c2pl0.ohm c2pl0.fab support.js <dc.cst >/tmp/10
 	./fab/fab c2pl1.ohm c2pl1.fab support.js </tmp/10 >/tmp/11
-	./strip.bash /tmp/11 /tmp/12
+	./fab/fab c2pl2.ohm c2pl2.fab support.js </tmp/11 >/tmp/12
+	./strip.bash /tmp/12 /tmp/13
 
 devsmall: test.cst
 	./fab/fab c2pl0.ohm c2pl0.fab support.js <test.cst >/tmp/10
