@@ -25,17 +25,18 @@ test.rt: $(GRAMMARS) $(FABS) test.cep
 test.cst : test.rt
 	cp test.rt test.cst
 
-dev: dc.cst
-	./fab/fab c2pl0.ohm c2pl0.fab support.js <dc.cst >/tmp/10
+define devproc
+	./fab/fab c2pl0.ohm c2pl0.fab support.js <$1 >/tmp/10
 	./fab/fab c2pl1.ohm c2pl1.fab support.js </tmp/10 >/tmp/11
 	./fab/fab c2pl2.ohm c2pl2.fab support.js </tmp/11 >/tmp/12
 	./strip.bash /tmp/12 /tmp/13
+endef
+
+dev: dc.cst
+	$(call devproc,dc.cst)
 
 devsmall: test.cst
-	./fab/fab c2pl0.ohm c2pl0.fab support.js <test.cst >/tmp/10
-	./fab/fab c2pl1.ohm c2pl1.fab support.js </tmp/10 >/tmp/11
-	./fab/fab c2pl2.ohm c2pl2.fab support.js </tmp/11 >/tmp/12
-	./strip.bash /tmp/12 /tmp/13
+	$(call devproc,test.cst)
 
 
 identity: dc.cst
