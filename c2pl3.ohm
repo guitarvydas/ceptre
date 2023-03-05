@@ -1,0 +1,85 @@
+C2PL3 {
+
+//--- Step 3 ---
+//for-every "(match ...)" find-and-replace "(predicate ...2)" in "..." and convert it to "«match(...2),»"
+//for-every "(retract ...)" find-and-replace "(predicate ...2)" in "..." and convert it to "«retract(...2),»"
+//for-every "(assert ...)" find-and-replace "(predicate ...2)" in "..." and convert it to "«assert(...2),»"
+
+top = oneCharOrRexpr+
+
+oneCharOrRexpr =
+  | space -- space
+  | &"(" rexpr -- rexpr
+  | any -- other
+
+rexpr =
+  | pattern spaces -- pattern
+  | "(" spaces rexpr* ")" spaces -- general
+  | verbatim spaces -- verbatim
+  | atom spaces -- bottom
+
+pattern = 
+  | "(" spaces "match" spaces mpredicate ")"
+  | "(" spaces "retract" spaces rpredicate+ ")"
+  | "(" spaces "assert" spaces apredicate+ ")"
+
+mpredicate =
+  | "(" spaces "predicate" spaces matchexpr+ ")" spaces mpredicate -- rec
+  | "(" spaces "predicate" spaces matchexpr+ ")" spaces -- bottom
+matchexpr = rexpr
+
+rpredicate = 
+  | "(" spaces "predicate" spaces retractionexpr+ ")" spaces rpredicate -- rec
+  | "(" spaces "predicate" spaces retractionexpr+ ")" spaces -- bottom
+retractionexpr = rexpr
+apredicate = 
+  | "(" spaces "predicate" spaces assertionexpr+ ")" spaces apredicate -- rec
+  | "(" spaces "predicate" spaces assertionexpr+ ")" spaces -- bottom
+assertionexpr = rexpr
+string = 
+  | frontstring spaces "_" spaces tailstring -- multi
+  | sq schar* fq spaces -- simple
+schar = 
+  | ~sq ~fq any
+frontstring =   | sq schar* fq spaces
+tailstring =   | sq schar* fq spaces
+
+nl = "\n"
+logicVariable = lvFirst nameRest* spaces
+name = nameFirst nameRest* spaces
+lvFirst =
+  | upper -- upper
+  | "_" -- underscore
+  | ellipses -- ellipses
+
+nameFirst = lower | "/" | "_"
+nameRest = 
+  | alnum -- alnum
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- squote
+  | "’" -- equote
+  | ellipses -- ellipses
+
+ellipses = "..."
+
+atom =
+  | number
+  | string
+  | logicVariable
+  | operator
+  | name
+
+number = digit+
+
+sq = "["
+fq = "]"
+
+operator = "+"
+
+verbatim = "«" verbatimInnard* "»"
+verbatimInnard =
+  | "«" verbatimInnard* "»" -- rec
+  | ~"«" ~"»" any -- bottom
+
+}

@@ -1,0 +1,64 @@
+C2PLFAB {
+
+top [oneCharOrRexpr+] = ‛«oneCharOrRexpr»’
+
+oneCharOrRexpr_space [x] = ‛«x»’
+oneCharOrRexpr_rexpr [lookahead x] = ‛«x»’
+oneCharOrRexpr_other [x] = ‛«x»’
+
+
+rexpr_general [lp s e* rp s2] = ‛«lp»«s»«e»«rp»«s2»’
+rexpr_verbatim [v s] = ‛«v»«s»’
+rexpr_bottom [a s] = ‛«a»«s»’
+
+
+rexpr_pattern [p s] = ‛«p»«s»’
+
+
+pattern [lp s k s2 preds rp] = ‛«lp»«s»«k»«s2»«preds»«rp»’
+mpredicate_rec [lp s kpredicate s2 e+ rp s3 mp] = ‛\n\«match(«e»),\»«mp»’
+mpredicate_bottom [lp s kpredicate s2 e+ rp s3] = ‛\n\«match(«e»),\»’
+matchexpr [e] = ‛«e»’
+rpredicate_rec [lp s kpredicate s2 e+ rp s3 mp] = ‛\n\«retract(«e»),\»«mp»’
+rpredicate_bottom [lp s kpredicate s2 e+ rp s3] = ‛\n\«retract(«e»),\»’
+retractionexpr [e] = ‛«e»’
+apredicate_rec [lp s kpredicate s2 e+ rp s3 mp] = ‛\n\«assert(«e»),\»«mp»’
+apredicate_bottom [lp s kpredicate s2 e+ rp s3] = ‛\n\«assert(«e»)\»’
+assertionexpr [e] = ‛«e»’
+
+space [x] = ‛«x»’
+nl [c] = ‛«c»’
+logicVariable [lvFirst nameRest* s] = ‛«lvFirst»«nameRest»’
+name [nameFirst nameRest* s] = ‛«nameFirst»«nameRest» ’
+lvFirst_upper [c] = ‛«c»’
+lvFirst_underscore [c] = ‛«c»’
+lvFirst_ellipses [eee] = ‛«eee»’
+nameFirst [c] = ‛«c»’
+nameRest_alnum [c] = ‛«c»’
+nameRest_underscore [c] = ‛«c»’
+nameRest_slash [c] = ‛«c»’
+nameRest_squote [c] = ‛«c»’
+nameRest_equote [c] = ‛«c»’
+nameRest_ellipses [eee] = ‛«eee»’
+
+ellipses [eee] = ‛«eee»’
+
+atom [x] = ‛«x» ’
+number [digits+] = ‛«digits»’
+sq [c] = ‛«c»’
+fq [c] = ‛«c»’
+operator [c] = ‛«c»’
+
+verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_bottom [c] = ‛«c»’
+
+string_multi [str1 s kunderscore s2 str2] = ‛«str1»«s»«kunderscore»«s2»«str2»’
+string_simple [sq cs* fq s] = ‛«sq»«cs»«fq»’
+schar [c] = ‛«c»’
+
+frontstring [sq cs* fq s] = ‛«sq»«cs»’
+tailstring [sq cs* fq s] = ‛«cs»«fq»’
+
+}
+

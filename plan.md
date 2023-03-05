@@ -49,6 +49,13 @@ for-every "(retract ...)" find-and-replace "(predicate ...2)" in "..." to "«ret
 for-every "(assert ...)" find-and-replace "(predicate ...2)" in "..." to "«assert(...2),»"
 
 --- step 4 ---
+
+for-every "(match ...)" replace with "..."
+for-every "(retract ...)" replace with "..."
+for-every "(assert ...)" replace with "..."
+
+--- step 5 ---
+
 for-every "(namedrule Name (match ...) ...2)" --> replace with
 stagestep :-
   match(stage(«?stage_name»)),
@@ -64,3 +71,11 @@ stagestep :-
   assert(rule_name(«Name», "%final")),
   assert(qui).
 
+--- step 5 ---
+replace illegal characters 
+ ]_[ --> _
+ '   --> _
+ /   --> _
+and delete Verbatim brackets
+ «   -->
+ »   -->
