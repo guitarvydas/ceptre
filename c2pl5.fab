@@ -33,8 +33,8 @@ ellipses [eee] = ‛«eee»’
 
 atom [x] = ‛«x» ’
 number [digits+] = ‛«digits»’
-sq [c] = ‛«c»’
-fq [c] = ‛«c»’
+sq [c] = ‛’
+fq [c] = ‛’
 operator [c] = ‛«c»’
 
 verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
@@ -56,17 +56,17 @@ pattern [lp s kdefstage s2 stagename namedRules+ rp] ‛«resetnamestack (), pus
 stageName [s] = ‛«s»’
 namedRule [lp s knamedrule s2 rulename matches clauses+ rp s3] = ‛
 stagestep :-
-  match(stage(«getname ('stage')»)),
+  match(stage("«getname ('stage')»")),
   refuse(qui),
   «matches»
   !,
-  assert(stage(«getname ('stage'), "«ruleName»")),
+  assert(stage("«getname ('stage')»", "«rulename»")),
   «clauses».
 stagestep :-
-  match(stage(«getname ('stage')»)),
+  match(stage("«getname ('stage')»")),
   refuse(qui),
   !,
-  assert(rule_name(«getname ('stage')», "%final")),
+  assert(rule_name("«getname ('stage')»", "%final")),
   assert(qui).
 ’
 matches [lp s kmatch s2 mverbatims+ rp s3] = ‛«mverbatims»’
