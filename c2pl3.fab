@@ -10,21 +10,23 @@ oneCharOrRexpr_other [x] = ‛«x»’
 rexpr_general [lp s e* rp s2] = ‛«lp»«s»«e»«rp»«s2»’
 rexpr_verbatim [v s] = ‛«v»«s»’
 rexpr_bottom [a s] = ‛«a»«s»’
-
-
 rexpr_pattern [p s] = ‛«p»«s»’
 
 
+
+
 pattern [lp s k s2 preds rp] = ‛«lp»«s»«k»«s2»«preds»«rp»’
-mpredicate_rec [lp s kpredicate s2 e+ rp s3 mp] = ‛\n\«match(«e»),\»«mp»’
-mpredicate_bottom [lp s kpredicate s2 e+ rp s3] = ‛\n\«match(«e»),\»’
-matchexpr [e] = ‛«e»’
-rpredicate_rec [lp s kpredicate s2 e+ rp s3 mp] = ‛\n\«retract(«e»),\»«mp»’
-rpredicate_bottom [lp s kpredicate s2 e+ rp s3] = ‛\n\«retract(«e»),\»’
-retractionexpr [e] = ‛«e»’
-apredicate_rec [lp s kpredicate s2 e+ rp s3 mp] = ‛\n\«assert(«e»),\»«mp»’
-apredicate_bottom [lp s kpredicate s2 e+ rp s3] = ‛\n\«assert(«e»)\»’
-assertionexpr [e] = ‛«e»’
+mpredicate_rec [p more] = ‛\n\«match(«p»),\»«more»’
+mpredicate_bottom [p] = ‛\n\«match(«p»),\»’
+rpredicate_rec [p more] = ‛\n\«retract(«p»),\»«more»’
+rpredicate_bottom [p] = ‛\n\«retract(«p»),\»’
+apredicate_rec [p more] = ‛\n\«assert(«p»),\»«more»’
+apredicate_bottom [p] = ‛\n\«assert(«p»)\»’
+
+predicate_args [lp s kpredicate s2 name args rp s3] = ‛«name»(«args»)’
+predicate_noargs [lp s kpredicate s2 name rp s3] = ‛«name»()’
+args_rec [e more] = ‛«e»,«more»’
+args_bottom [e] = ‛«e»’
 
 space [x] = ‛«x»’
 nl [c] = ‛«c»’

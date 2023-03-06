@@ -44,9 +44,12 @@ for-every "(defstage Name ...)" -->
   find-and-replace "(namedrule Rname ...2)" in ... to "(namedrule «stage_name»_«Rname» ...2)"
 
 --- Step 3 ---
-for-every "(match ...)" find-and-replace "(predicate ...2)" in "..." to "«match(...2),»"
-for-every "(retract ...)" find-and-replace "(predicate ...2)" in "..." to "«retract(...2),»"
-for-every "(assert ...)" find-and-replace "(predicate ...2)" in "..." to "«assert(...2),»"
+*** for-every "(match ...)" find-and-replace "(predicate name ...args)" in "..." to "«match(name(...cargs)),»"
+ where cargs is find-and-replace "...args" with "comma-separated ...args"
+*** for-every "(retract ...)" find-and-replace "(predicate name ...args)" in "..." to "«retract(name(...cargs)),»"
+ where cargs is find-and-replace "...args" with "comma-separated ...args"
+*** for-every "(assert ...)" find-and-replace "(predicate name ...args)" in "..." to "«assert(name(...cargs)),»"
+ where cargs is find-and-replace "...args" with "comma-separated ...args"
 
 --- step 4 ---
 

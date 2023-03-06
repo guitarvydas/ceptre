@@ -18,32 +18,6 @@ rexpr =
   | verbatim spaces -- verbatim
   | atom spaces -- bottom
 
-pattern = 
-  | "(" spaces "match" spaces mpredicate ")"
-  | "(" spaces "retract" spaces rpredicate+ ")"
-  | "(" spaces "assert" spaces apredicate+ ")"
-
-mpredicate =
-  | "(" spaces "predicate" spaces matchexpr+ ")" spaces mpredicate -- rec
-  | "(" spaces "predicate" spaces matchexpr+ ")" spaces -- bottom
-matchexpr = rexpr
-
-rpredicate = 
-  | "(" spaces "predicate" spaces retractionexpr+ ")" spaces rpredicate -- rec
-  | "(" spaces "predicate" spaces retractionexpr+ ")" spaces -- bottom
-retractionexpr = rexpr
-apredicate = 
-  | "(" spaces "predicate" spaces assertionexpr+ ")" spaces apredicate -- rec
-  | "(" spaces "predicate" spaces assertionexpr+ ")" spaces -- bottom
-assertionexpr = rexpr
-string = 
-  | frontstring spaces "_" spaces tailstring -- multi
-  | sq schar* fq spaces -- simple
-schar = 
-  | ~sq ~fq any
-frontstring =   | sq schar* fq spaces
-tailstring =   | sq schar* fq spaces
-
 nl = "\n"
 logicVariable = lvFirst nameRest* spaces
 name = nameFirst nameRest* spaces
@@ -81,5 +55,46 @@ verbatim = "«" verbatimInnard* "»"
 verbatimInnard =
   | "«" verbatimInnard* "»" -- rec
   | ~"«" ~"»" any -- bottom
+
+
+
+//--- Step 3 ---
+//*** for-every "(match ...)" find-and-replace "(predicate name ...args)" in "..." to "«match(name(...cargs)),»"
+// where cargs is find-and-replace "...args" with "comma-separated ...args"
+//*** for-every "(retract ...)" find-and-replace "(predicate name ...args)" in "..." to "«retract(name(...cargs)),»"
+// where cargs is find-and-replace "...args" with "comma-separated ...args"
+//*** for-every "(assert ...)" find-and-replace "(predicate name ...args)" in "..." to "«assert(name(...cargs)),»"
+// where cargs is find-and-replace "...args" with "comma-separated ...args"
+
+pattern = 
+  | "(" spaces "match" spaces mpredicate ")"
+  | "(" spaces "retract" spaces rpredicate+ ")"
+  | "(" spaces "assert" spaces apredicate+ ")"
+
+mpredicate =
+  | predicate mpredicate -- rec
+  | predicate -- bottom
+rpredicate =
+  | predicate rpredicate -- rec
+  | predicate -- bottom
+apredicate =
+  | predicate apredicate -- rec
+  | predicate -- bottom
+
+predicate = 
+  | "(" spaces "predicate" spaces name args ")" spaces -- args
+  | "(" spaces "predicate" spaces name ")" spaces -- noargs
+args =
+  | rexpr args -- rec
+  | rexpr -- bottom
+  
+string = 
+  | frontstring spaces "_" spaces tailstring -- multi
+  | sq schar* fq spaces -- simple
+schar = 
+  | ~sq ~fq any
+frontstring =   | sq schar* fq spaces
+tailstring =   | sq schar* fq spaces
+
 
 }
