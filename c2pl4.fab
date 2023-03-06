@@ -51,10 +51,8 @@ tailstring [sq cs* fq s] = ‛«cs»«fq»’
 
 
 
-pattern_match_clauses [lp s k s2 e rp] = ‛«e»’
 pattern_retraction_clauses [lp s k s2 e rp] = ‛«e»’
 pattern_assertion_clauses [lp s k s2 e rp] = ‛«e»’
-m [rexpr+] = ‛«rexpr»’
 r [rexpr+] = ‛«rexpr»’
 a [rexpr+] = ‛«rexpr»’
 

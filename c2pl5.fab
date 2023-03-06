@@ -54,9 +54,26 @@ tailstring [sq cs* fq s] = ‛«cs»«fq»’
 pattern [lp s kdefstage s2 stagename namedRules+ rp] ‛«resetnamestack (), pushname('stage', _eval (stagename))»’ = ‛«namedRules»’
 
 stageName [s] = ‛«s»’
-namedRule [lp s knamedrule s2 rulename clauses+ rp s3] = ‛«lp»«s»«knamedrule»«s2»«rulename»«clauses»«rp»«s3»’
+namedRule [lp s knamedrule s2 rulename matches clauses+ rp s3] = ‛
+stagestep :-
+  match(stage(«getname ('stage')»)),
+  refuse(qui),
+  «matches»
+  !,
+  assert(rule_name, "«ruleName»"),
+  «clauses».
+stagestep :-
+  match(stage(«getname ('stage')»)),
+  refuse(qui),
+  !,
+  ...2
+  assert(rule_name(«ruleName», "%final")),
+  assert(qui).
+’
+matches [lp s kmatch s2 mverbatims+ rp s3] = ‛«mverbatims»’
 rulename [s] = ‛«s»’
-clause [v s] = ‛«v»«s»’
+matchVerbatim [v s] = ‛«v»«s»’
+action [v s] = ‛«v»«s»’
 
 }
 

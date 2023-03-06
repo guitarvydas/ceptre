@@ -65,9 +65,11 @@ pattern =
   | "(" spaces "defstage" spaces stageName namedRule+ ")"
 
 stageName = string
-namedRule = "(" spaces "namedrule" spaces rulename clause+ ")" spaces
+namedRule = "(" spaces "namedrule" spaces rulename matches action+ ")" spaces
+matches = "(" spaces "match" spaces matchVerbatim+ ")" spaces
 rulename = string
-clause = verbatim spaces
+matchVerbatim = verbatim spaces
+action = verbatim spaces
 
 
 }

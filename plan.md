@@ -50,25 +50,24 @@ for-every "(assert ...)" find-and-replace "(predicate ...2)" in "..." to "«asse
 
 --- step 4 ---
 
-for-every "(match ...)" replace with "..."
 for-every "(retract ...)" replace with "..."
 for-every "(assert ...)" replace with "..."
 
 --- step 5 ---
 
 for-every "(defstage StageName ...)" --> 
-  find-and-replace "(namedrule RuleName (match ...) ...2)" --> replace with
+  find-and-replace "(namedrule RuleName (match ...matches) ...actions)" --> replace with
 stagestep :-
   match(stage(«StageName»)),
   refuse(qui),
+  ...matches
   !,
   assert(rule_name, "«RuleName»"),
-  ...
+  ...actions
 stagestep :-
   match(stage(«StageName»)),
   refuse(qui),
   !,
-  ...2
   assert(rule_name(«RuleName», "%final")),
   assert(qui).
 

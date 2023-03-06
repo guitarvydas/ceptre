@@ -20,10 +20,8 @@ rexpr =
   | atom spaces -- bottom
 
 pattern = 
-  | "(" spaces "match" spaces m ")" -- match_clauses
   | "(" spaces "retract" spaces r ")" -- retraction_clauses
   | "(" spaces "assert" spaces a ")" -- assertion_clauses
-m = rexpr+
 r = rexpr+
 a = rexpr+
 

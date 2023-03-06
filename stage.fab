@@ -7,8 +7,8 @@ oneCharOrMacro_space [x+] = ‛«x»’
 oneCharOrMacro_defstage [x] = ‛«x»’
 oneCharOrMacro_other [x] = ‛«x»’
 
-Stagedefinition_ok [kstage name keq lb rules+ rb] ‛«resetStageName ()»«pushStageName(name)»’= ‛(defstage [«name»]«rules»)’
-Stagedefinition_err [kstage name keq lb err rb] ‛«resetStageName ()»«pushStageName(name)»’= ‛\n«err»«name»’
+Stagedefinition_ok [kstage name keq lb rules+ rb] = ‛(defstage [«name»]«rules»)’
+Stagedefinition_err [kstage name keq lb err rb] = ‛\n«err»«name»’
 
 
 NamedRule_ok [lp knamedrule name m r a rp] = ‛\n(namedrule «name»\n«m»«r»«a»)’

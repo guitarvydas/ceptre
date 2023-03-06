@@ -73,3 +73,4 @@ function popname () {
     namestack.pop ();
     return '';
 }
+
