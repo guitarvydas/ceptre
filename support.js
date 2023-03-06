@@ -40,7 +40,7 @@ function _eval (x) {
     try {
 	return x._fab ();
     } catch (err) {
-	console.error (`internal error in _eval: ${err}`);
+	throw new Error (`internal error in _eval: ${err}`);
 	return '';
     }
 }
@@ -55,8 +55,7 @@ function pushname (typ, s) {
 	namestack.push ({'kind':typ, 'val':s});
 	return '';
     } catch (err) {
-	console.error (`internal error in pushname: ${err}`);
-	return '';
+	throw new Error  (`internal error in pushname: ${err}`);
     }
 }
 
@@ -65,7 +64,7 @@ function getname (typ) {
     if (typ === item.kind) {
 	return item.val;
     } else {
-	throw 'internal error : name kind mismatch';
+	throw new Error ('internal error : name kind mismatch');
     }
 }
 

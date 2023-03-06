@@ -71,7 +71,7 @@ stagestep :-
   match(stage(«StageName»)),
   refuse(qui),
   !,
-  assert(rule_name(«RuleName», "%final")),
+  assert(rule_name(«StageName», "%final")),
   assert(qui).
 
 --- step 5 ---

@@ -60,14 +60,13 @@ stagestep :-
   refuse(qui),
   «matches»
   !,
-  assert(rule_name, "«ruleName»"),
+  assert(stage(«getname ('stage'), "«ruleName»")),
   «clauses».
 stagestep :-
   match(stage(«getname ('stage')»)),
   refuse(qui),
   !,
-  ...2
-  assert(rule_name(«ruleName», "%final")),
+  assert(rule_name(«getname ('stage')», "%final")),
   assert(qui).
 ’
 matches [lp s kmatch s2 mverbatims+ rp s3] = ‛«mverbatims»’

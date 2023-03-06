@@ -24,7 +24,7 @@ apredicate_rec [p more] = ‛\n\«assert(«p»),\»«more»’
 apredicate_bottom [p] = ‛\n\«assert(«p»)\»’
 
 predicate_args [lp s kpredicate s2 name args rp s3] = ‛«name»(«args»)’
-predicate_noargs [lp s kpredicate s2 name rp s3] = ‛«name»()’
+predicate_noargs [lp s kpredicate s2 name rp s3] = ‛«name»’
 args_rec [e more] = ‛«e»,«more»’
 args_bottom [e] = ‛«e»’
 
