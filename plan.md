@@ -56,19 +56,20 @@ for-every "(assert ...)" replace with "..."
 
 --- step 5 ---
 
-for-every "(namedrule Name (match ...) ...2)" --> replace with
+for-every "(defstage StageName ...)" --> 
+  find-and-replace "(namedrule RuleName (match ...) ...2)" --> replace with
 stagestep :-
-  match(stage(«?stage_name»)),
+  match(stage(«StageName»)),
   refuse(qui),
   !,
-  assert(rule_name, "«Name»"),
+  assert(rule_name, "«RuleName»"),
   ...
 stagestep :-
-  match(stage(«?stage_name»)),
+  match(stage(«StageName»)),
   refuse(qui),
   !,
   ...2
-  assert(rule_name(«Name», "%final")),
+  assert(rule_name(«RuleName», "%final")),
   assert(qui).
 
 --- step 5 ---
