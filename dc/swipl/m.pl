@@ -6,17 +6,23 @@ match(X) :-
     X.
 
 run :-
-    assert(stage("infiniteloop")),
-    assert(forever),
+    assert(stage("first")),
     toplevel.
     
 stepstage :-
-    match(stage("infiniteloop")),
-    match(forever),
+    match(stage("first")),
     \+ qui,
     !,
-    retract(forever),
-    assert(forever),
+    write("first stage"),nl,
+    retract(stage("first")),
+    assert(stage("second")).
+
+stepstage :-
+    match(stage("second")),
+    \+ qui,
+    !,
+    write("second stage"),nl,
+    retract(stage("second")),
     assert(quit).
 
 toplevel :-
