@@ -1,6 +1,7 @@
 :- dynamic qui/0.
 :- dynamic stage/1.
 :- dynamic quit/0.
+:- dynamic rule_name/2.
 
 match(X) :-
     X.
@@ -13,7 +14,8 @@ stepstage :-
     match(stage("first")),
     \+ qui,
     !,
-    write("first stage"),nl,
+    assert(rule_name("first", "first_1")),
+    write('in first'),nl,
     retract(stage("first")),
     assert(stage("second")).
 
@@ -21,7 +23,8 @@ stepstage :-
     match(stage("second")),
     \+ qui,
     !,
-    write("second stage"),nl,
+    assert(rule_name("second", "second_1")),
+    write('in second'),nl,
     retract(stage("second")),
     assert(quit).
 
