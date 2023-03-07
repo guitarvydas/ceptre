@@ -32,7 +32,8 @@ define devproc
 	./fab/fab c2pl3.ohm c2pl3.fab support.js </tmp/12 >/tmp/13
 	./fab/fab c2pl4.ohm c2pl4.fab support.js </tmp/13 >/tmp/14
 	./fab/fab c2pl5.ohm c2pl5.fab support.js </tmp/14 >/tmp/15
-	./strip.bash /tmp/15 /tmp/16
+	./fab/fab c2pl6.ohm c2pl6.fab support.js </tmp/15 >/tmp/16
+	./strip.bash /tmp/16 /tmp/17
 endef
 
 dev: dc.cst

@@ -1,26 +1,5 @@
-qui * stage init  -o  stage main * main_screen.
+forever.
 
-stage flee = {
-  % lose spoils
-  do/flee :    spoils X Y Z
-            -o ().
+stage inifinitloop {
+  repeat: forever -o forever.
 }
-max_hp 10. damage sword 4. cost sword 10.
-
-context init_ctx = {init_tok}.
-
-%c
-d n n : b.
-d X X. % for now
-stage flee = {
-  % lose spoils
-  do/flee :    flee_screen * spoils X Y Z * monster _ * monster_hp _
-            -o ().
-  infix: ndays NDAYS
-     -o   health N * ndays (NDAYS + 1).
-}
-
-drop_amount nat nat : bwd.
-try_fight : pred.
-nat : type.
-d n n : b.

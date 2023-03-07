@@ -1,35 +1,18 @@
-(rule 
+forever.
+
+stage inifinitloop {
+  (namedrule [repeat]
 (match
-(predicate  qui  ) 
-(predicate  stage  init  )
+(predicate  forever  )
 )
 (retract 
-(predicate  qui  ) 
-(predicate  stage  init  )
+(predicate  forever  )
 )
 (assert
-(predicate  stage  main  )
-(predicate  main_screen  )
+(predicate  forever  )
 )
 )
-
-(defstage [flee]
-(namedrule [do/flee]
-(match(predicate  spoils  X Y Z ))(retract(predicate  spoils  X Y Z ))(assert(predicate  empty  ))))(fact max_hp 10 ) (fact damage sword  4 ) (fact cost sword  10 )
-
-context init_ctx = {(fact init_tok } )
-
-(comment  [c]  )
-(defexternal (d  n  n  ) b )
-(fact d X X ) (comment  [ for now]  )
-(defstage [flee]
-(namedrule [do/flee]
-(match(predicate  flee_screen  )(predicate  spoils  X Y Z )(predicate  monster  _   )(predicate  monster_hp  _   ))(retract(predicate  flee_screen  )(predicate  spoils  X Y Z )(predicate  monster  _   )(predicate  monster_hp  _   ))(assert(predicate  empty  )))
-(namedrule [infix]
-(match(predicate  ndays  NDAYS ))(retract(predicate  ndays  NDAYS ))(assert(predicate  health  N )(predicate ndays (+  NDAYS 1    )))))(defbwd (drop_amount  nat  nat  ) bwd)
-(defpred (try_fight  ) pred)
-(deftype (nat  ) type)
-(defexternal (d  n  n  ) b )
+}
 
 
 
