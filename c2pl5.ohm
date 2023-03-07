@@ -62,7 +62,8 @@ frontstring =   | sq schar* fq spaces
 tailstring =   | sq schar* fq spaces
 
 pattern = 
-  | "(" spaces "defstage" spaces stageName namedRule+ ")"
+  | "(" spaces "defstage" spaces stageName namedRule+ ")" -- defstage
+  | "(" spaces "rule" spaces matches action+ ")" spaces -- toplevelrule
 
 stageName = string
 namedRule = "(" spaces "namedrule" spaces rulename matches action+ ")" spaces

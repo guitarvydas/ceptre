@@ -1,3 +1,18 @@
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  init  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  init  )
+)
+(assert
+(predicate  stage  main  )
+(predicate  main_screen  )
+)
+)
+
 (defstage [flee]
 (namedrule [do/flee]
 (match(predicate  spoils  X Y Z ))(retract(predicate  spoils  X Y Z ))(assert(predicate  empty  ))))(fact max_hp 10 ) (fact damage sword  4 ) (fact cost sword  10 )

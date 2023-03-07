@@ -1,3 +1,5 @@
+qui * stage init  -o  stage main * main_screen.
+
 stage flee = {
   % lose spoils
   do/flee :    spoils X Y Z

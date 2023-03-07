@@ -51,7 +51,7 @@ tailstring [sq cs* fq s] = ‛«cs»«fq»’
 
 
 
-pattern [lp s kdefstage s2 stagename namedRules+ rp] ‛«resetnamestack (), pushname('stage', _eval (stagename))»’ = ‛«namedRules»’
+pattern_defstage [lp s kdefstage s2 stagename namedRules+ rp] ‛«resetnamestack (), pushname('stage', _eval (stagename))»’ = ‛«namedRules»’
 
 stageName [s] = ‛«s»’
 namedRule [lp s knamedrule s2 rulename matches clauses+ rp s3] = ‛
@@ -74,5 +74,12 @@ rulename [s] = ‛«s»’
 matchVerbatim [v s] = ‛«v»«s»’
 action [v s] = ‛«v»«s»’
 
+pattern_toplevelrule [lp s krule s2 matches clauses+ rp s3] = ‛
+step :-
+  «matches»
+  !,
+  assert(stage("%toplevel", "%toplevel")),
+  «clauses».
+’
 }
 
