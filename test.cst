@@ -1,18 +1,58 @@
-forever.
-
-stage inifinitloop {
-  (namedrule [repeat]
+stage first {
+  (namedrule [step1]
 (match
-(predicate  forever  )
+(predicate  x  )
 )
 (retract 
-(predicate  forever  )
+(predicate  x  )
 )
 (assert
-(predicate  forever  )
+(predicate  y  )
 )
 )
 }
+
+stage second {
+  (namedrule [step2]
+(match
+(predicate  y  )
+)
+(retract 
+(predicate  y  )
+)
+(assert
+(predicate  z  )
+)
+)
+}
+
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  first  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  first  )
+)
+(assert
+(predicate  stage  second  )
+)
+)
+(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  second  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  second  )
+)
+(assert
+(predicate  empty  )
+)
+)
+
 
 
 

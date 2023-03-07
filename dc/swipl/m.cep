@@ -1,9 +1,9 @@
 stage first {
-  one : x -o y.
+  step1 : x -o y.
 }
 
 stage second {
-  two : y -o z.
+  step2 : y -o z.
 }
 
 qui * stage first -o stage second.
