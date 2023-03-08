@@ -1,5 +1,8 @@
 (defparameter *fb* nil)
 
+(defun clear-fb ()
+  (setf *fb* nil))
+
 (defclass lvar ()
   ((hole :accessor hole :initform nil)))
 
@@ -10,8 +13,14 @@
                ((not (equal v (hole self))) (values nil nil))))))
 
 (defmethod bind ((self T) v)
-  (equal self v))
+  (cond ((equal self v) (values v t))
+        ((not (equal self v)) (values nil nil))))
   
+(defun fresh ()
+  (make-instance 'lvar))
+
+
+
 (defun match-one (predicate-from-fb predicate) 
   (mapc #'(lambda (arg actual)
             (multiple-value-bind (v success) (bind arg actual)
@@ -34,8 +43,9 @@
   (push pred *fb*))
 
 (defun test ()
-  (assert '(max_hp 10))
-  (match '(max_hp 5)))
+  (clear-fb)
+  (assert `(max_hp 10))
+  (match `(max_hp ,(fresh))))
 
 
   
