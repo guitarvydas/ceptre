@@ -22,6 +22,7 @@
         (t (assert `(qui)))))
               
 (defun run-stage ()
+  (format *error-output* "run-stage: ~a~%" *fb*)
   (cond ((match `(stage "first"))
          (stage-first))
         ((match `(stage "second"))
