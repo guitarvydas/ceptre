@@ -45,7 +45,6 @@
 
 (defun run ()
   (clear-fb)
-  (clear-lvars)
   (assert `(stage "first"))
   (top-level)
   (values))

@@ -1,70 +1,42 @@
 (defparameter *fb* nil)
+;; data structure: an FB (factbase, database, rulebase) consists of a list of items
+;; an item is a list
+;;  if the item list contains exactly one sub-list, then that item is a FACT
+;;  if the item list contains more than one sub-list, it is a RULE, the head of the RULE is the first sub-list, the body of the RULE is the rest of the sub-list
+;; an FB is not a SET, it is a BAG - it can contain more than one of the same thing, 'retract' removes only the first copy
+;;
+;; matching is done via Unification - all predicates must match up with items in the FB
+;;  a predicate is a list (item list above) that contains constants and Lvars (Logical Variables)
+;;  a predicate matches an item in the FB if all of its sub-items match
+;;   a constant sub-item matches when the target is also a constant and is equal to source constant sub-item
+;;   an Lvar sub-item matches if (1) its contains a constant that matches the target,
+;;   or, (2) it contains an unbound Lvar, in which case the target is assigned to the Lvar
+;;   or, (3) it contains a bound Lvar which matches the target
+;;   Lvars can be joined together - if the bottom Lvar matches the target, then all of the joined Lvars match and are "equivalent" to the bottom Lvar
 
 (defun clear-fb ()
-  (setf *fb* nil))
+  (setf *fb* '()))
 
-(defclass lvar ()
-  ((hole :accessor hole :initform nil)))
+(defun match (predicate-list)
+  (let ((initial-db *fb*)
+        (complete-db *fb*)
+        (top-link nil) (top-env hprolog:*empty*) (top-cut nil)
+        (goal predicate-list)
+        (self nil)) ;; obsolete, due to development history
+    (let ((results (hprolog:prove top-link goal initial-db top-env 1 top-cut complete-db nil self)))
+      ;; results contains ALL of the possible matches, we need only one of them - we'll take the first one
+      ;; TODO: opportunity for optimization and/or replacement by miniKanren
+      (cond ((null results)        (values nil nil))
+            ((not (null results))  (values (first results) t))))))
 
-(defmethod bind ((self lvar) v)
-  (cond ((null (hole self)) (setf (hole self) v) (values v t))
-        ((not (null (hole self)))
-         (cond ((equal v (hole self)) (values v t))
-               ((not (equal v (hole self)))
-                (values nil nil))))))
+(defun retract (predicate-or-rule)
+  (let ((new-fb (delete-first predicate-or-rule *fb*)))
+    (setf *fb* new-fb)))
 
-(defmethod bind ((self T) v)
-  (cond ((equal self v) (values v t))
-        ((not (equal self v))
-         (values nil nil))))
+(defun assert (predicate-or-rule)
+  (push (list predicate-or-rule) *fb*))
 
-(defmethod clear ((self lvar))
-  (setf (hole self) nil))
-
-(defparameter *lvars* nil)
-
-(defun fresh ()
-  (let ((newlv (make-instance 'lvar)))
-    (push newlv *lvars*)
-    newlv))
-
-(defun clear-lvars ()
-  (mapc #'clear *lvars*)
-  (setf *lvars* nil))
-
-
-(defun match-one (predicate-from-fb predicate) 
-  (mapc #'(lambda (arg actual)
-            (multiple-value-bind (v success) (bind arg actual)
-              (declare (ignore v))
-              (cond
-               (success nil)
-               ((not success) (return-from match-one nil)))))
-        predicate predicate-from-fb)
-  t)
-
-
-(defun match (pred)
-  (mapc #'(lambda (predicate-from-fb)
-            (let ((b (match-one predicate-from-fb pred)))
-            (cond
-             ((not b))
-             (b (return-from match t)))))
-        *fb*)
-  nil)
-
-(defun retract (pred)
-  (setf *fb* (delete pred *fb* :test 'equal :count 1)))
-
-(defun assert (pred)
-  (push pred *fb*))
-
-(defun test ()
-  (clear-fb)
-  (clear-lvars)
-  (assert `(max_hp 10))
-  (match `(max_hp ,(fresh))))
-
-
-  
-
+(defun delete-first (p fb)
+  (cond ((null fb) nil)
+        ((equal p (first (first fb))) (rest fb))
+        (t (cons (first fb) (delete-first p (rest fb))))))
