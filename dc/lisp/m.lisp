@@ -7,30 +7,24 @@
 ;;; }
 
 ;;; qui * stage first -o stage second.
-;;; qui * stage second -o quit.
+;;; qui * stage second -o ().
 
-(defun stage-first ()
-  (cond ((and (match `(x)))
-         (retract `(x))
-         (assert `(y)))
-        (t (assert `(qui)))))
+(defun run-stages ()
+  (cond ((and (match `(stage "first"))
+              (not (match `(qui))))
+         (cond ((and (match `(x)))
+                (retract `(x))
+                (assert `(y)))
+               (t (assert `(qui)))))
+        ((and (match `(stage "second"))
+              (not (match `(qui))))
+         (cond ((and (match `(y)))
+                (retract `(y))
+                (assert `(z)))
+               (t (assert `(qui)))))
+        (t (error "internal error in run-stages"))))
 
-(defun stage-second ()
-  (cond ((and (match `(y)))
-         (retract `(y))
-         (assert `(z)))
-        (t (assert `(qui)))))
-              
-(defun run-stage ()
-  (format *error-output* "run-stage: ~a~%" *fb*)
-  (cond ((match `(stage "first"))
-         (stage-first))
-        ((match `(stage "second"))
-         (stage-second))
-        (t (error "internal error in run-stage"))))
-
-(defun top-level ()
-  (format *error-output* "top-level: ~a~%" *fb*)
+(defun run-top-level ()
   (cond ((and (match `(qui))
               (match `(stage "first")))
          (retract `(qui))
@@ -39,14 +33,15 @@
         ((and (match `(qui))
               (match `(stage "second")))
          (retract `(qui)) 
-         (retract `(stage "second"))
-         (assert `(quit)))
-        ((and (match `(quit)))
-         (retract `(quit))
-         (return-from top-level))
-        (t
-         (run-stage)))
-  (top-level))
+         (retract `(stage "second")))))
+
+(defun top-level ()
+  (format *error-output* "~%top-level: ~a" *fb*)
+  (run-top-level)
+  (cond ((match `(stage ,(fresh)))
+         (run-stages)
+         (top-level))
+        (t (format *error-output* "~%DONE"))))
 
 (defun run ()
   (clear-fb)
