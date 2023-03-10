@@ -23,11 +23,16 @@
         (top-link nil) (top-env hprolog:*empty*) (top-cut nil)
         (goal predicate-list)
         (self nil)) ;; for method calling - not used here
-    (let ((results (hprolog:prove top-link goal initial-db top-env 1 top-cut complete-db nil self)))
+    (let ((results (hprolog:basic-prove top-link goal initial-db top-env 1 top-cut complete-db nil self)))
       ;; results contains ALL of the possible matches, we need only one of them - we'll take the first one
       ;; TODO: opportunity for optimization and/or replacement by miniKanren
       (cond ((null results)        (values nil nil))
             ((not (null results))  (values (first results) t))))))
+
+(defun match-unless (positive-preds unless-preds)
+  (let ((unlss (match unless-preds)))
+    (cond (unlss nil)
+          ((null unlss) (match positive-preds)))))
 
 (defun retract (predicate)
   (let ((new-fb (delete-first predicate *fb*)))

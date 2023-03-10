@@ -17,14 +17,16 @@
 (defparameter *rule* nil)
 
 (defun layer-first ()
-  (cond ((match `((layer "first")))
-         (assert `(qui)))))
+  (cond ((match-unless `((layer "first")) `((qui)))
+         (assert `(qui)))
+        (t (error "internal error"))))
 (push "first" *layer-names*)
 (push 'layer-first *layers*)
 
 (defun layer-second ()
-  (cond ((match `((layer "second")))
-         (assert `(qui)))))
+  (cond ((match-unless `((layer "second")) `((qui)))
+         (assert `(qui)))
+        (t (error "internal error"))))
 (push "second" *layer-names*)
 (push 'layer-second *layers*)
 
