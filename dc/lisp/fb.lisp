@@ -35,19 +35,11 @@
           ((null unlss) (not (null (match positive-preds)))))))
 
 (defun retract (predicate)
-  ;; implementation prereqs: (for POC)
-  ;;; predicate must not contain :?
-  (let ((success (deep-find-symbol :? predicate)))
-    (cond (success
-           (error (format nil "NIY: for now, retract doesn't know how to handle predicates containing Logic Variables ~a" predicate)))
-          ((not success)))) ;; OK, pass, we can proceed with this cheapo implementation
-  (let ((found-in-fb (match predicate)))
-    (cond (found-in-fb
-           ;; we can use a dumb delete only if the predicate is present
-           (let ((new-fb (delete-first predicate *fb*)))
-             (setf *fb* new-fb)))
-          ;; else don't try to delete, the predicate is already deleted (not present)
-          ((not found-in-fb) nil))))
+  (let ((all-matches (match predicate)))
+    (let ((reified-predicate (cond ((null all-matches) predicate)
+                                   (all-matches (hprolog:reify predicate (first all-matches))))))
+      (let ((new-fb (delete-first reified-predicate *fb*)))
+        (setf *fb* new-fb)))))
 
 (defun assert (predicate)
   (push (list predicate) *fb*))
