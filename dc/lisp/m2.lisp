@@ -23,6 +23,8 @@
          (retract `(x))
          (assert `(y)))
         ((match `((layer "first")))
+         (retract `(named-rule (:? any)))
+         (assert `(named-rule "first%final"))
          (assert `(qui)))))
 (push "first" *layer-names*)
 (push 'layer-first *layers*)

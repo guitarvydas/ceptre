@@ -63,6 +63,6 @@
 (defun deep-find-symbol (sym lis)
   (cond ((null lis) nil)
         ((not (listp lis)) (equal sym lis))
-        ((list lis)
-         (and (deep-find-symbol sym (car lis))
+        ((listp lis)
+         (or (deep-find-symbol sym (car lis))
               (deep-find-symbol sym (cdr lis))))))
