@@ -1,16 +1,32 @@
 ;; hand-edited starting with test.cst
 
-(defparameter *stages* nil)
+;;; stage first {
+;;;   one : x -o y.
+;;; }
+
+;;; stage second {
+;;;   two : y -o z.
+;;; }
+
+;;; qui * stage first -o stage second.
+;;; qui * stage second -o ().
+
+(defparameter *layers* nil)
+(defparameter *layer-names* nil)
 (defparameter *top-level* nil)
 (defparameter *rule* nil)
 
-(defun stage-first ()
-)
-(push 'stage-first *stages*)
+(defun layer-first ()
+  (cond ((match `((layer "first")))
+         (assert `(qui)))))
+(push "first" *layer-names*)
+(push 'layer-first *layers*)
 
-(defun stage-second ()
-)
-(push 'stage-second *stages*)
+(defun layer-second ()
+  (cond ((match `((layer "second")))
+         (assert `(qui)))))
+(push "second" *layer-names*)
+(push 'layer-second *layers*)
 
 (defun top-level-1 ()
 )
@@ -22,7 +38,9 @@
 
 (defun run ()
   (clear-fb)
-  (assert `(stage ,(car (reverse *stages*))))
+  (assert `(layer ,(car (reverse *layer-names*))))
+  (mapc #'funcall (reverse *top-level*))
+  (mapc #'funcall (reverse *layers*))
   *fb*)
 
 
