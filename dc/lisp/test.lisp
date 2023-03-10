@@ -7,6 +7,7 @@
 (defun test2 ()
   ;; should display :yes T
   (clear-fb)
+
   (assert `(:father :paul :albin))
   ;(format *error-output* "fb: ~a~%" *fb*)
   (assert `(:father :justin :paul))
@@ -15,7 +16,29 @@
             (:father (:? :dad) (:? :granddad))
             (:father (:? :grandson) (:? :dad))))
   ;(format *error-output* "fb: ~a~%" *fb*)
-  (match `((:grandfather :justin (:? g)))))
+  (format *error-output* "match using keywords: ~a~%" (match `((:grandfather :justin (:? g)))))
+
+  (assert `(father paul albin))
+  ;(format *error-output* "fb: ~a~%" *fb*)
+  (assert `(father justin paul))
+  ;(format *error-output* "fb: ~a~%" *fb*)
+  (rule `((grandfather (:? grandson) (:? granddad))
+            (father (:? dad) (:? granddad))
+            (father (:? grandson) (:? dad))))
+  ;(format *error-output* "fb: ~a~%" *fb*)
+  (format *error-output* "match using keyword ?: ~a~%" (match `((grandfather justin (:? g)))))
+
+  ;;;
+  (assert `(father paul albin))
+  ;(format *error-output* "fb: ~a~%" *fb*)
+  (assert `(father justin paul))
+  ;(format *error-output* "fb: ~a~%" *fb*)
+  (rule `((grandfather (? grandson) (? granddad))
+            (father (? dad) (? granddad))
+            (father (? grandson) (? dad))))
+  ;(format *error-output* "fb: ~a~%" *fb*)
+  (format *error-output* "match using keywords: ~a~%"  (match `((grandfather justin (? g)))))
+  (values))
 
   
 ;;; (defun test0 ()

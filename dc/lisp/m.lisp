@@ -38,7 +38,7 @@
 (defun top-level ()
   (format *error-output* "~%top-level: ~a" *fb*)
   (run-top-level)
-  (cond ((match `(stage ,(fresh)))
+  (cond ((match `(stage (:? s)))
          (run-stages)
          (top-level))
         (t (format *error-output* "~%DONE"))))
