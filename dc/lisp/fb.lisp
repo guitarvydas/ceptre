@@ -23,7 +23,7 @@
         (top-link nil) (top-env hprolog:*empty*) (top-cut nil)
         (goal predicate-list)
         (self nil)) ;; for method calling - not used here
-    (let ((results (hprolog:basic-prove top-link goal initial-db top-env 1 top-cut complete-db nil self)))
+    (let ((results (hprolog:prove top-link goal initial-db top-env 1 top-cut complete-db nil self)))
       ;; results contains ALL of the possible matches, we need only one of them - we'll take the first one
       ;; TODO: opportunity for optimization and/or replacement by miniKanren
       (cond ((null results)        (values nil nil))
@@ -32,11 +32,22 @@
 (defun match-unless (positive-preds unless-preds)
   (let ((unlss (match unless-preds)))
     (cond (unlss nil)
-          ((null unlss) (match positive-preds)))))
+          ((null unlss) (not (null (match positive-preds)))))))
 
 (defun retract (predicate)
-  (let ((new-fb (delete-first predicate *fb*)))
-    (setf *fb* new-fb)))
+  ;; implementation prereqs: (for POC)
+  ;;; predicate must not contain :?
+  (let ((success (deep-find-symbol :? predicate)))
+    (cond (success
+           (error (format nil "NIY: for now, retract doesn't know how to handle predicates containing Logic Variables ~a" predicate)))
+          ((not success)))) ;; OK, pass, we can proceed with this cheapo implementation
+  (let ((found-in-fb (match predicate)))
+    (cond (found-in-fb
+           ;; we can use a dumb delete only if the predicate is present
+           (let ((new-fb (delete-first predicate *fb*)))
+             (setf *fb* new-fb)))
+          ;; else don't try to delete, the predicate is already deleted (not present)
+          ((not found-in-fb) nil))))
 
 (defun assert (predicate)
   (push (list predicate) *fb*))
@@ -48,3 +59,10 @@
   (cond ((null fb) nil)
         ((equal p (first (first fb))) (rest fb))
         (t (cons (first fb) (delete-first p (rest fb))))))
+
+(defun deep-find-symbol (sym lis)
+  (cond ((null lis) nil)
+        ((not (listp lis)) (equal sym lis))
+        ((list lis)
+         (and (deep-find-symbol sym (car lis))
+              (deep-find-symbol sym (cdr lis))))))
