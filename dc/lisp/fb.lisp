@@ -22,19 +22,22 @@
         (complete-db *fb*)
         (top-link nil) (top-env hprolog:*empty*) (top-cut nil)
         (goal predicate-list)
-        (self nil)) ;; obsolete, due to development history
+        (self nil)) ;; for method calling - not used here
     (let ((results (hprolog:prove top-link goal initial-db top-env 1 top-cut complete-db nil self)))
       ;; results contains ALL of the possible matches, we need only one of them - we'll take the first one
       ;; TODO: opportunity for optimization and/or replacement by miniKanren
       (cond ((null results)        (values nil nil))
             ((not (null results))  (values (first results) t))))))
 
-(defun retract (predicate-or-rule)
-  (let ((new-fb (delete-first predicate-or-rule *fb*)))
+(defun retract (predicate)
+  (let ((new-fb (delete-first predicate *fb*)))
     (setf *fb* new-fb)))
 
-(defun assert (predicate-or-rule)
-  (push (list predicate-or-rule) *fb*))
+(defun assert (predicate)
+  (push (list predicate) *fb*))
+
+(defun rule (rule)
+  (push rule *fb*))
 
 (defun delete-first (p fb)
   (cond ((null fb) nil)
