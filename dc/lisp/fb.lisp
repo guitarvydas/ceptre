@@ -27,7 +27,9 @@
       ;; results contains ALL of the possible matches, we need only one of them - we'll take the first one
       ;; TODO: opportunity for optimization and/or replacement by miniKanren
       (cond ((null results)        (values nil nil))
-            ((not (null results))  (values (first results) t))))))
+            ((not (null results))  (values (cond ((equal '(:yes) results)        nil)
+                                                 ((not (equal '(:yes) results))  (first results))) 
+                                           t))))))
 
 (defun match-unless (positive-preds unless-preds)
   (let ((unlss (match unless-preds)))
@@ -35,7 +37,7 @@
           ((null unlss) (not (null (match positive-preds)))))))
 
 (defun retract (predicate)
-  (let ((all-matches (match predicate)))
+  (let ((all-matches (match (list predicate))))
     (let ((reified-predicate (cond ((null all-matches) predicate)
                                    (all-matches (hprolog:reify predicate (first all-matches))))))
       (let ((new-fb (delete-first reified-predicate *fb*)))

@@ -36,19 +36,35 @@
 (push 'layer-second *layers*)
 
 (defun top-level-1 ()
-)
+  (cond ((match `((layer "first") (qui)))
+         (retract `(layer "first"))
+         (retract `(qui))
+         (assert `(layer "second")))))
 (push 'top-level-1 *top-level*)
 
 (defun top-level-2 ()
-)
+  (cond ((match `((layer "second") (qui)))
+         (assert `(quit)))))
 (push 'top-level-2 *top-level*)
+
+(defun top-level ()
+  (mapc #'funcall (reverse *top-level*)))
+
+(defun layers ()  
+  (mapc #'funcall (reverse *layers*)))
 
 (defun run ()
   (clear-fb)
   (assert `(layer ,(car (reverse *layer-names*))))
-  (mapc #'funcall (reverse *top-level*))
-  (mapc #'funcall (reverse *layers*))
-  *fb*)
+  (assert `(x))
+  (top-level)
+  (layers)
+  (format *error-output* "fb: ~a~%" *fb*)
+  (top-level)
+  (format *error-output* "fb: ~a~%" *fb*)
+  (layers)
+  (format *error-output* "fb: ~a~%" *fb*)
+  (values))
 
 
 
