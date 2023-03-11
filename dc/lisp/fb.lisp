@@ -27,9 +27,7 @@
       ;; results contains ALL of the possible matches, we need only one of them - we'll take the first one
       ;; TODO: opportunity for optimization and/or replacement by miniKanren
       (cond ((null results)        (values nil nil))
-            ((not (null results))  (values (cond ((equal '(:yes) results)        nil)
-                                                 ((not (equal '(:yes) results))  (first results))) 
-                                           t))))))
+            ((not (null results))  (values results t))))))
 
 (defun match? (predicate-list)
   (multiple-value-bind (results success)
