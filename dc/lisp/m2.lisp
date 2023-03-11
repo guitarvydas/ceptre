@@ -14,7 +14,6 @@
 (defparameter *layers* nil)
 (defparameter *layer-names* nil)
 (defparameter *top-level* nil)
-(defparameter *rule* nil)
 
 (defun layer-first ()
   (cond ((match-unless? `((layer "first") (x)) `((qui)))
