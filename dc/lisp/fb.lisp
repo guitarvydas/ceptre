@@ -17,7 +17,7 @@
 (defun clear-fb ()
   (setf *fb* '()))
 
-(defun match (predicate-list)
+(defun mv-match (predicate-list)
   (let ((initial-db *fb*)
         (complete-db *fb*)
         (top-link nil) (top-env hprolog:*empty*) (top-cut nil)
@@ -31,13 +31,25 @@
                                                  ((not (equal '(:yes) results))  (first results))) 
                                            t))))))
 
-(defun match-unless (positive-preds unless-preds)
-  (let ((unlss (match unless-preds)))
+(defun match? (predicate-list)
+  (multiple-value-bind (results success)
+      (mv-match predicate-list)
+    (declare (ignore results))
+    success))
+
+(defun matchv (predicate-list)
+  (multiple-value-bind (results success)
+      (mv-match predicate-list)
+    (declare (ignore success))
+    results))
+
+(defun match-unless? (positive-preds unless-preds)
+  (let ((unlss (match? unless-preds)))
     (cond (unlss nil)
-          ((null unlss) (not (null (match positive-preds)))))))
+          ((null unlss) (match? positive-preds)))))
 
 (defun retract (predicate)
-  (let ((all-matches (match (list predicate))))
+  (let ((all-matches (matchv (list predicate))))
     (let ((reified-predicate (cond ((null all-matches) predicate)
                                    (all-matches (hprolog:reify predicate (first all-matches))))))
       (let ((new-fb (delete-first reified-predicate *fb*)))

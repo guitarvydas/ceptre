@@ -17,12 +17,12 @@
 (defparameter *rule* nil)
 
 (defun layer-first ()
-  (cond ((match-unless `((layer "first") (x)) `((qui)))
+  (cond ((match-unless? `((layer "first") (x)) `((qui)))
          (retract `(named-rule (:? any)))
          (assert `(named-rule "first"))
          (retract `(x))
          (assert `(y)))
-        ((match `((layer "first")))
+        ((match? `((layer "first")))
          (retract `(named-rule (:? any)))
          (assert `(named-rule "first%final"))
          (assert `(qui)))))
@@ -30,20 +30,20 @@
 (push 'layer-first *layers*)
 
 (defun layer-second ()
-  (cond ((match-unless `((layer "second")) `((qui)))
+  (cond ((match-unless? `((layer "second")) `((qui)))
          (assert `(qui)))))
 (push "second" *layer-names*)
 (push 'layer-second *layers*)
 
 (defun top-level-1 ()
-  (cond ((match `((layer "first") (qui)))
+  (cond ((match? `((layer "first") (qui)))
          (retract `(layer "first"))
          (retract `(qui))
          (assert `(layer "second")))))
 (push 'top-level-1 *top-level*)
 
 (defun top-level-2 ()
-  (cond ((match `((layer "second") (qui)))
+  (cond ((match? `((layer "second") (qui)))
          (assert `(quit)))))
 (push 'top-level-2 *top-level*)
 
