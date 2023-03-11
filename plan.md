@@ -7,7 +7,7 @@ invariant: tool can only match rt exprs, everything else is left untouched
 delete "(comment ...)" recursively / everywhere
 
 --- step 0a ---
-for-every "(rule ...)" replace with "(defstage «gensym ('top')» ...)"
+for-every "(rule ...)" replace with "(defstage «gensym ('top')» (namedrule «gensym ('subtop')» ...))"
 
 --- step 1 ---
 for-every "(fact Name ...)" replace with "«Name»«...»"

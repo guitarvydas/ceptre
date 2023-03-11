@@ -25,20 +25,10 @@ test.rt: $(GRAMMARS) $(FABS) test.cep
 test.cst : test.rt
 	cp test.rt test.cst
 
-define devpl
-	./fab/fab c2pl0.ohm c2pl0.fab support.js <$1 >/tmp/10
-	./fab/fab c2pl1.ohm c2pl1.fab support.js </tmp/10 >/tmp/11
-	./fab/fab c2pl2.ohm c2pl2.fab support.js </tmp/11 >/tmp/12
-	./fab/fab c2pl3.ohm c2pl3.fab support.js </tmp/12 >/tmp/13
-	./fab/fab c2pl4.ohm c2pl4.fab support.js </tmp/13 >/tmp/14
-	./fab/fab c2pl5.ohm c2pl5.fab support.js </tmp/14 >/tmp/15
-	./fab/fab c2pl6.ohm c2pl6.fab support.js </tmp/15 >/tmp/16
-	./strip.bash /tmp/16 /tmp/17
-endef
-
 define devcl
 	./fab/fab c2cl0.ohm c2cl0.fab support.js <$1 >/tmp/10
-	./fab/fab c2cl1.ohm c2cl1.fab support.js </tmp/10 >/tmp/11
+	./fab/fab c2cl0a.ohm c2cl0a.fab support.js </tmp/10 >/tmp/10a
+	./fab/fab c2cl1.ohm c2cl1.fab support.js </tmp/10a >/tmp/11
 	./fab/fab c2cl2.ohm c2cl2.fab support.js </tmp/11 >/tmp/12
 	./fab/fab c2cl3.ohm c2cl3.fab support.js </tmp/12 >/tmp/13
 	./fab/fab c2cl4.ohm c2cl4.fab support.js </tmp/13 >/tmp/14
@@ -52,13 +42,6 @@ dev: dc.cst
 
 devsmall: test.cst
 	$(call devcl,test.cst)
-
-
-devpl: dc.cst
-	$(call devpl,dc.cst)
-
-devsmallpl: test.cst
-	$(call devpl,test.cst)
 
 
 identity: dc.cst

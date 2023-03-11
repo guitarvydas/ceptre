@@ -1,0 +1,63 @@
+C2CL0a {
+
+top = oneCharOrRexpr+
+
+oneCharOrRexpr =
+  | space -- space
+  | &"(" rexpr -- rexpr
+  | any -- other
+
+rexpr =
+  | pattern spaces -- pattern
+  | "(" spaces rexpr* ")" spaces -- general
+  | verbatim spaces -- verbatim
+  | atom spaces -- bottom
+
+
+nl = "\n"
+logicVariable = lvFirst nameRest* spaces
+name = nameFirst nameRest* spaces
+lvFirst =
+  | upper -- upper
+  | "_" -- underscore
+  | ellipses -- ellipses
+
+nameFirst = lower | "/" | "_"
+nameRest = 
+  | alnum -- alnum
+  | "_" -- underscore
+  | "/" -- slash
+  | "'" -- squote
+  | "’" -- equote
+  | ellipses -- ellipses
+
+ellipses = "..."
+
+atom =
+  | number
+  | string
+  | logicVariable
+  | operator
+  | name
+
+number = digit+
+string = sq schar* fq spaces
+schar = 
+  | string
+  | ~sq ~fq any
+
+sq = "["
+fq = "]"
+
+operator = "+"
+
+verbatim = "«" verbatimInnard* "»"
+verbatimInnard =
+  | "«" verbatimInnard* "»" -- rec
+  | ~"«" ~"»" any -- bottom
+
+
+pattern = "(" spaces "rule" spaces rexpr* ")"
+
+
+}
