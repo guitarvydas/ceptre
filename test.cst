@@ -1,57 +1,33 @@
-stage first {
+(defstage [first]
 (namedrule [one]
-	   (match
-	    (predicate  x  )
-	    )
-	   (retract 
-	    (predicate  x  )
-	    )
-	   (assert
-	    (predicate  y  )
-	    )
-	   )
-}
-
-stage second {
+(match(predicate  x  ))(retract(predicate  x  ))(assert(predicate  y  ))))(defstage [second]
 (namedrule [two]
-	   (match
-	    (predicate  y  )
-	    )
-	   (retract 
-	    (predicate  y  )
-	    )
-	   (assert
-	    (predicate  z  )
-	    )
-	   )
-}
-
+(match(predicate  y  ))(retract(predicate  y  ))(assert(predicate  z  ))))(rule 
+(match
+(predicate  qui  ) 
+(predicate  stage  first  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  first  )
+)
+(assert
+(predicate  stage  second  )
+)
+)
 (rule 
- (match
-  (predicate  qui  ) 
-  (predicate  stage  first  )
-  )
- (retract 
-  (predicate  qui  ) 
-  (predicate  stage  first  )
-  )
- (assert
-  (predicate  stage  second  )
-  )
- )
-(rule 
- (match
-  (predicate  qui  ) 
-  (predicate  stage  second  )
-  )
- (retract 
-  (predicate  qui  ) 
-  (predicate  stage  second  )
-  )
- (assert
-  (predicate  empty  )
-  )
- )
+(match
+(predicate  qui  ) 
+(predicate  stage  second  )
+)
+(retract 
+(predicate  qui  ) 
+(predicate  stage  second  )
+)
+(assert
+(predicate  empty  )
+)
+)
 
 
 

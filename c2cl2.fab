@@ -1,0 +1,61 @@
+C2PLFAB {
+
+top [oneCharOrRexpr+] = ‛«oneCharOrRexpr»’
+
+oneCharOrRexpr_space [x] = ‛«x»’
+oneCharOrRexpr_rexpr [lookahead x] = ‛«x»’
+oneCharOrRexpr_other [x] = ‛«x»’
+
+
+rexpr_general [lp s e* rp s2] = ‛«lp»«s»«e»«rp»«s2»’
+rexpr_verbatim [v s] = ‛«v»«s»’
+rexpr_bottom [a s] = ‛«a»«s»’
+
+
+//--- step 2 ---
+//for-every "(stage Name ...)" -->
+//  find-and-replace "(namedrule Rname ...2)" in ... to "(namedrule «stage_name»_«Rname» ...2)"
+
+rexpr_pattern [p s] = ‛«p»«s»’
+
+pattern [lp s kstage s2 stagename namedRules+ rp] ‛«resetnamestack (), pushname('stage', _eval (stagename))»’ = ‛(defstage «stagename»\n«namedRules»)«popname ()»’
+
+namedRule [lp s k s2 rulename matches retractions assertions rp s3] = ‛«lp»«s»«k»«s2»«getname ('stage')»_«rulename»\n«matches»«retractions»«assertions»«rp»«s3»’
+stagename [s] = ‛«s»’
+rulename [s] = ‛«s»’
+matches [e s] = ‛«e»«s»’
+retractions [e s] = ‛«e»«s»’
+assertions [e s] = ‛«e»«s»’
+
+
+space [x] = ‛«x»’
+nl [c] = ‛«c»’
+logicVariable [lvFirst nameRest* s] = ‛«lvFirst»«nameRest»’
+name [nameFirst nameRest* s] = ‛«nameFirst»«nameRest» ’
+lvFirst_upper [c] = ‛«c»’
+lvFirst_underscore [c] = ‛«c»’
+lvFirst_ellipses [eee] = ‛«eee»’
+nameFirst [c] = ‛«c»’
+nameRest_alnum [c] = ‛«c»’
+nameRest_underscore [c] = ‛«c»’
+nameRest_slash [c] = ‛«c»’
+nameRest_squote [c] = ‛«c»’
+nameRest_equote [c] = ‛«c»’
+nameRest_ellipses [eee] = ‛«eee»’
+
+ellipses [eee] = ‛«eee»’
+
+atom [x] = ‛«x» ’
+number [digits+] = ‛«digits»’
+string [bq cs* eq s] = ‛«bq»«cs»«eq»’
+schar [c] = ‛«c»’
+sq [c] = ‛«c»’
+fq [c] = ‛«c»’
+operator [c] = ‛«c»’
+
+verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_bottom [c] = ‛«c»’
+
+}
+

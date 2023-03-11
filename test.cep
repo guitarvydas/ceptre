@@ -1,8 +1,8 @@
-stage first {
+stage first = {
   one : x -o y.
 }
 
-stage second {
+stage second = {
   two : y -o z.
 }
 

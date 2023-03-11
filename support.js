@@ -73,3 +73,9 @@ function popname () {
     return '';
 }
 
+
+var counter = 0;
+function gensym (prefix) {
+    counter = counter + 1;
+    return `${prefix}${counter}`;
+p}

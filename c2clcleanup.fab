@@ -1,0 +1,52 @@
+C2CLcleanupFAB {
+
+top [oneCharOrRexpr+] = ‛
+; -*-Lisp-*-
+«oneCharOrRexpr»’
+
+oneCharOrRexpr_space [x] = ‛«x»’
+oneCharOrRexpr_rexpr [lookahead x] = ‛«x»’
+oneCharOrRexpr_other [x] = ‛«x»’
+
+
+rexpr_general [lp s e* rp s2] = ‛«lp»«s»«e»«rp»«s2»’
+rexpr_verbatim [v s] = ‛«v»«s»’
+rexpr_bottom [a s] = ‛«a»«s»’
+
+
+space [x] = ‛«x»’
+nl [c] = ‛«c»’
+logicVariable [lvFirst nameRest* s] = ‛«lvFirst»«nameRest»’
+name [nameFirst nameRest* s] = ‛«nameFirst»«nameRest» ’
+lvFirst_upper [c] = ‛«c»’
+lvFirst_underscore [c] = ‛«c»’
+lvFirst_ellipses [eee] = ‛«eee»’
+nameFirst [c] = ‛«c»’
+nameRest_alnum [c] = ‛«c»’
+nameRest_underscore [c] = ‛«c»’
+nameRest_slash [c] = ‛_’
+nameRest_squote [c] = ‛_’
+nameRest_equote [c] = ‛_’
+nameRest_ellipses [eee] = ‛_’
+
+ellipses [eee] = ‛«eee»’
+
+atom [x] = ‛«x» ’
+number [digits+] = ‛«digits»’
+sq [c] = ‛’
+fq [c] = ‛’
+operator [c] = ‛«c»’
+
+verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
+verbatimInnard_bottom [c] = ‛«c»’
+
+string_multi [str1 s kunderscore s2 str2] = ‛«str1»«s»«kunderscore»«s2»«str2»’
+string_simple [sq cs* fq s] = ‛«sq»«cs»«fq»’
+schar [c] = ‛«c»’
+
+frontstring [sq cs* fq s] = ‛«sq»«cs»’
+tailstring [sq cs* fq s] = ‛«cs»«fq»’
+
+}
+
