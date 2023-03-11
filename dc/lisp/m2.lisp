@@ -74,14 +74,8 @@
   (clear-fb)
   (assert `(layer ,(car (reverse *layer-names*))))
   (assert `(x))
-  (cstep)
-  (cstep)
-  (cstep)
-
-  (cstep)
-
-  (cstep)
-
+  (loop until (match? `((quit)))
+        do (cstep))
   (values))
 
 
