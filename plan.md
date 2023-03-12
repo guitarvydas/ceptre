@@ -29,6 +29,17 @@ for-every "(defstage Name ...)" -->
 for-every "(retract ...)" replace with "..."
 for-every "(assert ...)" replace with "..."
 
+--- step 5a ---
+
+for-every "(defstage StageName ...)" --> 
+(defparameter *StageName-rules* nil)
+(defstage StageName ...)
+
+--- step 5b ---
+
+for-every "(defstage StageName ...)" --> 
+  find-and-replace "(namedrule RuleName (match ...matches) ...actions)" --> replace with
+
 --- step 5 ---
 
 for-every "(defstage StageName ...)" --> 

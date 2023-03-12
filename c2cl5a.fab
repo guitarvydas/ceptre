@@ -1,4 +1,4 @@
-C2PL5FAB {
+C2PL5aFAB {
 
 top [oneCharOrRexpr+] = ‛«oneCharOrRexpr»’
 
@@ -55,24 +55,13 @@ pattern_defstage [lp s kdefstage s2 stagename namedRules+ rp]
   ‛«resetnamestack (), pushname('stage', _eval (stagename))»’
   = ‛
   ;;; stage «getname ('stage')»
-«namedRules»
-(defun «getname ('stage')» ()
-  (cond ((notany (mapcar #'funcall *«getname ('stage')»-rules*))
-         (assert \\`(qui)))))
+(defparameter [*]_«getname ('stage')»_[rules*] nil)
+«lp»«s»«kdefstage»«s2»«stagename»«namedRules»«rp»
   ;;; end stage «getname ('stage')»
 ’
 
 stageName [s] = ‛«s»’
-namedRule [lp s knamedrule s2 rulename matches clauses+ rp s3] = ‛
-(defun «rulename» ()
-  (cond ((match-unless? \\`((layer "«getname ('stage')»") «matches») \\`((qui)))
-         (retract \\`(named-rule (:? any)))   
-	 (assert \\`(named-rule "«rulename»"))
-         «clauses»
-	 t)
-	 (t nil)))
-(push «rulename» *«getname ('stage')»-rules*)
-’
+namedRule [lp s knamedrule s2 rulename matches clauses+ rp s3] = ‛«lp»«s»«knamedrule»«s2»«rulename»«matches»«clauses»«rp»«s3»’
 matches [lp s kmatch s2 mverbatims+ rp s3] = ‛«mverbatims»’
 rulename [s] = ‛«s»’
 matchVerbatim [v s] = ‛«v»«s»’
