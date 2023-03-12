@@ -54,7 +54,7 @@ tailstring [sq cs* fq s] = ‛«cs»«fq»’
 pattern_defstage [lp s kdefstage s2 stagename stageRules+ rp]
   = ‛
   ;;; stage «stagename»
-(defparameter [*]_«stagename»_[rules*] nil)
+(defparameter «stagename»_[rules] nil)
 «stageRules»
   ;;; end stage «stagename»
 ’
