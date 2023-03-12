@@ -51,18 +51,17 @@ tailstring [sq cs* fq s] = ‛«cs»«fq»’
 
 
 
-pattern_defstage [lp s kdefstage s2 stagename namedRules+ rp]
-  ‛«resetnamestack (), pushname('stage', _eval (stagename))»’
+pattern_defstage [lp s kdefstage s2 stagename stageRules+ rp]
   = ‛
-  ;;; stage «getname ('stage')»
-(defparameter [*]_«getname ('stage')»_[rules*] nil)
-«lp»«s»«kdefstage»«s2»«stagename»«namedRules»«rp»
-  ;;; end stage «getname ('stage')»
+  ;;; stage «stagename»
+(defparameter [*]_«stagename»_[rules*] nil)
+«stageRules»
+  ;;; end stage «stagename»
 ’
 
-stageName [s] = ‛«s»’
-namedRule [lp s knamedrule s2 rulename matches clauses+ rp s3] = ‛«lp»«s»«knamedrule»«s2»«rulename»«matches»«clauses»«rp»«s3»’
-matches [lp s kmatch s2 mverbatims+ rp s3] = ‛«mverbatims»’
+stagename [s] = ‛«s»’
+stageRule [lp s knamedrule s2 stagename rulename matches clauses+ rp s3] = ‛«lp»«s»«knamedrule»«s2»«stagename»«rulename»«matches»«clauses»«rp»«s3»’
+matches [lp s kmatch s2 mverbatims+ rp s3] = ‛(match «mverbatims»)’
 rulename [s] = ‛«s»’
 matchVerbatim [v s] = ‛«v»«s»’
 action [v s] = ‛«v»«s»’

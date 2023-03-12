@@ -43,7 +43,7 @@ for-every "(defstage StageName ...)" -->
 --- step 5 ---
 
 for-every "(defstage StageName ...)" --> 
-  find-and-replace "(stagerule StageNameRuleName (match ...matches) ...actions)" --> replace with
+  find-and-replace "(stagerule StageName RuleName (match ...matches) ...actions)" --> replace with
   (defun «StageName»-«RuleName» ()
         (cond ((match-unless? `((layer "«StageName»") ...matches) `((qui)))
          (retract `(named-rule (:? any)))

@@ -62,10 +62,10 @@ frontstring =   | sq schar* fq spaces
 tailstring =   | sq schar* fq spaces
 
 pattern = 
-  | "(" spaces "defstage" spaces stageName namedRule+ ")" -- defstage
+  | "(" spaces "defstage" spaces stagename stageRule+ ")" -- defstage
 
-stageName = string
-namedRule = "(" spaces "namedrule" spaces rulename matches action+ ")" spaces
+stagename = string
+stageRule = "(" spaces "stagerule" spaces stagename rulename matches action+ ")" spaces
 matches = "(" spaces "match" spaces matchVerbatim+ ")" spaces
 rulename = string
 matchVerbatim = verbatim spaces
