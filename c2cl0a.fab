@@ -41,7 +41,7 @@ verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_bottom [c] = ‛«c»’
 
-pattern [lp s k s2 rexprs* rp] = ‛(defstage [«gensym ('top')»] (namedrule [«gensym ('topsub')»] «rexprs»)).\n’
+pattern [lp s k s2 rexprs* rp] = ‛(defstage [«gensym ('top')»] (namedrule [«gensym ('topsub')»] «rexprs»))\n’
 
 
 }
