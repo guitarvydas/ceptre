@@ -8,10 +8,12 @@ oneCharOrRexpr =
   | any -- other
 
 rexpr =
-  | "(" spaces "comment" spaces string ")" spaces -- comment
+  | pattern spaces -- pattern
   | "(" spaces rexpr* ")" spaces -- general
   | verbatim spaces -- verbatim
   | atom spaces -- bottom
+
+pattern = ~any any any
 
 nl = "\n"
 logicVariable = lvFirst nameRest* spaces
@@ -55,4 +57,8 @@ verbatimInnard =
   | "«" verbatimInnard* "»" -- rec
   | ~"«" ~"»" any -- bottom
 
+}
+
+JUNK <: C2CL0 {
+ pattern := "(" spaces "comment" spaces string ")" spaces
 }

@@ -26,6 +26,7 @@ test.cst : test.rt
 	cp test.rt test.cst
 
 define devcl
+	#./fab/fab --grammarname=C2CL0 c2cl0.ohm c2cl0.fab support.js <$1 >/tmp/10
 	./fab/fab c2cl0.ohm c2cl0.fab support.js <$1 >/tmp/10
 	./fab/fab c2cl0a.ohm c2cl0a.fab support.js </tmp/10 >/tmp/10a
 	./fab/fab c2cl1.ohm c2cl1.fab support.js </tmp/10a >/tmp/11
