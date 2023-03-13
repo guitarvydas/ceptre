@@ -41,8 +41,8 @@ verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_bottom [c] = ‛«c»’
 
-string_multi [str1 s kunderscore s2 str2] = ‛«str1»«s»«kunderscore»«s2»«str2»’
-string_simple [sq cs* fq s] = ‛«sq»«cs»«fq»’
+string_multi [str1 s kunderscore s2 str2] = ‛«str1»«kunderscore»«str2»’
+string_simple [sq cs* fq s] = ‛«cs»’
 schar [c] = ‛«c»’
 
 frontstring [sq cs* fq s] = ‛«sq»«cs»’

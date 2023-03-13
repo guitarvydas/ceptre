@@ -1,4 +1,4 @@
-C2PL0 {
+C2CL0 {
 
 top = oneCharOrRexpr+
 
