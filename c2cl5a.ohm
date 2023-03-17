@@ -1,8 +1,6 @@
-C2CL2 {
+C2PL5a {
 
-//--- step 2 ---
-//for-every "(stage Name ...)" -->
-//  find-and-replace "(namedrule Rname ...2)" in ... to "(namedrule «stage_name»_«Rname» ...2)"
+//--- step 5 ---
 
 top = oneCharOrRexpr+
 
@@ -16,15 +14,6 @@ rexpr =
   | "(" spaces rexpr* ")" spaces -- general
   | verbatim spaces -- verbatim
   | atom spaces -- bottom
-
-pattern = "(" spaces "defstage" spaces stagename namedRule+ ")"
-namedRule = "(" spaces "namedrule" spaces rulename matches retractions assertions ")" spaces
-stagename = string
-rulename = string
-matches = rexpr spaces
-retractions = rexpr spaces
-assertions = rexpr spaces
-
 
 nl = "\n"
 logicVariable = lvFirst nameRest* spaces
@@ -53,10 +42,6 @@ atom =
   | name
 
 number = digit+
-string = sq schar* fq spaces
-schar = 
-  | string
-  | ~sq ~fq any
 
 sq = "["
 fq = "]"
@@ -67,5 +52,24 @@ verbatim = "«" verbatimInnard* "»"
 verbatimInnard =
   | "«" verbatimInnard* "»" -- rec
   | ~"«" ~"»" any -- bottom
+
+string = 
+  | frontstring spaces "_" spaces tailstring -- multi
+  | sq schar* fq spaces -- simple
+schar = 
+  | ~sq ~fq any
+frontstring =   | sq schar* fq spaces
+tailstring =   | sq schar* fq spaces
+
+pattern = 
+  | "(" spaces "defstage" spaces stagename stageRule+ ")" -- defstage
+
+stagename = string
+stageRule = "(" spaces "stagerule" spaces stagename rulename matches action+ ")" spaces
+matches = "(" spaces "match" spaces matchVerbatim+ ")" spaces
+rulename = string
+matchVerbatim = verbatim spaces
+action = verbatim spaces
+
 
 }

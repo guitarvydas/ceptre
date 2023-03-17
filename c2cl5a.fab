@@ -1,4 +1,4 @@
-C2CL0aFAB {
+C2PL5aFAB {
 
 top [oneCharOrRexpr+] = ‛«oneCharOrRexpr»’
 
@@ -6,11 +6,13 @@ oneCharOrRexpr_space [x] = ‛«x»’
 oneCharOrRexpr_rexpr [lookahead x] = ‛«x»’
 oneCharOrRexpr_other [x] = ‛«x»’
 
-rexpr_pattern [p s] = ‛«p»«s»’
 
 rexpr_general [lp s e* rp s2] = ‛«lp»«s»«e»«rp»«s2»’
 rexpr_verbatim [v s] = ‛«v»«s»’
 rexpr_bottom [a s] = ‛«a»«s»’
+
+
+rexpr_pattern [p s] = ‛«p»«s»’
 
 space [x] = ‛«x»’
 nl [c] = ‛«c»’
@@ -31,18 +33,38 @@ ellipses [eee] = ‛«eee»’
 
 atom [x] = ‛«x» ’
 number [digits+] = ‛«digits»’
-string [bq cs* eq s] = ‛«bq»«cs»«eq»’
-schar [c] = ‛«c»’
-sq [c] = ‛«c»’
-fq [c] = ‛«c»’
+sq [c] = ‛[’
+fq [c] = ‛]’
 operator [c] = ‛«c»’
 
 verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_bottom [c] = ‛«c»’
 
-pattern [lp s k s2 rexprs* rp] = ‛(defstage [top] (namedrule [«gensym ('topsub')»] «rexprs»))\n’
+string_multi [str1 s kunderscore s2 str2] = ‛«str1»«s»«kunderscore»«s2»«str2»’
+string_simple [sq cs* fq s] = ‛«sq»«cs»«fq»’
+schar [c] = ‛«c»’
 
+frontstring [sq cs* fq s] = ‛«sq»«cs»’
+tailstring [sq cs* fq s] = ‛«cs»«fq»’
+
+
+
+
+pattern_defstage [lp s kdefstage s2 stagename stageRules+ rp]
+  = ‛
+  ;;; stage «stagename»
+(defparameter «stagename»_[rules] nil)
+«stageRules»
+  ;;; end stage «stagename»
+’
+
+stagename [s] = ‛«s»’
+stageRule [lp s knamedrule s2 stagename rulename matches clauses+ rp s3] = ‛«lp»«s»«knamedrule»«s2»«stagename»«rulename»«matches»«clauses»«rp»«s3»’
+matches [lp s kmatch s2 mverbatims+ rp s3] = ‛(match «mverbatims»)’
+rulename [s] = ‛«s»’
+matchVerbatim [v s] = ‛«v»«s»’
+action [v s] = ‛«v»«s»’
 
 }
 

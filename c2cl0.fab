@@ -1,10 +1,10 @@
-C2PLFAB {
+C2CL0FAB {
 
 top [oneCharOrRexpr+] = ‛«oneCharOrRexpr»’
 
-oneCharOrRexpr_space [x] = ‛«x»’
-oneCharOrRexpr_rexpr [lookahead x] = ‛«x»’
 oneCharOrRexpr_other [x] = ‛«x»’
+oneCharOrRexpr_rexpr [lookahead x] = ‛«x»’
+oneCharOrRexpr_space [x] = ‛«x»’
 
 rexpr_comment [lp s k s2 str rp s3] = ‛’
 

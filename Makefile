@@ -26,13 +26,15 @@ test.cst : test.rt
 	cp test.rt test.cst
 
 define devcl
+	#./fab/fab --grammarname=C2CL0 c2cl0.ohm c2cl0.fab support.js <$1 >/tmp/10
 	./fab/fab c2cl0.ohm c2cl0.fab support.js <$1 >/tmp/10
 	./fab/fab c2cl0a.ohm c2cl0a.fab support.js </tmp/10 >/tmp/10a
 	./fab/fab c2cl1.ohm c2cl1.fab support.js </tmp/10a >/tmp/11
 	./fab/fab c2cl2.ohm c2cl2.fab support.js </tmp/11 >/tmp/12
 	./fab/fab c2cl3.ohm c2cl3.fab support.js </tmp/12 >/tmp/13
 	./fab/fab c2cl4.ohm c2cl4.fab support.js </tmp/13 >/tmp/14
-	./fab/fab c2cl5.ohm c2cl5.fab support.js </tmp/14 >/tmp/15
+	./fab/fab c2cl5a.ohm c2cl5a.fab support.js </tmp/14 >/tmp/15a
+	./fab/fab c2cl5.ohm c2cl5.fab support.js </tmp/15a >/tmp/15
 	./fab/fab c2clcleanup.ohm c2clcleanup.fab support.js </tmp/15 >/tmp/16
 	./strip.bash /tmp/16 /tmp/17
 endef

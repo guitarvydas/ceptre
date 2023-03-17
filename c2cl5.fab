@@ -1,4 +1,4 @@
-C2PL5FAB {
+C2CL5FAB {
 
 top [oneCharOrRexpr+] = ‛«oneCharOrRexpr»’
 
@@ -33,8 +33,8 @@ ellipses [eee] = ‛«eee»’
 
 atom [x] = ‛«x» ’
 number [digits+] = ‛«digits»’
-sq [c] = ‛’
-fq [c] = ‛’
+sq [c] = ‛[’
+fq [c] = ‛]’
 operator [c] = ‛«c»’
 
 verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
@@ -51,30 +51,18 @@ tailstring [sq cs* fq s] = ‛«cs»«fq»’
 
 
 
-pattern_defstage [lp s kdefstage s2 stagename namedRules+ rp]
-  ‛«resetnamestack (), pushname('stage', _eval (stagename))»’
-  = ‛
-  ;;; stage «getname ('stage')»
-(defparameter *«getname ('stage')»-rules* nil)
-«namedRules»
-(defun «getname ('stage')» ()
-  (cond ((notany (mapcar #'funcall *«getname ('stage')»-rules*))
-         (assert \\`(qui)))))
-  ;;; end stage «getname ('stage')»
-’
-
-stageName [s] = ‛«s»’
-namedRule [lp s knamedrule s2 rulename matches clauses+ rp s3] = ‛
-(defun «rulename» ()
-  (cond ((match-unless? \\`((layer "«getname ('stage')»") «matches») \\`((qui)))
+pattern [lp s kstagerule s2 stagename rulename matches clauses+ rp s3] = ‛
+(defun «stagename»_«rulename» ()
+  (cond ((match-unless? \\`((layer "stagename»") «matches») \\`((qui)))
          (retract \\`(named-rule (:? any)))   
 	 (assert \\`(named-rule "«rulename»"))
          «clauses»
 	 t)
 	 (t nil)))
-(push «rulename» *«getname ('stage')»-rules*)
+(push «stagename»_«rulename» «stagename»_[rules])
 ’
 matches [lp s kmatch s2 mverbatims+ rp s3] = ‛«mverbatims»’
+stagename [s] = ‛«s»’
 rulename [s] = ‛«s»’
 matchVerbatim [v s] = ‛«v»«s»’
 action [v s] = ‛«v»«s»’

@@ -1,4 +1,4 @@
-C2PL5 {
+C2CL5 {
 
 //--- step 5 ---
 
@@ -61,12 +61,9 @@ schar =
 frontstring =   | sq schar* fq spaces
 tailstring =   | sq schar* fq spaces
 
-pattern = 
-  | "(" spaces "defstage" spaces stageName namedRule+ ")" -- defstage
-
-stageName = string
-namedRule = "(" spaces "namedrule" spaces rulename matches action+ ")" spaces
+pattern = "(" spaces "stagerule" spaces stagename rulename matches action+ ")" spaces
 matches = "(" spaces "match" spaces matchVerbatim+ ")" spaces
+stagename = string
 rulename = string
 matchVerbatim = verbatim spaces
 action = verbatim spaces

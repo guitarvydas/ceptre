@@ -1,0 +1,4 @@
+- assert top-level bwd's
+- assert initial context
+- (defparameter top_rules nil) called many times
+- #interactive main

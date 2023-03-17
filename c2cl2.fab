@@ -1,4 +1,4 @@
-C2PLFAB {
+C2CL2FAB {
 
 top [oneCharOrRexpr+] = ‛«oneCharOrRexpr»’
 
@@ -20,7 +20,9 @@ rexpr_pattern [p s] = ‛«p»«s»’
 
 pattern [lp s kstage s2 stagename namedRules+ rp] ‛«resetnamestack (), pushname('stage', _eval (stagename))»’ = ‛(defstage «stagename»\n«namedRules»)«popname ()»’
 
-namedRule [lp s k s2 rulename matches retractions assertions rp s3] = ‛«lp»«s»«k»«s2»«getname ('stage')»_«rulename»\n«matches»«retractions»«assertions»«rp»«s3»’
+namedRule [lp s k s2 rulename matches retractions assertions rp s3]
+  = ‛«lp»«s»stagerule«s2»«getname ('stage')» «rulename»\n«matches»«retractions»«assertions»«rp»«s3»’
+
 stagename [s] = ‛«s»’
 rulename [s] = ‛«s»’
 matches [e s] = ‛«e»«s»’

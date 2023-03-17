@@ -7,14 +7,14 @@ invariant: tool can only match rt exprs, everything else is left untouched
 delete "(comment ...)" recursively / everywhere
 
 --- step 0a ---
-for-every "(rule ...)" replace with "(defstage «gensym ('top')» (namedrule «gensym ('subtop')» ...))"
+for-every "(rule ...)" replace with "(defstage [top] (namedrule «gensym ('subtop')» ...))"
 
 --- step 1 ---
 for-every "(fact Name ...)" replace with "«Name»«...»"
 
 --- step 2 ---
 for-every "(defstage Name ...)" -->
-  find-and-replace "(namedrule Rname ...2)" in ... to "(namedrule «stage_name»_«Rname» ...2)"
+  find-and-replace "(namedrule Rname ...2)" in ... to "(stagerule «stage_name» «Rname» ...2)"
 
 --- Step 3 ---
 *** for-every "(match ...)" find-and-replace "(predicate name ...args)" in "..." to "«(match? `((name ...cargs)))»"
@@ -29,10 +29,21 @@ for-every "(defstage Name ...)" -->
 for-every "(retract ...)" replace with "..."
 for-every "(assert ...)" replace with "..."
 
+--- step 5a ---
+
+for-every "(defstage StageName ...)" --> 
+(defparameter *StageName-rules* nil)
+...
+
+--- step 5b ---
+
+for-every "(defstage StageName ...)" --> 
+  find-and-replace "(stagerule StageName RuleName (match ...matches) ...actions)" --> replace with
+
 --- step 5 ---
 
 for-every "(defstage StageName ...)" --> 
-  find-and-replace "(namedrule RuleName (match ...matches) ...actions)" --> replace with
+  find-and-replace "(stagerule StageName RuleName (match ...matches) ...actions)" --> replace with
   (defun «StageName»-«RuleName» ()
         (cond ((match-unless? `((layer "«StageName»") ...matches) `((qui)))
          (retract `(named-rule (:? any)))
@@ -43,7 +54,7 @@ for-every "(defstage StageName ...)" -->
 --- step 6 ---
 
 for-every "(defstage StageName ...)" --> 
-  find-and-replace "(namedrule RuleName (match ...matches) ...actions)" --> replace with
+  find-and-replace "(stagerule RuleName (match ...matches) ...actions)" --> replace with
 (defun layer-«StageName» ()
   (cond ((match-unless? `((layer "«StageName»") ...matches) `((qui)))
          (retract `(named-rule (:? any)))
