@@ -6,9 +6,11 @@ oneCharOrRexpr_other [x] = ‛«x»’
 oneCharOrRexpr_rexpr [lookahead x] = ‛«x»’
 oneCharOrRexpr_space [x] = ‛«x»’
 
-rexpr_general [lp s e* rp s2] = ‛«lp»«s»«e»«rp»«s2»’
-rexpr_bottom [a s] = ‛«a»«s»’
+rexpr_comment [lp s k s2 str rp s3] = ‛’
 
+rexpr_general [lp s e* rp s2] = ‛«lp»«s»«e»«rp»«s2»’
+rexpr_verbatim [v s] = ‛«v»«s»’
+rexpr_bottom [a s] = ‛«a»«s»’
 
 space [x] = ‛«x»’
 nl [c] = ‛«c»’
