@@ -10,8 +10,7 @@
  ;;; stage [init]
 (defparameter init_rules nil)
 (stagerule init i
-	   (match (init_tok)
-		  (max_hp N))
+	   (match `(init_tok) `(max_hp N))
 	   (retract `(init_tok))
 	   (retract `(max_hp N))
 	   (assert `(health N))
@@ -23,8 +22,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub1
-	   (match (qui)
-		  (stage init))
+	   (match `(qui) `(stage init))
 	   (retract `(qui))
 	   (retract `(stage init))
 	   (assert `(stage main))
@@ -38,19 +36,19 @@
  ;;; stage [main]
 (defparameter main_rules nil)
 (stagerule main do/rest
-	   (match (main_screen))
+	   (match `(main_screen))
 	   (retract `(main_screen))
 	   (assert `(rest_screen)))
 (stagerule main do/adventure
-	   (match (main_screen))
+	   (match `(main_screen))
 	   (retract `(main_screen))
 	   (assert `(adventure_screen)))
 (stagerule main do/shop
-	   (match (main_screen))
+	   (match `(main_screen))
 	   (retract `(main_screen))
 	   (assert `(shop_screen)))
 (stagerule main do/quit
-	   (match (main_screen))
+	   (match `(main_screen))
 	   (retract `(main_screen))
 	   (assert `(quit)))
  ;;; end stage [main]
@@ -61,9 +59,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub2
-	   (match (qui)
-		  (stage main)
-		  (rest_screen))
+	   (match `(qui) `(stage main) `(rest_screen))
 	   (retract `(qui))
 	   (retract `(stage main))
 	   (retract `(rest_screen))
@@ -77,9 +73,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub3
-	   (match (qui)
-		  (stage main)
-		  (shop_screen))
+	   (match `(qui) `(stage main) `(shop_screen))
 	   (retract `(qui))
 	   (retract `(stage main))
 	   (retract `(shop_screen))
@@ -93,9 +87,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub4
-	   (match (qui)
-		  (stage main)
-		  (adventure_screen))
+	   (match `(qui) `(stage main) `(adventure_screen))
 	   (retract `(qui))
 	   (retract `(stage main))
 	   (retract `(adventure_screen))
@@ -109,9 +101,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub5
-	   (match (qui)
-		  (stage main)
-		  (quit))
+	   (match `(qui) `(stage main) `(quit))
 	   (retract `(qui))
 	   (retract `(stage main))
 	   (retract `(quit))
@@ -125,12 +115,7 @@
  ;;; stage [rest]
 (defparameter rest_rules nil)
 (stagerule rest recharge
-	   (match (rest_screen)
-		  (health HP)
-		  (max_hp Max)
-		  (recharge_hp Recharge)
-		  (cplus HP,Recharge,Max,N)
-		  (ndays NDAYS))
+	   (match `(rest_screen) `(health HP) `(max_hp Max) `(recharge_hp Recharge) `(cplus HP,Recharge,Max,N) `(ndays NDAYS))
 	   (retract `(rest_screen))
 	   (retract `(health HP))
 	   (retract `(max_hp Max))
@@ -144,8 +129,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub6
-	   (match (qui)
-		  (stage rest))
+	   (match `(qui) `(stage rest))
 	   (retract `(qui))
 	   (retract `(stage rest))
 	   (assert `(stage main))
@@ -159,15 +143,11 @@
  ;;; stage [shop]
 (defparameter shop_rules nil)
 (stagerule shop leave
-	   (match (shop_screen))
+	   (match `(shop_screen))
 	   (retract `(shop_screen))
 	   (assert `(main_screen)))
 (stagerule shop buy
-	   (match (treasure T)
-		  (cost W,C)
-		  (damage_of W,D)
-		  (weapon_damage _)
-		  (subtract T,C,(some T')))
+	   (match `(treasure T) `(cost W,C) `(damage_of W,D) `(weapon_damage _) `(subtract T,C,(some T')))
 	   (retract `(treasure T))
 	   (retract `(cost W,C))
 	   (retract `(damage_of W,D))
@@ -183,9 +163,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub7
-	   (match (qui)
-		  (stage shop)
-		  (main_screen))
+	   (match `(qui) `(stage shop) `(main_screen))
 	   (retract `(qui))
 	   (retract `(stage shop))
 	   (retract `(main_screen))
@@ -200,7 +178,7 @@
  ;;; stage [adventure]
 (defparameter adventure_rules nil)
 (stagerule adventure init
-	   (match (adventure_screen))
+	   (match `(adventure_screen))
 	   (retract `(adventure_screen))
 	   (assert `(spoils z)))
  ;;; end stage [adventure]
@@ -208,8 +186,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub8
-	   (match (qui)
-		  (stage adventure))
+	   (match `(qui) `(stage adventure))
 	   (retract `(qui))
 	   (retract `(stage adventure))
 	   (assert `(stage fight_init))
@@ -225,13 +202,12 @@
  ;;; stage [fight_init]
 (defparameter fight_init_rules nil)
 (stagerule fight_init init
-	   (match (fight_screen))
+	   (match `(fight_screen))
 	   (retract `(fight_screen))
 	   (assert `(gen_monster))
 	   (assert `(fight_in_progress)))
 (stagerule fight_init gen_a_monster
-	   (match (gen_monster)
-		  (monster_size Size))
+	   (match `(gen_monster) `(monster_size Size))
 	   (retract `(gen_monster))
 	   (retract `(monster_size Size))
 	   (assert `(monster Size))
@@ -241,8 +217,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub9
-	   (match (qui)
-		  (stage fight_init))
+	   (match `(qui) `(stage fight_init))
 	   (retract `(qui))
 	   (retract `(stage fight_init))
 	   (assert `(stage fight))
@@ -258,11 +233,7 @@
  ;;; stage [fight_auto]
 (defparameter fight_auto_rules nil)
 (stagerule fight_auto fight/hit
-	   (match (try_fight)
-		  (fight_in_progress)
-		  (monster_hp MHP)
-		  (weapon_damage D)
-		  (subtract MHP,D,(some MHP')))
+	   (match `(try_fight) `(fight_in_progress) `(monster_hp MHP) `(weapon_damage D) `(subtract MHP,D,(some MHP')))
 	   (retract `(try_fight))
 	   (retract `(fight_in_progress))
 	   (retract `(monster_hp MHP))
@@ -272,10 +243,7 @@
 	   (assert `(weapon_damage D))
 	   (assert `(monster_hp MHP')))
 (stagerule fight_auto win
-	   (match (fight_in_progress)
-		  (monster_hp MHP)
-		  (weapon_damage D)
-		  (subtract MHP,D,none))
+	   (match `(fight_in_progress) `(monster_hp MHP) `(weapon_damage D) `(subtract MHP,D,none))
 	   (retract `(fight_in_progress))
 	   (retract `(monster_hp MHP))
 	   (retract `(weapon_damage D))
@@ -283,11 +251,7 @@
 	   (assert `(weapon_damage D))
 	   (assert `(win_screen)))
 (stagerule fight_auto fight/miss
-	   (match (try_fight)
-		  (fight_in_progress)
-		  (monster Size)
-		  (health HP)
-		  (subtract HP,Size,(some HP')))
+	   (match `(try_fight) `(fight_in_progress) `(monster Size) `(health HP) `(subtract HP,Size,(some HP')))
 	   (retract `(try_fight))
 	   (retract `(fight_in_progress))
 	   (retract `(monster Size))
@@ -297,17 +261,12 @@
 	   (assert `(monster Size))
 	   (assert `(health HP')))
 (stagerule fight_auto die_from_damages
-	   (match (health z)
-		  (fight_in_progress))
+	   (match `(health z) `(fight_in_progress))
 	   (retract `(health z))
 	   (retract `(fight_in_progress))
 	   (assert `(die_screen)))
 (stagerule fight_auto fight/die
-	   (match (try_fight)
-		  (fight_in_progress)
-		  (monster Size)
-		  (health HP)
-		  (subtract HP,Size,none))
+	   (match `(try_fight) `(fight_in_progress) `(monster Size) `(health HP) `(subtract HP,Size,none))
 	   (retract `(try_fight))
 	   (retract `(fight_in_progress))
 	   (retract `(monster Size))
@@ -321,9 +280,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub10
-	   (match (qui)
-		  (stage fight_auto)
-		  (fight_in_progress))
+	   (match `(qui) `(stage fight_auto) `(fight_in_progress))
 	   (retract `(qui))
 	   (retract `(stage fight_auto))
 	   (retract `(fight_in_progress))
@@ -338,9 +295,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub11
-	   (match (qui)
-		  (stage fight_auto)
-		  (win_screen))
+	   (match `(qui) `(stage fight_auto) `(win_screen))
 	   (retract `(qui))
 	   (retract `(stage fight_auto))
 	   (retract `(win_screen))
@@ -354,9 +309,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub12
-	   (match (qui)
-		  (stage fight_auto)
-		  (die_screen))
+	   (match `(qui) `(stage fight_auto) `(die_screen))
 	   (retract `(qui))
 	   (retract `(stage fight_auto))
 	   (retract `(die_screen))
@@ -371,15 +324,13 @@
  ;;; stage [fight]
 (defparameter fight_rules nil)
 (stagerule fight do_fight
-	   (match (choice)
-		  (fight_in_progress))
+	   (match `(choice) `(fight_in_progress))
 	   (retract `(choice))
 	   (retract `(fight_in_progress))
 	   (assert `(fight_in_progress))
 	   (assert `(try_fight)))
 (stagerule fight do_flee
-	   (match (choice)
-		  (fight_in_progress))
+	   (match `(choice) `(fight_in_progress))
 	   (retract `(choice))
 	   (retract `(fight_in_progress))
 	   (assert `(flee_screen)))
@@ -391,9 +342,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub13
-	   (match (qui)
-		  (stage fight)
-		  (fight_in_progress))
+	   (match `(qui) `(stage fight) `(fight_in_progress))
 	   (retract `(qui))
 	   (retract `(stage fight))
 	   (retract `(fight_in_progress))
@@ -407,9 +356,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub14
-	   (match (qui)
-		  (stage fight)
-		  (flee_screen))
+	   (match `(qui) `(stage fight) `(flee_screen))
 	   (retract `(qui))
 	   (retract `(stage fight))
 	   (retract `(flee_screen))
@@ -424,10 +371,7 @@
  ;;; stage [flee]
 (defparameter flee_rules nil)
 (stagerule flee do/flee
-	   (match (flee_screen)
-		  (spoils X)
-		  (monster _)
-		  (monster_hp _))
+	   (match `(flee_screen) `(spoils X) `(monster _) `(monster_hp _))
 	   (retract `(flee_screen))
 	   (retract `(spoils X))
 	   (retract `(monster _))
@@ -438,8 +382,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub15
-	   (match (qui)
-		  (stage flee))
+	   (match `(qui) `(stage flee))
 	   (retract `(qui))
 	   (retract `(stage flee))
 	   (assert `(stage main))
@@ -454,27 +397,20 @@
  ;;; stage [win]
 (defparameter win_rules nil)
 (stagerule win win
-	   (match (win_screen)
-		  (monster Size)
-		  (drop_amount Size,Drop))
+	   (match `(win_screen) `(monster Size) `(drop_amount Size,Drop))
 	   (retract `(win_screen))
 	   (retract `(monster Size))
 	   (retract `(drop_amount Size,Drop))
 	   (assert `(drop Drop)))
 (stagerule win collect_spoils
-	   (match (drop X)
-		  (spoils Y)
-		  (plus X,Y,Z))
+	   (match `(drop X) `(spoils Y) `(plus X,Y,Z))
 	   (retract `(drop X))
 	   (retract `(spoils Y))
 	   (retract `(plus X,Y,Z))
 	   (assert `(spoils Z))
 	   (assert `(go_home_or_continue)))
 (stagerule win go_home
-	   (match (go_home_or_continue)
-		  (spoils X)
-		  (treasure Y)
-		  (plus X,Y,Z))
+	   (match `(go_home_or_continue) `(spoils X) `(treasure Y) `(plus X,Y,Z))
 	   (retract `(go_home_or_continue))
 	   (retract `(spoils X))
 	   (retract `(treasure Y))
@@ -482,7 +418,7 @@
 	   (assert `(treasure Z))
 	   (assert `(main_screen)))
 (stagerule win continue
-	   (match (go_home_or_continue))
+	   (match `(go_home_or_continue))
 	   (retract `(go_home_or_continue))
 	   (assert `(fight_screen)))
  ;;; end stage [win]
@@ -493,9 +429,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub16
-	   (match (qui)
-		  (stage win)
-		  (main_screen))
+	   (match `(qui) `(stage win) `(main_screen))
 	   (retract `(qui))
 	   (retract `(stage win))
 	   (retract `(main_screen))
@@ -509,9 +443,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub17
-	   (match (qui)
-		  (stage win)
-		  (fight_screen))
+	   (match `(qui) `(stage win) `(fight_screen))
 	   (retract `(qui))
 	   (retract `(stage win))
 	   (retract `(fight_screen))
@@ -526,16 +458,11 @@
  ;;; stage [die]
 (defparameter die_rules nil)
 (stagerule die quit
-	   (match (die_screen))
+	   (match `(die_screen))
 	   (retract `(die_screen))
 	   (assert `(end)))
 (stagerule die restart
-	   (match (die_screen)
-		  (monster_hp _)
-		  (spoils _)
-		  (ndays _)
-		  (treasure _)
-		  (weapon_damage _))
+	   (match `(die_screen) `(monster_hp _) `(spoils _) `(ndays _) `(treasure _) `(weapon_damage _))
 	   (retract `(die_screen))
 	   (retract `(monster_hp _))
 	   (retract `(spoils _))
@@ -551,9 +478,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub18
-	   (match (qui)
-		  (stage die)
-		  (end))
+	   (match `(qui) `(stage die) `(end))
 	   (retract `(qui))
 	   (retract `(stage die))
 	   (retract `(end))
@@ -566,9 +491,7 @@
  ;;; stage [top]
 (defparameter top_rules nil)
 (stagerule top topsub19
-	   (match (qui)
-		  (stage die)
-		  (init_tok))
+	   (match `(qui) `(stage die) `(init_tok))
 	   (retract `(qui))
 	   (retract `(stage die))
 	   (retract `(init_tok))

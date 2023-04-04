@@ -10,7 +10,7 @@ oneCharOrMacro_sexpr [x] = ‛«x»’
 oneCharOrMacro_context [x] = ‛«x»’
 
 context [kcontext s1 name s2 keq s3 lb s4 cf+ rb s5 kdot s6] = ‛«cf»’
-contextFact_comma [cf kcomma s] = ‛cf’
+contextFact_comma [cf kcomma s] = ‛«cf»’
 contextFact_raw [cf s] = ‛«cf»’
 contextF [name s] = ‛(fact «name»)’
 

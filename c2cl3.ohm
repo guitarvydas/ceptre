@@ -67,9 +67,11 @@ verbatimInnard =
 // where cargs is find-and-replace "...args" with "comma-separated ...args"
 
 pattern = 
-  | "(" spaces "match" spaces mpredicate ")"
-  | "(" spaces "retract" spaces rpredicate+ ")"
-  | "(" spaces "assert" spaces apredicate+ ")"
+  | "(" spaces kw<"match"> spaces mpredicate ")"
+  | "(" spaces kw<"retract"> spaces rpredicate+ ")"
+  | "(" spaces kw<"assert"> spaces apredicate+ ")"
+
+kw<s> = s ~nameRest
 
 mpredicate =
   | predicate mpredicate -- rec

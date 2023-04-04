@@ -16,15 +16,15 @@ rexpr_pattern [p s] = ‛«p»«s»’
 
 
 pattern [lp s k s2 preds rp] = ‛«lp»«s»«k»«s2»«preds»«rp»’
-mpredicate_rec [p more] = ‛\«\\`«p»\» «more»’
-mpredicate_bottom [p] = ‛\«\\`«p»\»’
-rpredicate_rec [p more] = ‛\n\«(retract \\`«p»)\»«more»’
-rpredicate_bottom [p] = ‛\n\«(retract \\`«p»)\»’
-apredicate_rec [p more] = ‛\n\«(assert \\`«p»)\»«more»’
-apredicate_bottom [p] = ‛\n\«(assert \\`«p»)\»’
+mpredicate_rec [p more] = ‛\«(match? «p»)\» «more»’
+mpredicate_bottom [p] = ‛\«(match? «p»)\»’
+rpredicate_rec [p more] = ‛\n\«(retract «p»)\»«more»’
+rpredicate_bottom [p] = ‛\n\«(retract «p»)\»’
+apredicate_rec [p more] = ‛\n\«(assert «p»)\»«more»’
+apredicate_bottom [p] = ‛\n\«(assert «p»)\»’
 
-predicate_args [lp s kpredicate s2 name args rp s3] = ‛(«name» «args»)’
-predicate_noargs [lp s kpredicate s2 name rp s3] = ‛(«name»)’
+predicate_args [lp s kpredicate s2 name args rp s3] = ‛\\`(«name» «args»)’
+predicate_noargs [lp s kpredicate s2 name rp s3] = ‛\\`(«name»)’
 args_rec [e more] = ‛«e»,«more»’
 args_bottom [e] = ‛«e»’
 

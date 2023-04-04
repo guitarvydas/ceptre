@@ -37,6 +37,7 @@ define devcl
 	./fab/fab c2cl5.ohm c2cl5.fab support.js </tmp/15a >/tmp/15
 	./fab/fab c2clcleanup.ohm c2clcleanup.fab support.js </tmp/15 >/tmp/16
 	./strip.bash /tmp/16 /tmp/17
+	./vstrip </tmp/17 >/tmp/18
 endef
 
 #dev: dc.cst
