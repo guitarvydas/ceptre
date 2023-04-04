@@ -10,7 +10,7 @@ delete "(comment ...)" recursively / everywhere
 for-every "(rule ...)" replace with "(defstage [top] (namedrule «gensym ('subtop')» ...))"
 
 --- step 1 ---
-for-every "(fact Name ...)" replace with "«Name»«...»"
+for-every "(fact Name ...)" replace with "(fact `(«Name» «...»))"
 
 --- step 2 ---
 for-every "(defstage Name ...)" -->
@@ -34,11 +34,6 @@ for-every "(assert ...)" replace with "..."
 for-every "(defstage StageName ...)" --> 
 (defparameter *StageName-rules* nil)
 ...
-
---- step 5b ---
-
-for-every "(defstage StageName ...)" --> 
-  find-and-replace "(stagerule StageName RuleName (match ...matches) ...actions)" --> replace with
 
 --- step 5 ---
 
