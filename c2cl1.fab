@@ -12,7 +12,7 @@ rexpr_general [lp s e* rp s2] = ‛«lp»«s»«e»«rp»«s2»’
 rexpr_verbatim [v s] = ‛«v»«s»’
 rexpr_bottom [a s] = ‛«a»«s»’
 
-arg_multiple [a more] = ‛«a»,«more»’
+arg_multiple [a more] = ‛«a» «more»’
 arg_single [a] = ‛«a»’
 
 space [x] = ‛«x»’
@@ -44,7 +44,7 @@ verbatim [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_rec [lb verbatimInnard* rb] = ‛«lb»«verbatimInnard»«rb»’
 verbatimInnard_bottom [c] = ‛«c»’
 
-pattern [lp s k s2 name args* rp] = ‛«name»(«args»).\n’
+pattern [lp s k s2 name args* rp] = ‛(fact \\`(«name» «args»))\n’
 
 
 }

@@ -1,0 +1,40 @@
+Context {
+
+top [oneCharOrMacro+] = ‛«oneCharOrMacro»’
+
+oneCharOrMacro_space [x] = ‛«x»’
+oneCharOrMacro_comment [x] = ‛«x»’
+oneCharOrMacro_other [x] = ‛«x»’
+
+oneCharOrMacro_sexpr [x] = ‛«x»’
+oneCharOrMacro_context [x] = ‛«x»’
+
+context [kcontext s1 name s2 keq s3 lb s4 cf+ rb s5 kdot s6] = ‛«cf»’
+contextFact_comma [cf kcomma s] = ‛cf’
+contextFact_raw [cf s] = ‛«cf»’
+contextF [name s] = ‛(fact «name»)’
+
+comment [k inner* nl] = ‛(% «inner»)\n’
+commentInner [c] = ‛«c»’
+space [x] = ‛«x»’
+nl [cs+] = ‛«cs»’
+logicVariable [lvFirst nameRest* s] = ‛«lvFirst»«nameRest»’
+name [nameFirst nameRest* s] = ‛«nameFirst»«nameRest» ’
+nameFirst [c] = ‛«c»’
+nameRest_alnum [c] = ‛«c»’
+nameRest_underscore [c] = ‛«c»’
+nameRest_slash [c] = ‛«c»’
+nameRest_squote [c] = ‛«c»’
+nameRest_equote [c] = ‛«c»’
+
+atom [x] = ‛«x» ’
+number [digits+] = ‛«digits»’
+string [bq cs* eq] = ‛«bq»«cs»«eq»’
+schar [c] = ‛«c»’
+
+sexpr [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
+sexprInnard_rec [lp s1 e* rp s2] = ‛«lp»«s1»«e»«rp»«s2»’
+sexprInnard_bottom [atom s] = ‛«atom»«s»’
+
+}
+

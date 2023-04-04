@@ -1,10 +1,8 @@
 (fact max_hp 10 ) (fact damage sword  4 ) (fact cost sword  10 )
 
-context init_ctx = {(fact init_tok } )
-
-(defstage [init]
+(fact  init_tok  )(defstage [init]
 (namedrule [i]
-(match(predicate  init_tok  )(predicate  max_hp  N ))(retract(predicate  init_tok  )(predicate  max_hp  N ))(assert(predicate  health  N )(predicate  treasure  z  )(predicate  ndays  z  )(predicate  weapon_damage  4    ))))(rule 
+(match(predicate  init_tok  )(predicate  max_hp  N ))(retract(predicate  init_tok  )(predicate  max_hp  N ))(assert(predicate  health  N )(predicate  treasure  z  )(predicate  ndays  z  )(predicate  weapon_damage  4     ))))(rule 
 (match
 (predicate  qui  ) 
 (predicate  stage  init  )
@@ -92,7 +90,7 @@ context init_ctx = {(fact init_tok } )
 
 (defstage [rest]
 (namedrule [recharge]
-(match(predicate  rest_screen  )(predicate  health  HP )(predicate  max_hp  Max )(predicate  recharge_hp  Recharge )(predicate  cplus  HP Recharge Max N )(predicate  ndays  NDAYS ))(retract(predicate  rest_screen  )(predicate  health  HP )(predicate  max_hp  Max )(predicate  recharge_hp  Recharge )(predicate  cplus  HP Recharge Max N )(predicate  ndays  NDAYS ))(assert(predicate  health  N )(predicate ndays (+  NDAYS 1    )))))(rule 
+(match(predicate  rest_screen  )(predicate  health  HP )(predicate  max_hp  Max )(predicate  recharge_hp  Recharge )(predicate  cplus  HP Recharge Max N )(predicate  ndays  NDAYS ))(retract(predicate  rest_screen  )(predicate  health  HP )(predicate  max_hp  Max )(predicate  recharge_hp  Recharge )(predicate  cplus  HP Recharge Max N )(predicate  ndays  NDAYS ))(assert(predicate  health  N )(predicate ndays (+   NDAYS 1     )))))(rule 
 (match
 (predicate  qui  ) 
 (predicate  stage  rest  )
@@ -111,7 +109,7 @@ context init_ctx = {(fact init_tok } )
 (namedrule [leave]
 (match(predicate  shop_screen  ))(retract(predicate  shop_screen  ))(assert(predicate  main_screen  )))
 (namedrule [buy]
-(match(predicate  treasure  T )(predicate  cost  W C )(predicate  damage_of  W D )(predicate  weapon_damage  _   )(predicate subtract T C (some  T' )))(retract(predicate  treasure  T )(predicate  cost  W C )(predicate  damage_of  W D )(predicate  weapon_damage  _   )(predicate subtract T C (some  T' )))(assert(predicate  treasure  T' )(predicate  weapon_damage  D ))))#(fact interactive shop  )
+(match(predicate  treasure  T )(predicate  cost  W C )(predicate  damage_of  W D )(predicate  weapon_damage  _    )(predicate subtract T C (some  T' )))(retract(predicate  treasure  T )(predicate  cost  W C )(predicate  damage_of  W D )(predicate  weapon_damage  _    )(predicate subtract T C (some  T' )))(assert(predicate  treasure  T' )(predicate  weapon_damage  D ))))#(fact interactive shop  )
 
 (rule 
 (match
@@ -146,9 +144,9 @@ context init_ctx = {(fact init_tok } )
 )
 )
 
-(comment  [ drop_amount M N means a monster of size M can drop N coins]  )
+(comment  [ drop_amount M N means a monster of size M can drop N coins]   )
 (defbwd (drop_amount  nat  nat  ) bwd)
-(fact drop_amount X X ) (comment  [ for now]  )
+(fact drop_amount X X ) (comment  [ for now]   )
 (defstage [fight_init]
 (namedrule [init]
 (match(predicate  fight_screen  ))(retract(predicate  fight_screen  ))(assert(predicate  gen_monster  )(predicate  fight_in_progress  )))
@@ -268,7 +266,7 @@ context init_ctx = {(fact init_tok } )
 
 (defstage [flee]
 (namedrule [do/flee]
-(match(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _   )(predicate  monster_hp  _   ))(retract(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _   )(predicate  monster_hp  _   ))(assert(predicate  empty  ))))(rule 
+(match(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _    )(predicate  monster_hp  _    ))(retract(predicate  flee_screen  )(predicate  spoils  X )(predicate  monster  _    )(predicate  monster_hp  _    ))(assert(predicate  empty  ))))(rule 
 (match
 (predicate  qui  ) 
 (predicate  stage  flee  )
@@ -329,7 +327,7 @@ context init_ctx = {(fact init_tok } )
 (namedrule [quit]
 (match(predicate  die_screen  ))(retract(predicate  die_screen  ))(assert(predicate  end  )))
 (namedrule [restart]
-(match(predicate  die_screen  )(predicate  monster_hp  _   )(predicate  spoils  _   )(predicate  ndays  _   )(predicate  treasure  _   )(predicate  weapon_damage  _   ))(retract(predicate  die_screen  )(predicate  monster_hp  _   )(predicate  spoils  _   )(predicate  ndays  _   )(predicate  treasure  _   )(predicate  weapon_damage  _   ))(assert(predicate  init_tok  ))))#(fact interactive die  )
+(match(predicate  die_screen  )(predicate  monster_hp  _    )(predicate  spoils  _    )(predicate  ndays  _    )(predicate  treasure  _    )(predicate  weapon_damage  _    ))(retract(predicate  die_screen  )(predicate  monster_hp  _    )(predicate  spoils  _    )(predicate  ndays  _    )(predicate  treasure  _    )(predicate  weapon_damage  _    ))(assert(predicate  init_tok  ))))#(fact interactive die  )
 
 (rule 
 (match
@@ -361,6 +359,7 @@ context init_ctx = {(fact init_tok } )
 (predicate  init_tok  )(predicate  stage  init  )
 )
 )
+
 
 
 

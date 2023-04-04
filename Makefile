@@ -10,6 +10,7 @@ define ceptre2rt
 	| ./fab/fab stage.ohm stage.fab support.js | tee /tmp/4 \
 	| ./fab/fab defx.ohm defx.fab support.js | tee /tmp/5 \
 	| ./fab/fab prefix.ohm prefix.fab support.js | tee /tmp/6 \
+	| ./fab/fab context.ohm context.fab support.js | tee /tmp/7 \
 	| ./fab/fab fact.ohm fact.fab support.js >$2
 endef
 	 
@@ -38,12 +39,12 @@ define devcl
 	./strip.bash /tmp/16 /tmp/17
 endef
 
-dev: dc.cst
+#dev: dc.cst
+dev:
 	$(call devcl,dc.cst)
 
 devsmall: test.cst
 	$(call devcl,test.cst)
-
 
 identity: dc.cst
 	./fab/fab c2pl.ohm identity-c2pl.fab support.js <dc.cst
