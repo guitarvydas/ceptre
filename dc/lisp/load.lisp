@@ -7,5 +7,6 @@
   (labels ((ld (fname)
              (load (format nil "~a~a" root fname))))
     (ld "fb.lisp")
+    (ld "macros.lisp")
     #+nil(ld "dc.lisp")))
 
