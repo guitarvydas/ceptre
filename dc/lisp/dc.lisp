@@ -1,11 +1,11 @@
 
 					; -*-Lisp-*-
-(fact `(max_hp 10))
-(fact `(damage sword 4))
-(fact `(cost sword 10))
+(assert `(max_hp 10))
+(assert `(damage sword 4))
+(assert `(cost sword 10))
 
 
-(fact `(init_tok))
+(assert `(init_tok))
 
  ;;; stage [init]
 (defparameter init_rules nil)
@@ -18,6 +18,7 @@
 	   (assert `(treasure (z)))
 	   (assert `(ndays (Z)))
 	   (assert `(weapon_damage 4)))
+(memo init i)
  ;;; end stage [init]
 
  ;;; stage [top]
@@ -30,6 +31,7 @@
 	   (assert `(stage main))
 	   (assert `(main_screen))
 	   )
+(memo top topsub1)
  ;;; end stage [top]
 
 
@@ -41,31 +43,31 @@
   (interact main 
 	    "choose: 1 - do/rest ; 2 - do/adventure ; 3 - do/shop ; 4 - do/quit" 
 	    `((1 . do/rest) (2 . do/adventure) (3 . do/shop) (4 . do/quit))))
-(memo main_rules main__interaction)
+(memo main _interaction)
 
 (interactive_stagerule main do/rest
 	   (match (match? `(main_screen)))
 	   (retract `(main_screen))
 	   (assert `(rest_screen)))
-(memo main_rules main_do/rest)
+(memo main do/rest)
 
 (interactive_stagerule main do/adventure
 	   (match (match? `(main_screen)))
 	   (retract `(main_screen))
 	   (assert `(adventure_screen)))
-(memo main_rules main_do/adventure)
+(memo main do/adventure)
 
 (interactive_stagerule main do/shop
 	   (match (match? `(main_screen)))
 	   (retract `(main_screen))
 	   (assert `(shop_screen)))
-(memo main_rules main_do/shop)
+(memo main do/shop)
 
 (interactive_stagerule main do/quit
 	   (match (match? `(main_screen)))
 	   (retract `(main_screen))
 	   (assert `(quit)))
-(memo main_rules main_do/quit)
+(memo main do/quit)
 
  ;;; end stage [main]
 
@@ -175,13 +177,13 @@
   (interact shop 
 	    "choose: 1 - leave ; 2 - buy"
 	    `((1 . leave) (2 . buy))))
-(memo shop_rules shop__interaction)
+(memo shop _interaction)
 
 (interactive_stagerule shop leave
 	   (match (match? `(shop_screen)))
 	   (retract `(shop_screen))
 	   (assert `(main_screen)))
-(memo shop_rules shop_leave)
+(memo shop leave)
 
 (interactive_stagerule shop buy
 	   (match (match? `(treasure (_? T)))
@@ -195,9 +197,9 @@
 	   (retract `(weapon_damage (_)))
 	   (retract `(subtract (? T) (? C) (dcsome (? T_))))
 	   (assert `(treasure (? T_)))
-		       (assert `(weapon_damage (? D))))
+	   (assert `(weapon_damage (? D))))
 
-(memo shop_rules shop_buy)
+(memo shop buy)
  ;;; end stage [shop]
 
 
@@ -242,7 +244,7 @@
 
 
 (defbwd(drop_amount nat nat) bwd)
-(fact `(drop_amount X X))
+(assert `(drop_amount X X))
 
  ;;; stage [fight_init]
 (defparameter fight_init_rules nil)
@@ -397,7 +399,7 @@
   (interact fight
 	    "choose: 1 - do_fight ; 2 - do_flee"
 	    `((1 . do_fight) (2 . do_flee))))
-(memo fight_rules fight__interaction)
+(memo fight _interaction)
 
 (interactive_stagerule fight do_fight
 	   (match (match? `(choice))
@@ -406,7 +408,7 @@
 	   (retract `(fight_in_progress))
 	   (assert `(fight_in_progress))
 	   (assert `(try_fight)))
-(memo fight_rules fight_do_fight)
+(memo fight do_fight)
 
 (interactive_stagerule fight do_flee
 	   (match (match? `(choice))
@@ -414,7 +416,7 @@
 	   (retract `(choice))
 	   (retract `(fight_in_progress))
 	   (assert `(flee_screen)))
-(memo fight_rules fight_do_flee)
+(memo fight do_flee)
 
  ;;; end stage [fight]
 
@@ -490,7 +492,7 @@
   (interact win
 	    "choose: 1 - win ; 2 - collect_spoils ; 3 - go_home ; 4 - continue"
 	    `((1 . win) (2 . collect_spoils)(3 . go_home)(4 . continue))))
-(memo win_rules win__interaction)
+(memo win _interaction)
 
 (interactive_stagerule win win
 	   (match (match? `(win_screen))
@@ -500,7 +502,7 @@
 	   (retract `(monster (? Size)))
 	   (retract `(drop_amount (? Size) (? Drop)))
 	   (assert `(drop (? Drop))))
-(memo win_rules win_win)
+(memo win win)
 
 (interactive_stagerule win collect_spoils
 	   (match (match? `(drop (_? X)))
@@ -511,7 +513,7 @@
 	   (retract `(plus (? X) (? Y) (? Z)))
 	   (assert `(spoils (? Z)))
 	   (assert `(go_home_or_continue)))
-(memo win_rules win_collect_spoils)
+(memo win collect_spoils)
 
 (interactive_stagerule win go_home
 	   (match (match? `(go_home_or_continue))
@@ -524,13 +526,13 @@
 	   (retract `(plus (? X) (? Y) (? Z)))
 	   (assert `(treasure (? Z)))
 	   (assert `(main_screen)))
-(memo win_rules win_go_home)
+(memo win go_home)
 
 (interactive_stagerule win continue
 	   (match (match? `(go_home_or_continue)))
 	   (retract `(go_home_or_continue))
 	   (assert `(fight_screen)))
-(memo win_rules win_continue)
+(memo win continue)
 
  ;;; end stage [win]
 
@@ -575,13 +577,13 @@
   (interact fight
 	    "choose: 1 - quit ; 2 - restart"
 	    `((1 . do_fight) (2 . do_flee))))
-(memo die_rules die__interaction)
+(memo die _interaction)
 
 (interactive_stagerule die quit
 	   (match (match? `(die_screen)))
 	   (retract `(die_screen))
 	   (assert `(end)))
-(memo die_rules die_quit)
+(memo die quit)
 
 (interactive_stagerule die restart
 	   (match (match? `(die_screen))
@@ -597,7 +599,7 @@
 	   (retract `(treasure _))
 	   (retract `(weapon_damage _))
 	   (assert `(init_tok)))
-(memo die_rules die_restart)
+(memo die restart)
 
  ;;; end stage [die]
 

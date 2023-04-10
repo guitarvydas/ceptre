@@ -1,5 +1,7 @@
-(defmacro memo (rule_list new_rule)
-  `(setf ,rule_list (append ,rule_list '(,new_rule))))
+(defmacro memo (stage-name rule-name)
+  (let ((rule-list (intern (format nil "~a_RULES" stage-name)))
+        (new-rule (intern (format nil "~a_~a" stage-name rule-name))))
+    `(setf ,rule-list (append ,rule-list '(,new-rule)))))
 
 (defmacro interact (stage-name prompt choices)
   `(cond ((and (match? '(stage ,stage-name))
@@ -13,11 +15,11 @@
                        (unless choice
                          (print "try again")
                          (princ ,prompt))))
-	    (let ((f (intern (format nil "~a_~a" ,stage-name (cdr choice)))
+	    (let ((f (intern (format nil "~a_~a" ,stage-name (cdr choice)))))
 	      (assert (list f))
 	      (assert '(_interaction_finished))
 	      t)))
-	 (t nil)))
+         (t nil)))
 
 #|
 ;; this call...
@@ -76,9 +78,41 @@
   `(defun ,(intern (format nil "~a_~a" stage-name rule-name)) ()
      (cond ((and (match? '(stage ,stage-name))
 		 (match? '(_interaction_finished))
-		 ,matches)
+		 ,@(rest matches))
 	    (assert '(rule ,rule-name))
 	    (retract '(_interaction_finished))
 	    ,@body
 	    t)
 	   (t nil))))
+
+#|
+
+(stagerule die quit
+	   (atomicmatch (match? `(die_screen)))
+	   (retract `(die_screen))
+	   (assert `(end)))
+
+-->
+
+(defun die_quit ()
+  (cond ((and (match? `(stage die))
+              (not (match? `(_interaction_finished)))
+	      (match? `(die_screen)))
+    	 (assert `(rule quit))
+	 (retract `(die_screen))
+	 (assert `(end))
+	 t)
+	(t nil)))
+|#
+
+(defmacro stagerule (stage-name rule-name matches &rest body)
+  `(defun ,(intern (format nil "~a_~a" stage-name rule-name)) ()
+     (cond ((and 
+	     (match? '(stage ,stage-name))
+	     (match? '(_interaction_finished))
+	     ,@(rest matches))
+	    (assert '(rule ,rule-name))
+	    ,@body
+	    t)
+	   (t nil))))
+
