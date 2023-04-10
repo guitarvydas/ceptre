@@ -54,7 +54,12 @@
 	   (retract `(main_screen))
 	   (assert `(quit)))
  ;;; end stage [main]
-#(fact `(interactive main))
+(interactive '(
+	       (rest  (main do/rest))
+	       (adventure (main do/adventure))
+	       (shop (main do/shop))
+	       (quit (main do/quit))
+	       ))
 
 
 
@@ -176,7 +181,10 @@
 	   (assert `(treasure T'))
 	   (assert `(weapon_damage D)))
  ;;; end stage [shop]
-#(fact `(interactive shop))
+(interactive '(
+	       (leave (shop leave))
+	       (but   (shop buy))))
+
 
 
 
@@ -384,7 +392,10 @@
 	   (retract `(fight_in_progress))
 	   (assert `(flee_screen)))
  ;;; end stage [fight]
-#(fact `(interactive fight))
+(interactive `(
+	       (fight (fight do_fight))
+	       (flee  (fight do_flee))))
+
 
 
 
@@ -486,7 +497,7 @@
 	   (retract `(go_home_or_continue))
 	   (assert `(fight_screen)))
  ;;; end stage [win]
-#(fact `(interactive win))
+(interactive `((win (win win)) (collect_spoils (win collect_spoils)) (go_home (win go_home)) (continue (win continue))))
 
 
 
@@ -544,7 +555,7 @@
 	   (retract `(weapon_damage _))
 	   (assert `(init_tok)))
  ;;; end stage [die]
-#(fact `(interactive die))
+(interactive '( (quit (die quit)) (restart (die restart))))
 
 
 
