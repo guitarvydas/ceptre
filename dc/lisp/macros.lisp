@@ -13,7 +13,7 @@
                        (unless choice
                          (print "try again")
                          (princ ,prompt))))
-	    (let ((f (cdr choice)))
+	    (let ((f (intern (format nil "~a_~a" ,stage-name (cdr choice)))
 	      (assert (list f))
 	      (assert '(_interaction_finished))
 	      t)))
@@ -76,7 +76,7 @@
   `(defun ,(intern (format nil "~a_~a" stage-name rule-name)) ()
      (cond ((and (match? '(stage ,stage-name))
 		 (match? '(_interaction_finished))
-		 ,@(rest matches))
+		 ,matches)
 	    (assert '(rule ,rule-name))
 	    (retract '(_interaction_finished))
 	    ,@body

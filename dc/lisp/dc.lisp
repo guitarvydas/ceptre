@@ -53,16 +53,21 @@
 	   (match (match? `(main_screen)))
 	   (retract `(main_screen))
 	   (assert `(adventure_screen)))
+(memo main_rules main_do/adventure)
+
 (interactive_stagerule main do/shop
 	   (match (match? `(main_screen)))
 	   (retract `(main_screen))
 	   (assert `(shop_screen)))
+(memo main_rules main_do/shop)
+
 (interactive_stagerule main do/quit
 	   (match (match? `(main_screen)))
 	   (retract `(main_screen))
 	   (assert `(quit)))
+(memo main_rules main_do/quit)
+
  ;;; end stage [main]
-#(fact `(interactive main))
 
 
 
@@ -166,11 +171,19 @@
 
  ;;; stage [shop]
 (defparameter shop_rules nil)
-(stagerule shop leave
+(defun shop__interaction ()
+  (interact shop 
+	    "choose: 1 - leave ; 2 - buy"
+	    `((1 . leave) (2 . buy))))
+(memo shop_rules shop__interaction)
+
+(interactive_stagerule shop leave
 	   (match (match? `(shop_screen)))
 	   (retract `(shop_screen))
 	   (assert `(main_screen)))
-(stagerule shop buy
+(memo shop_rules shop_leave)
+
+(interactive_stagerule shop buy
 	   (match (match? `(treasure T))
 		  (match? `(cost W,C))
 		  (match? `(damage_of W,D))
@@ -182,9 +195,10 @@
 	   (retract `(weapon_damage _))
 	   (retract `(subtract T,C,(some T')))
 	   (assert `(treasure T'))
-	   (assert `(weapon_damage D)))
+		       (assert `(weapon_damage D)))
+
+(memo shop_rules shop_buy)
  ;;; end stage [shop]
-#(fact `(interactive shop))
 
 
 
@@ -378,21 +392,31 @@
 
  ;;; stage [fight]
 (defparameter fight_rules nil)
-(stagerule fight do_fight
+
+(defun fight__interaction ()
+  (interact fight
+	    "choose: 1 - do_fight ; 2 - do_flee"
+	    `((1 . do_fight) (2 . do_flee))))
+(memo fight_rules fight__interaction)
+
+(interactive_stagerule fight do_fight
 	   (match (match? `(choice))
 		  (match? `(fight_in_progress)))
 	   (retract `(choice))
 	   (retract `(fight_in_progress))
 	   (assert `(fight_in_progress))
 	   (assert `(try_fight)))
-(stagerule fight do_flee
+(memo fight_rules fight_do_fight)
+
+(interactive_stagerule fight do_flee
 	   (match (match? `(choice))
 		  (match? `(fight_in_progress)))
 	   (retract `(choice))
 	   (retract `(fight_in_progress))
 	   (assert `(flee_screen)))
+(memo fight_rules fight_do_flee)
+
  ;;; end stage [fight]
-#(fact `(interactive fight))
 
 
 
@@ -461,7 +485,14 @@
 
  ;;; stage [win]
 (defparameter win_rules nil)
-(stagerule win win
+
+(defun win__interaction ()
+  (interact win
+	    "choose: 1 - win ; 2 - collect_spoils ; 3 - go_home ; 4 - continue"
+	    `((1 . win) (2 . collect_spoils)(3 . go_home)(4 . continue))))
+(memo win_rules win__interaction)
+
+(interactive_stagerule win win
 	   (match (match? `(win_screen))
 		  (match? `(monster Size))
 		  (match? `(drop_amount Size,Drop)))
@@ -469,7 +500,9 @@
 	   (retract `(monster Size))
 	   (retract `(drop_amount Size,Drop))
 	   (assert `(drop Drop)))
-(stagerule win collect_spoils
+(memo win_rules win_win)
+
+(interactive_stagerule win collect_spoils
 	   (match (match? `(drop X))
 		  (match? `(spoils Y))
 		  (match? `(plus X,Y,Z)))
@@ -478,7 +511,9 @@
 	   (retract `(plus X,Y,Z))
 	   (assert `(spoils Z))
 	   (assert `(go_home_or_continue)))
-(stagerule win go_home
+(memo win_rules win_collect_spoils)
+
+(interactive_stagerule win go_home
 	   (match (match? `(go_home_or_continue))
 		  (match? `(spoils X))
 		  (match? `(treasure Y))
@@ -489,12 +524,15 @@
 	   (retract `(plus X,Y,Z))
 	   (assert `(treasure Z))
 	   (assert `(main_screen)))
-(stagerule win continue
+(memo win_rules win_go_home)
+
+(interactive_stagerule win continue
 	   (match (match? `(go_home_or_continue)))
 	   (retract `(go_home_or_continue))
 	   (assert `(fight_screen)))
+(memo win_rules win_continue)
+
  ;;; end stage [win]
-#(fact `(interactive win))
 
 
 
@@ -533,11 +571,19 @@
 
  ;;; stage [die]
 (defparameter die_rules nil)
-(stagerule die quit
+(defun die__interaction ()
+  (interact fight
+	    "choose: 1 - quit ; 2 - restart"
+	    `((1 . do_fight) (2 . do_flee))))
+(memo die_rules die__interaction)
+
+(interactive_stagerule die quit
 	   (match (match? `(die_screen)))
 	   (retract `(die_screen))
 	   (assert `(end)))
-(stagerule die restart
+(memo die_rules die_quit)
+
+(interactive_stagerule die restart
 	   (match (match? `(die_screen))
 		  (match? `(monster_hp _))
 		  (match? `(spoils _))
@@ -551,8 +597,9 @@
 	   (retract `(treasure _))
 	   (retract `(weapon_damage _))
 	   (assert `(init_tok)))
+(memo die_rules die_restart)
+
  ;;; end stage [die]
-#(fact `(interactive die))
 
 
 
