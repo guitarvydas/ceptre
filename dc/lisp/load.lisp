@@ -7,5 +7,5 @@
   (labels ((ld (fname)
              (load (format nil "~a~a" root fname))))
     (ld "fb.lisp")
-    (ld "m2.lisp")))
+    #+nil(ld "dc.lisp")))
 
