@@ -6,6 +6,7 @@
 (let ((root "/Users/tarvydas/quicklisp/local-projects/ceptre/dc/lisp/"))
   (labels ((ld (fname)
              (load (format nil "~a~a" root fname))))
+    (ld "hprolog.lisp")
     (ld "fb.lisp")
     (ld "macros.lisp")
     #+nil(ld "dc.lisp")))

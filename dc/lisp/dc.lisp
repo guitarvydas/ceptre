@@ -85,12 +85,12 @@
 	   (assert `(rest_screen))
 	   (assert `(stage rest))
 	   )
+(memo top topsub2)
  ;;; end stage [top]
 
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub3
 	   (match (match? `(qui))
 		  (match? `(stage main))
@@ -101,12 +101,12 @@
 	   (assert `(shop_screen))
 	   (assert `(stage shop))
 	   )
+(memo top topsub3)
  ;;; end stage [top]
 
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub4
 	   (match (match? `(qui))
 		  (match? `(stage main))
@@ -117,6 +117,7 @@
 	   (assert `(adventure_screen))
 	   (assert `(stage adventure))
 	   )
+(memo top topsub4)
  ;;; end stage [top]
 
 
@@ -132,6 +133,7 @@
 	   (retract `(quit))
 	   (assert `(empty))
 	   )
+(memo top topsub5)
  ;;; end stage [top]
 
 
@@ -154,6 +156,7 @@
 	   (retract `(ndays (? NDAYS)))
 	   (assert `(health (? N)))
 	   (assert `(ndays(+ (? NDAYS) 1))))
+(memo rest recharge)
  ;;; end stage [rest]
 
  ;;; stage [top]
@@ -166,6 +169,7 @@
 	   (assert `(stage main))
 	   (assert `(main_screen))
 	   )
+(memo top topsub6)
  ;;; end stage [top]
 
 
@@ -205,7 +209,6 @@
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub7
 	   (match (match? `(qui))
 		  (match? `(stage shop))
@@ -216,6 +219,7 @@
 	   (assert `(main_screen))
 	   (assert `(stage main))
 	   )
+(memo top topsub7)
  ;;; end stage [top]
 
 
@@ -227,6 +231,7 @@
 	   (match (match? `(adventure_screen)))
 	   (retract `(adventure_screen))
 	   (assert `(spoils (z))))
+(memo adventure init)
  ;;; end stage [adventure]
 
  ;;; stage [top]
@@ -239,12 +244,13 @@
 	   (assert `(stage fight_init))
 	   (assert `(fight_screen))
 	   )
+(memo top topsub8)
  ;;; end stage [top]
 
 
 
 (defbwd(drop_amount nat nat) bwd)
-(assert `(drop_amount X X))
+(assert `(drop_amount (? X) (? X)))
 
  ;;; stage [fight_init]
 (defparameter fight_init_rules nil)
@@ -253,6 +259,8 @@
 	   (retract `(fight_screen))
 	   (assert `(gen_monster))
 	   (assert `(fight_in_progress)))
+(memo fight_init init)
+
 (stagerule fight_init gen_a_monster
 	   (match (match? `(gen_monster))
 		  (match? `(monster_size (_? Size))))
@@ -260,10 +268,10 @@
 	   (retract `(monster_size (? Size)))
 	   (assert `(monster (? Size)))
 	   (assert `(monster_hp (? Size))))
+(memo fight_init gen_a_monster)
  ;;; end stage [fight_init]
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub9
 	   (match (match? `(qui))
 		  (match? `(stage fight_init)))
@@ -272,8 +280,8 @@
 	   (assert `(stage fight))
 	   (assert `(choice))
 	   )
+(memo top topsub9)
  ;;; end stage [top]
-
 
 
 (defpred(try_fight) pred)
@@ -295,6 +303,8 @@
 	   (assert `(fight_in_progress))
 	   (assert `(weapon_damage (? D)))
 	   (assert `(monster_hp (? MHP_))))
+(memo fight_auto fight/hit)
+
 (stagerule fight_auto win
 	   (match (match? `(fight_in_progress))
 		  (match? `(monster_hp (_? MHP)))
@@ -306,6 +316,8 @@
 	   (retract `(subtract (? MHP) (? D) (none)))
 	   (assert `(weapon_damage (? D)))
 	   (assert `(win_screen)))
+(memo fight_auto win)
+
 (stagerule fight_auto fight/miss
 	   (match (match? `(try_fight))
 		  (match? `(fight_in_progress))
@@ -320,12 +332,16 @@
 	   (assert `(fight_in_progress))
 	   (assert `(monster (? Size)))
 	   (assert `(health (? HP_))))
+(memo fight_auto fight/miss)
+
 (stagerule fight_auto die_from_damages
 	   (match (match? `(health (z)))
 		  (match? `(fight_in_progress)))
 	   (retract `(health (z)))
 	   (retract `(fight_in_progress))
 	   (assert `(die_screen)))
+(memo fight_auto die_from_damages)
+
 (stagerule fight_auto fight/die
 	   (match (match? `(try_fight))
 		  (match? `(fight_in_progress))
@@ -338,12 +354,13 @@
 	   (retract `(health (? HP)))
 	   (retract `(subtract (? HP) (? Size) (none)))
 	   (assert `(die_screen)))
+(memo fight_auto fight/die)
+
  ;;; end stage [fight_auto]
 (defpred(choice) pred)
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub10
 	   (match (match? `(qui))
 		  (match? `(stage fight_auto))
@@ -355,12 +372,12 @@
 	   (assert `(stage fight))
 	   (assert `(choice))
 	   )
+(memo top topsub10)
  ;;; end stage [top]
 
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub11
 	   (match (match? `(qui))
 		  (match? `(stage fight_auto))
@@ -371,12 +388,12 @@
 	   (assert `(win_screen))
 	   (assert `(stage win))
 	   )
+(memo top topsub11)
  ;;; end stage [top]
 
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub12
 	   (match (match? `(qui))
 		  (match? `(stage fight_auto))
@@ -387,6 +404,7 @@
 	   (assert `(die_screen))
 	   (assert `(stage die))
 	   )
+(memo top topsub12)
  ;;; end stage [top]
 
 
@@ -423,7 +441,6 @@
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub13
 	   (match (match? `(qui))
 		  (match? `(stage fight))
@@ -434,12 +451,12 @@
 	   (assert `(fight_in_progress))
 	   (assert `(stage fight_auto))
 	   )
+(memo top topsub13)
  ;;; end stage [top]
 
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub14
 	   (match (match? `(qui))
 		  (match? `(stage fight))
@@ -450,6 +467,7 @@
 	   (assert `(flee_screen))
 	   (assert `(stage flee))
 	   )
+(memo top topsub14)
  ;;; end stage [top]
 
 
@@ -467,10 +485,10 @@
 	   (retract `(monster (_)))
 	   (retract `(monster_hp (_)))
 	   (assert `(empty)))
+(memo flee do/flee)
  ;;; end stage [flee]
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub15
 	   (match (match? `(qui))
 		  (match? `(stage flee)))
@@ -479,6 +497,7 @@
 	   (assert `(stage main))
 	   (assert `(main_screen))
 	   )
+(memo top topsub15)
  ;;; end stage [top]
 
 
@@ -539,7 +558,6 @@
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub16
 	   (match (match? `(qui))
 		  (match? `(stage win))
@@ -550,12 +568,12 @@
 	   (assert `(main_screen))
 	   (assert `(stage main))
 	   )
+(memo top topsub16)
  ;;; end stage [top]
 
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub17
 	   (match (match? `(qui))
 		  (match? `(stage win))
@@ -566,6 +584,7 @@
 	   (assert `(fight_screen))
 	   (assert `(stage fight_init))
 	   )
+(memo top topsub17)
  ;;; end stage [top]
 
 
@@ -606,7 +625,6 @@
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub18
 	   (match (match? `(qui))
 		  (match? `(stage die))
@@ -616,12 +634,12 @@
 	   (retract `(end))
 	   (assert `(empty))
 	   )
+(memo top topsub18)
  ;;; end stage [top]
 
 
 
  ;;; stage [top]
-(defparameter top_rules nil)
 (stagerule top topsub19
 	   (match (match? `(qui))
 		  (match? `(stage die))
@@ -632,4 +650,5 @@
 	   (assert `(init_tok))
 	   (assert `(stage init))
 	   )
+(memo top topsub19)
  ;;; end stage [top]
