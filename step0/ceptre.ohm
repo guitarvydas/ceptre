@@ -1,0 +1,28 @@
+Ceptre {
+  main = top_level+       
+  top_level =
+    | Backward_chaining_predicate_declaration
+    | Permanent_fact
+    | Context
+    | Stage
+    | Rule
+
+Backward_chaining_predicate =
+  | Predicate_name Parameterid* ":" "bwd" "."
+Parameterid =
+  | logicVar
+  | var
+
+atom =
+  | digit+
+  | id
+
+logicVar = upper idrest*
+var = id
+
+id = lower idrest*
+idrest = letter | "_" | digit
+
+comment = "%" (~nl any)* nl
+space += comment
+}

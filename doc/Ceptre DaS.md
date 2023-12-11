@@ -1,1 +1,0 @@
-![[Ceptre DaS 2023-01-30 08.59.20.excalidraw]]

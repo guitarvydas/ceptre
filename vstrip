@@ -1,8 +1,0 @@
-#!/usr/bin/env python3
-import re
-import sys
-
-for line in sys.stdin:
-    s0 = re.sub (r'«', '', line)
-    s = re.sub (r'»', '', s0)
-    print (s,end="")
