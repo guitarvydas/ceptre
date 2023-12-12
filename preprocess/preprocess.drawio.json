@@ -1,0 +1,751 @@
+[
+    {
+        "file": "preprocess.drawio",
+        "name": "main",
+        "children": [
+            {
+                "name": "Delineate Words",
+                "id": 8
+            },
+            {
+                "name": "Escape Whitespace",
+                "id": 11
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "Delineate Words",
+                    "id": 8
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "Delineate Words",
+                    "id": 8
+                },
+                "source_port": "output",
+                "target": {
+                    "name": "Escape Whitespace",
+                    "id": 11
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Delineate Words",
+                    "id": 8
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Escape Whitespace",
+                    "id": 11
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Escape Whitespace",
+                    "id": 11
+                },
+                "source_port": "output",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "output"
+            }
+        ]
+    },
+    {
+        "file": "preprocess.drawio",
+        "name": "Delineate Words",
+        "children": [
+            {
+                "name": "'Word'",
+                "id": 3
+            },
+            {
+                "name": "Transpiler",
+                "id": 11
+            },
+            {
+                "name": "'word.sem.js'",
+                "id": 12
+            },
+            {
+                "name": "'word.ohm'",
+                "id": 16
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "",
+                    "id": 17
+                },
+                "target_port": "'word.sem.js'"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "'Word'",
+                    "id": 3
+                },
+                "target_port": "\u03b1"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "Transpiler",
+                    "id": 11
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "'word.ohm'",
+                    "id": 16
+                },
+                "target_port": "\u03b1"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "'word.sem.js'",
+                    "id": 12
+                },
+                "source_port": "\u03b1",
+                "target": {
+                    "name": "Transpiler",
+                    "id": 11
+                },
+                "target_port": "semanticsfn"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "'word.ohm'",
+                    "id": 16
+                },
+                "source_port": "\u03b1",
+                "target": {
+                    "name": "Transpiler",
+                    "id": 11
+                },
+                "target_port": "grammarfn"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "'Word'",
+                    "id": 3
+                },
+                "source_port": "\u03b1",
+                "target": {
+                    "name": "Transpiler",
+                    "id": 11
+                },
+                "target_port": "grammar name"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Transpiler",
+                    "id": 11
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Transpiler",
+                    "id": 11
+                },
+                "source_port": "output",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "output"
+            }
+        ]
+    },
+    {
+        "file": "preprocess.drawio",
+        "name": "Transpiler",
+        "children": [
+            {
+                "name": "All Before 4",
+                "id": 8
+            },
+            {
+                "name": "OhmJS",
+                "id": 20
+            },
+            {
+                "name": "fake pipe",
+                "id": 21
+            },
+            {
+                "name": "fake pipe",
+                "id": 25
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "target_port": "4"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "grammar name",
+                "target": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "semantics",
+                "target": {
+                    "name": "fake pipe",
+                    "id": 25
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "semanticsfn",
+                "target": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "target_port": "3"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "grammar",
+                "target": {
+                    "name": "fake pipe",
+                    "id": 21
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "grammarfn",
+                "target": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "fake pipe",
+                    "id": 25
+                },
+                "source_port": "filename",
+                "target": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "target_port": "3"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "source_port": "3",
+                "target": {
+                    "name": "OhmJS",
+                    "id": 20
+                },
+                "target_port": "semantics"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "source_port": "4",
+                "target": {
+                    "name": "OhmJS",
+                    "id": 20
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "fake pipe",
+                    "id": 21
+                },
+                "source_port": "filename",
+                "target": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "OhmJS",
+                    "id": 20
+                },
+                "target_port": "grammar"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "All Before 4",
+                    "id": 8
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "OhmJS",
+                    "id": 20
+                },
+                "target_port": "grammar name"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "fake pipe",
+                    "id": 25
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "fake pipe",
+                    "id": 21
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "OhmJS",
+                    "id": 20
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "OhmJS",
+                    "id": 20
+                },
+                "source_port": "output",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "output"
+            }
+        ]
+    },
+    {
+        "file": "preprocess.drawio",
+        "name": "fake pipe",
+        "children": [
+            {
+                "name": "fakepipename",
+                "id": 8
+            },
+            {
+                "name": "syncfilewrite2",
+                "id": 10
+            },
+            {
+                "name": "1then2",
+                "id": 12
+            },
+            {
+                "name": "trash",
+                "id": 17
+            },
+            {
+                "name": "1then2",
+                "id": 22
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "1then2",
+                    "id": 12
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "fakepipename",
+                    "id": 8
+                },
+                "target_port": "\u03b1"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2",
+                    "id": 12
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "syncfilewrite2",
+                    "id": 10
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2",
+                    "id": 12
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "syncfilewrite2",
+                    "id": 10
+                },
+                "target_port": "filename"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "fakepipename",
+                    "id": 8
+                },
+                "source_port": "\u03b1",
+                "target": {
+                    "name": "1then2",
+                    "id": 12
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "syncfilewrite2",
+                    "id": 10
+                },
+                "source_port": "done",
+                "target": {
+                    "name": "1then2",
+                    "id": 22
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2",
+                    "id": 22
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "trash",
+                    "id": 17
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "syncfilewrite2",
+                    "id": 10
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2",
+                    "id": 22
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "filename"
+            }
+        ]
+    },
+    {
+        "file": "preprocess.drawio",
+        "name": "All Before 4",
+        "children": [
+            {
+                "name": "1then2",
+                "id": 14
+            },
+            {
+                "name": "1then2",
+                "id": 19
+            },
+            {
+                "name": "1then2",
+                "id": 20
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "4",
+                "target": {
+                    "name": "1then2",
+                    "id": 19
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "3",
+                "target": {
+                    "name": "1then2",
+                    "id": 20
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "1then2",
+                    "id": 14
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "1then2",
+                    "id": 14
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2",
+                    "id": 14
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "1then2",
+                    "id": 20
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2",
+                    "id": 20
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "1then2",
+                    "id": 19
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2",
+                    "id": 20
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2",
+                    "id": 14
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2",
+                    "id": 19
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "3"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2",
+                    "id": 19
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "4"
+            }
+        ]
+    }
+]
