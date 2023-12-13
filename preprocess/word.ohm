@@ -1,0 +1,27 @@
+RTWord {
+  input = item+
+  item =
+    | string -- string
+    | hashSpace -- hashSpace
+    | space -- space
+    | separator -- separator
+    | integer -- integer
+    | word -- word
+
+  word = legalchar+
+  legalchar = ~separator ~space any
+
+  hashSpace = "# "
+  integer = digit+
+  separator = ~alnum any
+  comment = "//" (~"\n" any)* "\n"
+  space += comment
+  string = dq (~dq any)* dq
+  dq = "\""
+  tagChar = ~">" ~"<" any
+
+}
+
+Word <: RTWord {
+  separator += ";" | ":" | "{" | "}" | "->" | ","
+}

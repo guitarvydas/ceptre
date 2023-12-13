@@ -8,9 +8,7 @@ D2J=../tools/das2json/das2json
 #PREPROCESS_JSON=preprocess.json
 #PREPROCESSED_CEP=../preprocessed.dc.cep
 
-dev: preprocess
-
-hold_dev: preprocess ../dc.cep
+dev: preprocess ../dc.cep
 	./preprocess ../dc.cep
 
 ../preprocess.dc.cep: preprocess ../dc.cep

@@ -12,11 +12,13 @@ import reg  "../tools/odin/engine/registry0d"
 import zd   "../tools/odin/engine/0d"
 import std "../tools/odin/std"
 
+import "../tools/odin/util/transpiler"
 
 main :: proc() {
     source_file := parse_command_line_args ()
     diagram_name := "preprocess.drawio"
     palette := initialize_component_palette (diagram_name)
+    transpiler.initialize (&palette)
     run (&palette, source_file, "main", diagram_name, kick_start_function)
 }
 
@@ -27,8 +29,6 @@ kick_start_function :: proc (main_container : ^zd.Eh, source_file : string) {
 }
 
 initialize_project_specific_components :: proc (leaves: ^[dynamic]reg.Leaf_Template) {
-    append(leaves, reg.Leaf_Template { name = "?", instantiate = std.probe_instantiate })
-    append(leaves, reg.Leaf_Template { name = "trash", instantiate = std.trash_instantiate })
     append(leaves, std.string_constant ("Word"))
 }
 
