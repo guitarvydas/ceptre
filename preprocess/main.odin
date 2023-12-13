@@ -8,9 +8,9 @@ import "core:slice"
 import "core:os"
 import "core:unicode/utf8"
 
-import reg  "../tools/odin/registry0d"
-import zd   "../tools/odin/0d"
-import leaf "../tools/odin/leaf0d"
+import reg  "../tools/odin/engine/registry0d"
+import zd   "../tools/odin/engine/0d"
+import std "../tools/odin/std"
 
 
 main :: proc() {
@@ -26,15 +26,14 @@ kick_start_function :: proc (main_container : ^zd.Eh, source_file : string) {
     main_container.handler(main_container, msg)
 }
 
-
+initialize_project_specific_components :: proc (leaves: ^[dynamic]reg.Leaf_Template) {
+    append(leaves, reg.Leaf_Template { name = "?", instantiate = std.probe_instantiate })
+    append(leaves, reg.Leaf_Template { name = "trash", instantiate = std.trash_instantiate })
+    append(leaves, std.string_constant ("Word"))
+}
 
 
 ////////
-project_specific_components :: proc (leaves: ^[dynamic]reg.Leaf_Template) {
-    append(leaves, reg.Leaf_Template { name = "?", instantiate = leaf.probe_instantiate })
-    append(leaves, reg.Leaf_Template { name = "trash", instantiate = leaf.trash_instantiate })
-}
-
 
 run :: proc (r : ^reg.Component_Registry, source_file, main_container_name, diagram_source_file : string, injectfn : #type proc (^zd.Eh, string)) {
     pregistry := r
@@ -77,18 +76,10 @@ parse_command_line_args :: proc () -> (source_file : string) {
 }
 
 initialize_component_palette :: proc (diagram_source_file: string) -> (palette: reg.Component_Registry) {
-    leaves := make([dynamic]reg.Leaf_Instantiator)
-
-    // set up shell leaves
-    leaf.collect_process_leaves(diagram_source_file, &leaves)
-
-    // export native leaves
-    reg.append_leaf (&leaves, reg.Leaf_Instantiator {
-        name = "stdout",
-        instantiate = leaf.stdout_instantiate,
-    })
-
-    project_specific_components (&leaves)
+    // set up standard leaves
+    leaves := std.initialize (diagram_source_file)
+    // add leaves specific to this project
+    initialize_project_specific_components (&leaves)
 
     containers := reg.json2internal (diagram_source_file)
     palette = reg.make_component_registry(leaves[:], containers)

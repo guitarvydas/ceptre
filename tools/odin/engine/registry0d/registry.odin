@@ -7,7 +7,7 @@ import "core:encoding/json"
 import "core:path/filepath"
 
 import zd "../0d"
-import "../../ir"
+import "../../../ir"
 
 Registry_Stats :: struct {
     nleaves : int,

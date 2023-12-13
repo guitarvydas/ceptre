@@ -1,7 +1,8 @@
 .PHONY: run check build vsh
 
 ODIN_FLAGS ?= -debug -o:none
-0D=../tools/odin/process/*.odin ../tools/odin/0d/*.odin ../tools/odin/leaf0d/*.odin ../tools/odin/leaf0d/*.odin
+0D=../tools/odin/engine/process/*.odin ../tools/odin/engine/0d/*.odin ../tools/odin/engine/registry0d/*.odin
+STD=../tools/odin/std/*.odin
 D2J=../tools/das2json/das2json
 #PREPROCESS_SRC=preprocess.drawio
 #PREPROCESS_JSON=preprocess.json
@@ -9,13 +10,17 @@ D2J=../tools/das2json/das2json
 
 dev: preprocess
 
+hold_dev: preprocess ../dc.cep
+	./preprocess ../dc.cep
+
 ../preprocess.dc.cep: preprocess ../dc.cep
 	./preprocess ../dc.cep >../preprocessed.dc.cep
 
 preprocess.json: preprocess.drawio $(D2J)
 	$(D2J) preprocess.drawio
 
-preprocess: preprocess.drawio $(0D) preprocess.json
+preprocess: preprocess.drawio $(0D) $(STD) preprocess.json
+	echo building preprocess
 	odin build . $(ODIN_FLAGS) 
 
 $(D2J):
