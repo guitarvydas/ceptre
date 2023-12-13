@@ -60,9 +60,7 @@ make_component_registry :: proc(leaves: []Leaf_Template, containers: []ir.Contai
     reg: Component_Registry
 
     for leaf_template in leaves {
-	fmt.assertf (!(leaf_template.name in reg.templates), "Leaf \"%v\" already declared", leaf_template.name)
-        reg.templates[leaf_template.name] = leaf_template
-	reg.stats.nleaves += 1
+	add_leaf (&reg, leaf_template)
     }
 
     for decl in containers {
@@ -76,6 +74,12 @@ make_component_registry :: proc(leaves: []Leaf_Template, containers: []ir.Contai
     }
 
     return reg
+}
+
+add_leaf :: proc (r : ^Component_Registry, leaf_template : Leaf_Template) {
+	fmt.assertf (!(leaf_template.name in r.templates), "Leaf \"%v\" already declared", leaf_template.name)
+        r.templates[leaf_template.name] = leaf_template
+	r.stats.nleaves += 1
 }
 
 get_component_instance :: proc(reg: ^Component_Registry, name_prefix: string, name: string, owner : ^zd.Eh) -> (instance: ^zd.Eh, ok: bool) {
@@ -109,7 +113,11 @@ container_instantiator :: proc(reg: ^Component_Registry, owner : ^zd.Eh, name_pr
     {
         for child_decl in decl.children {
             child_instance, ok := get_component_instance(reg, container_name, child_decl.name, container)
-            fmt.assertf (ok, "\n*** Error: Can't find component %v\n", child_decl.name)
+            //fmt.assertf (ok, "\n*** Error: Can't find component %v\n", child_decl.name)
+	    if !ok {
+		fmt.printf ("\n*** Error: Can't find component %v\n", child_decl.name)
+		os.exit (1)
+	    }
             append(&children, child_instance)
             child_id_map[child_decl.id] = child_instance
         }
