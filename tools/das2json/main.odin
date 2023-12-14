@@ -26,9 +26,11 @@ drawio2json :: proc (container_xml : string) -> string {
 
     decls, err := syntax.parse_drawio_mxgraph(container_xml)
     assert(err == .None, "Failed parsing container XML")
+    fmt.printf ("drawio2json: decls %v\n", decls)
     diagram_json, _ := json.marshal(decls, {pretty=true, use_spaces=true})
     nwritten : int
     sjson := string (diagram_json)
+    fmt.printf ("drawio2json: sjson %v\n", sjson)
     mode: int = 0
     fname := fmt.aprintf ("%v.json", filepath.base (container_xml))
     when os.OS == .Linux || os.OS == .Darwin {

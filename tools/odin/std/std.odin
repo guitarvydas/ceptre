@@ -54,18 +54,18 @@ initialize :: proc(diagram_name: string) -> [dynamic]reg.Leaf_Instantiator {
 
 //// helpers
 
-stdout_instantiate :: proc(name_prefix: string,name: string, owner : ^zd.Eh) -> ^zd.Eh {
-    return zd.make_leaf(name_prefix, name, owner, nil, stdout_handle)
+stdout_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
+    return zd.make_leaf(name, owner, nil, stdout_handle)
 }
 
 stdout_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
     fmt.printf("%#v", msg.datum)
 }
 
-process_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+process_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     command_string := strings.clone(strings.trim_left(name, "$ "))
     command_string_ptr := new_clone(command_string)
-    return zd.make_leaf(name_prefix, name, owner, command_string_ptr^, process_handle)
+    return zd.make_leaf(name, owner, command_string_ptr^, process_handle)
 }
 
 process_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -147,7 +147,7 @@ collect_process_leaves :: proc(diagram_name: string, leaves: ^[dynamic]reg.Leaf_
     }
 
     decls := reg.json2internal (diagram_name)
-    defer delete(decls)
+    defer reg.delete_decls (decls)
 
     // TODO(z64): while harmless, this doesn't ignore duplicate process decls yet.
 
@@ -174,10 +174,10 @@ Command_Instance_Data :: struct {
     buffer : string
 }
 
-command_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+command_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := zd.gensym("command")
     instp := new (Command_Instance_Data)
-    return zd.make_leaf (name_prefix, name_with_id, owner, instp^, command_handle)
+    return zd.make_leaf (name_with_id, owner, instp^, command_handle)
 }
 
 command_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -193,10 +193,10 @@ command_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
     }
 }
 
-icommand_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+icommand_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := zd.gensym("icommand[%d]")
     instp := new (Command_Instance_Data)
-    return zd.make_leaf (name_prefix, name_with_id, owner, instp^, icommand_handle)
+    return zd.make_leaf (name_with_id, owner, instp^, icommand_handle)
 }
 
 icommand_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -215,9 +215,9 @@ icommand_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
 
 /////////
 
-probe_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+probe_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := zd.gensym("?")
-    return zd.make_leaf (name_prefix, name_with_id, owner, nil, probe_handle)
+    return zd.make_leaf (name_with_id, owner, nil, probe_handle)
 }
 
 probe_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -225,9 +225,9 @@ probe_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
     fmt.eprintf ("probe %v: /%v/ len=%v\n", eh.name, s, len (s))
 }
 
-trash_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+trash_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := zd.gensym("trash")
-    return zd.make_leaf (name_prefix, name_with_id, owner, nil, trash_handle)
+    return zd.make_leaf (name_with_id, owner, nil, trash_handle)
 }
 
 trash_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -235,10 +235,10 @@ trash_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
 }
 
 ////////
-literal_instantiate :: proc (name_prefix: string, quoted_name: string, owner : ^zd.Eh) -> ^zd.Eh {
+literal_instantiate :: proc (quoted_name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym(quoted_name)
     pstr := string_dup_to_heap (quoted_name [1:(len (quoted_name) - 1)])
-    return zd.make_leaf (name_prefix, name_with_id, owner, pstr^, literal_handle)
+    return zd.make_leaf (name_with_id, owner, pstr^, literal_handle)
 }
 
 literal_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -271,11 +271,11 @@ reclaim_Buffers_from_heap :: proc (inst : ^Deracer_Instance_Data) {
     zd.destroy_message (inst.buffer.second)
 }
 
-deracer_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+deracer_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym ("deracer")
     inst := new (Deracer_Instance_Data) // allocate in the heap
     inst.state = .idle
-    eh := zd.make_leaf (name_prefix, name_with_id, owner, inst^, deracer_handle)
+    eh := zd.make_leaf (name_with_id, owner, inst^, deracer_handle)
     return eh
 }
 
@@ -326,9 +326,9 @@ deracer_handle :: proc(eh: ^zd.Eh,  msg: ^zd.Message) {
 
 ////////
 
-low_level_read_text_file_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+low_level_read_text_file_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym("Low Level Read Text File")
-    return zd.make_leaf (name_prefix, name_with_id, owner, nil, low_level_read_text_file_handle)
+    return zd.make_leaf (name_with_id, owner, nil, low_level_read_text_file_handle)
 }
 
 low_level_read_text_file_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -350,9 +350,9 @@ low_level_read_text_file_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
 
 
 ////////
-open_text_file_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+open_text_file_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym("Open Text File")
-    return zd.make_leaf (name_prefix, name_with_id, owner, nil, open_text_file_handle)
+    return zd.make_leaf (name_with_id, owner, nil, open_text_file_handle)
 }
 
 open_text_file_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -367,9 +367,9 @@ open_text_file_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
 
 ////////
 
-read_text_from_fd_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+read_text_from_fd_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym("Low Level Read Text From FD")
-    return zd.make_leaf (name_prefix, name_with_id, owner, nil, low_level_read_text_from_fd_handle)
+    return zd.make_leaf (name_with_id, owner, nil, low_level_read_text_from_fd_handle)
 }
 
 low_level_read_text_from_fd_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -384,9 +384,9 @@ low_level_read_text_from_fd_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
 }
 
 ////////
-ensure_string_datum_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+ensure_string_datum_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym("Ensure String Datum")
-    return zd.make_leaf (name_prefix, name_with_id, owner, nil, ensure_string_datum_handle)
+    return zd.make_leaf (name_with_id, owner, nil, ensure_string_datum_handle)
 }
 
 ensure_string_datum_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -407,10 +407,10 @@ Syncfilewrite_Data :: struct {
 
 // temp copy for bootstrap, sends "done" (error during bootstrap if not wired)
 
-syncfilewrite_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+syncfilewrite_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym("syncfilewrite")
     inst := new (Syncfilewrite_Data)
-    return zd.make_leaf (name_prefix, name_with_id, owner, inst^, syncfilewrite_handle)
+    return zd.make_leaf (name_with_id, owner, inst^, syncfilewrite_handle)
 }
 
 syncfilewrite_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -445,9 +445,9 @@ syncfilewrite_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
 ////////
 
 ///
-bang_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+bang_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym("bang[%d]")
-    return zd.make_leaf (name_prefix, name_with_id, owner, nil, bang_handle)
+    return zd.make_leaf (name_with_id, owner, nil, bang_handle)
 }
 
 bang_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
@@ -459,10 +459,10 @@ StringConcat_Instance_Data :: struct {
     buffer : string
 }
 
-stringconcat_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
+stringconcat_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
     name_with_id := gensym("stringconcat")
     instp := new (StringConcat_Instance_Data)
-    return zd.make_leaf (name_prefix, name_with_id, owner, instp^, stringconcat_handle)
+    return zd.make_leaf (name_with_id, owner, instp^, stringconcat_handle)
 }
 
 stringconcat_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {

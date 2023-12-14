@@ -13,13 +13,15 @@ import zd   "../tools/odin/engine/0d"
 import std "../tools/odin/std"
 
 import "../tools/odin/util/transpiler"
+import "../tools/odin/util/fakepipe"
 
 main :: proc() {
     source_file := parse_command_line_args ()
     diagram_name := "preprocess.drawio"
     palette := initialize_component_palette (diagram_name)
-    transpiler.initialize (&palette)
-    run (&palette, source_file, "main", diagram_name, kick_start_function)
+    transpiler.initialize (palette)
+    fakepipe.initialize (palette)
+    run (palette, source_file, "main", diagram_name, kick_start_function)
 }
 
 kick_start_function :: proc (main_container : ^zd.Eh, source_file : string) {
@@ -30,15 +32,17 @@ kick_start_function :: proc (main_container : ^zd.Eh, source_file : string) {
 
 initialize_project_specific_components :: proc (leaves: ^[dynamic]reg.Leaf_Template) {
     append(leaves, std.string_constant ("Word"))
+    append(leaves, std.string_constant ("word.sem.js"))
+    append(leaves, std.string_constant ("word.ohm"))
 }
 
 
 ////////
 
 run :: proc (r : ^reg.Component_Registry, source_file, main_container_name, diagram_source_file : string, injectfn : #type proc (^zd.Eh, string)) {
-    pregistry := r
+    fmt.printf ("main_container_name %s diagram_source_file %s\n", main_container_name, diagram_source_file)
     // get entrypoint container
-    main_container, ok := reg.get_component_instance(pregistry, "", main_container_name, owner=nil)
+    main_container, ok := reg.get_component_instance(r, main_container_name, owner=nil)
     fmt.assertf(
         ok,
         "Couldn't find main container with page name %s in file %s (check tab names, or disable compression?)\n",
@@ -75,14 +79,14 @@ parse_command_line_args :: proc () -> (source_file : string) {
     return source_file
 }
 
-initialize_component_palette :: proc (diagram_source_file: string) -> (palette: reg.Component_Registry) {
+initialize_component_palette :: proc (diagram_source_file: string) -> ^reg.Component_Registry {
     // set up standard leaves
     leaves := std.initialize (diagram_source_file)
     // add leaves specific to this project
     initialize_project_specific_components (&leaves)
 
     containers := reg.json2internal (diagram_source_file)
-    palette = reg.make_component_registry(leaves[:], containers)
+    palette := reg.make_component_registry(leaves[:], containers)
     return palette
 }
 

@@ -57,15 +57,15 @@ make_container :: proc(name: string, owner : ^Eh) -> ^Eh {
 // Creates a new leaf component out of a handler function, and optionally a user
 // data parameter that will be passed back to your handler when it is run.
 
-make_leaf_with_no_instance_data :: proc(name_prefix: string, name: string, owner : ^Eh, handler: proc(^Eh, ^Message)) -> ^Eh {
-    return make_leaf (name_prefix, name, owner, nil, handler)
+make_leaf_with_no_instance_data :: proc(name: string, owner : ^Eh, handler: proc(^Eh, ^Message)) -> ^Eh {
+    return make_leaf (name, owner, nil, handler)
 }
 
 // Creates a new leaf component out of a handler function, and a data parameter
 // that will be passed back to your handler when called.
-make_leaf :: proc(name_prefix: string, name: string, owner: ^Eh, instance_data: any, handler: proc(^Eh, ^Message)) -> ^Eh {
+make_leaf :: proc(name: string, owner: ^Eh, instance_data: any, handler: proc(^Eh, ^Message)) -> ^Eh {
     eh := new(Eh)
-    eh.name = fmt.aprintf ("%s:%s", name_prefix, name)
+    eh.name = fmt.aprintf ("%s.%s", owner.name, name)
     eh.handler = handler
     eh.instance_data = instance_data
     eh.state = .idle

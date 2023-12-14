@@ -94,6 +94,19 @@
                     "id": 0
                 },
                 "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Read Text File",
+                    "id": 3
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
             }
         ]
     },
@@ -783,151 +796,6 @@
     },
     {
         "file": "preprocess.drawio",
-        "name": "fake pipe",
-        "children": [
-            {
-                "name": "fakepipename",
-                "id": 8
-            },
-            {
-                "name": "syncfilewrite2",
-                "id": 10
-            },
-            {
-                "name": "1then2",
-                "id": 12
-            },
-            {
-                "name": "trash",
-                "id": 17
-            },
-            {
-                "name": "1then2",
-                "id": 22
-            }
-        ],
-        "connections": [
-            {
-                "dir": 0,
-                "source": {
-                    "name": "",
-                    "id": 0
-                },
-                "source_port": "input",
-                "target": {
-                    "name": "1then2",
-                    "id": 12
-                },
-                "target_port": "2"
-            },
-            {
-                "dir": 0,
-                "source": {
-                    "name": "",
-                    "id": 0
-                },
-                "source_port": "input",
-                "target": {
-                    "name": "fakepipename",
-                    "id": 8
-                },
-                "target_port": "\u03b1"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "1then2",
-                    "id": 12
-                },
-                "source_port": "2",
-                "target": {
-                    "name": "syncfilewrite2",
-                    "id": 10
-                },
-                "target_port": "input"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "1then2",
-                    "id": 12
-                },
-                "source_port": "1",
-                "target": {
-                    "name": "syncfilewrite2",
-                    "id": 10
-                },
-                "target_port": "filename"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "fakepipename",
-                    "id": 8
-                },
-                "source_port": "\u03b1",
-                "target": {
-                    "name": "1then2",
-                    "id": 12
-                },
-                "target_port": "1"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "syncfilewrite2",
-                    "id": 10
-                },
-                "source_port": "done",
-                "target": {
-                    "name": "1then2",
-                    "id": 22
-                },
-                "target_port": "1"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "1then2",
-                    "id": 22
-                },
-                "source_port": "1",
-                "target": {
-                    "name": "trash",
-                    "id": 17
-                },
-                "target_port": "input"
-            },
-            {
-                "dir": 2,
-                "source": {
-                    "name": "syncfilewrite2",
-                    "id": 10
-                },
-                "source_port": "error",
-                "target": {
-                    "name": "",
-                    "id": 0
-                },
-                "target_port": "error"
-            },
-            {
-                "dir": 2,
-                "source": {
-                    "name": "1then2",
-                    "id": 22
-                },
-                "source_port": "2",
-                "target": {
-                    "name": "",
-                    "id": 0
-                },
-                "target_port": "filename"
-            }
-        ]
-    },
-    {
-        "file": "preprocess.drawio",
         "name": "All Before 4",
         "children": [
             {
@@ -1379,6 +1247,232 @@
                 "source": {
                     "name": "stringconcat",
                     "id": 40
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            }
+        ]
+    },
+    {
+        "file": "preprocess.drawio",
+        "name": "Read Text File",
+        "children": [
+            {
+                "name": "Low Level Read Text File",
+                "id": 5
+            },
+            {
+                "name": "Ensure String Datum",
+                "id": 6
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "Ensure String Datum",
+                    "id": 6
+                },
+                "target_port": "operand"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "Ensure String Datum",
+                    "id": 6
+                },
+                "source_port": "output",
+                "target": {
+                    "name": "Low Level Read Text File",
+                    "id": 5
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Low Level Read Text File",
+                    "id": 5
+                },
+                "source_port": "str",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "str"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Low Level Read Text File",
+                    "id": 5
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            }
+        ]
+    },
+    {
+        "file": "preprocess.drawio",
+        "name": "fake pipe",
+        "children": [
+            {
+                "name": "1then2",
+                "id": 3
+            },
+            {
+                "name": "fakepipename",
+                "id": 7
+            },
+            {
+                "name": "syncfilewrite",
+                "id": 13
+            },
+            {
+                "name": "1then2",
+                "id": 15
+            },
+            {
+                "name": "trash",
+                "id": 20
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "1then2",
+                    "id": 15
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "fakepipename",
+                    "id": 7
+                },
+                "target_port": "go"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2",
+                    "id": 15
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "syncfilewrite",
+                    "id": 13
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2",
+                    "id": 15
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "syncfilewrite",
+                    "id": 13
+                },
+                "target_port": "filename"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "fakepipename",
+                    "id": 7
+                },
+                "source_port": "output",
+                "target": {
+                    "name": "1then2",
+                    "id": 15
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "syncfilewrite",
+                    "id": 13
+                },
+                "source_port": "done",
+                "target": {
+                    "name": "1then2",
+                    "id": 3
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2",
+                    "id": 3
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "trash",
+                    "id": 20
+                },
+                "target_port": "input"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "fakepipename",
+                    "id": 7
+                },
+                "source_port": "output",
+                "target": {
+                    "name": "1then2",
+                    "id": 3
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2",
+                    "id": 3
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "filename"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "syncfilewrite",
+                    "id": 13
                 },
                 "source_port": "error",
                 "target": {

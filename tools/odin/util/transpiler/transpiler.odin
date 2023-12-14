@@ -22,7 +22,6 @@ initialize :: proc(r : ^reg.Component_Registry) {
     reg.add_leaf (r, std.string_constant ("RWR"))
     reg.add_leaf (r, std.string_constant ("rwr.ohm"))
     reg.add_leaf (r, std.string_constant ("rwr.sem.js"))
-
 }
 
 ///////////
@@ -36,15 +35,14 @@ OhmJS_Instance_Data :: struct {
     input : string, // source file to be parsed
 }
 
-ohmjs_instantiate :: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh {
-    name_with_id := std.gensym("OhmJS")
+ohmjs_instantiate :: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh {
+    instance_name := std.gensym ("OhmJS")
     inst := new (OhmJS_Instance_Data) // all fields have zero value before any messages are received
-    return zd.make_leaf (name_prefix, name_with_id, owner, inst^, ohmjs_handle)
+    return zd.make_leaf (instance_name, owner, inst^, ohmjs_handle)
 }
 
 ohmjs_maybe :: proc (eh: ^zd.Eh, inst: ^OhmJS_Instance_Data, causingMsg: ^zd.Message) {
     if "" != inst.grammarname && "" != inst.grammarfilename && "" != inst.semanticsfilename && "" != inst.input {
-
         cmd := fmt.aprintf ("ohmjs/ohmjs.js %s %s %s", inst.grammarname, inst.grammarfilename, inst.semanticsfilename)
 	captured_output, err := process.run_command (cmd, inst.input)
         zd.send_string (eh, "output", strings.trim_space (captured_output), causingMsg)

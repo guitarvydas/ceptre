@@ -29,7 +29,7 @@ Container_Template :: struct {
 
 Leaf_Template :: struct {
     name: string,
-    instantiate: proc(name_prefix: string, name: string, owner : ^zd.Eh) -> ^zd.Eh,
+    instantiate: proc(name: string, owner : ^zd.Eh) -> ^zd.Eh,
 }
 
 Leaf_Instantiator :: Leaf_Template
@@ -41,26 +41,30 @@ Template :: union {
 
 
     
-json2internal :: proc (container_xml : string) -> (decls : []ir.Container_Decl) {
-    fname := fmt.aprintf ("/tmp/%v.json", filepath.base (container_xml))
+json2internal :: proc (container_xml : string) -> ^[]ir.Container_Decl {
+    fname := fmt.aprintf ("%v.json", filepath.base (container_xml))
     read_fd, read_errnum := os.open (path=fname, flags=os.O_RDONLY)
     fmt.assertf (read_errnum == 0, "read open error on %v, err=%v\n", fname, read_errnum)
     data, success := os.read_entire_file_from_handle (read_fd)
     fmt.assertf (success, "read error on file %s errno=%v", fname, os.get_last_error ())
     s := transmute(string)data
-    unmarshal_err := json.unmarshal_string (s, &decls)
+    decls := new ([]ir.Container_Decl)
+    unmarshal_err := json.unmarshal_string (s, decls)
     fmt.assertf (unmarshal_err == nil || unmarshal_err == .None, "failure converting from JSON to internal format %v\n", unmarshal_err)
     os.close (read_fd)
     return decls
 }
 
+delete_decls :: proc (^[]ir.Container_Decl) {
+    // TBD
+}
 
-make_component_registry :: proc(leaves: []Leaf_Template, containers: []ir.Container_Decl) -> Component_Registry {
+make_component_registry :: proc(leaves: []Leaf_Template, containers: ^[]ir.Container_Decl) -> ^Component_Registry {
 
-    reg: Component_Registry
+    reg :=  new (Component_Registry)
 
     for leaf_template in leaves {
-	add_leaf (&reg, leaf_template)
+	add_leaf (reg, leaf_template)
     }
 
     for decl in containers {
@@ -82,24 +86,24 @@ add_leaf :: proc (r : ^Component_Registry, leaf_template : Leaf_Template) {
 	r.stats.nleaves += 1
 }
 
-get_component_instance :: proc(reg: ^Component_Registry, name_prefix: string, name: string, owner : ^zd.Eh) -> (instance: ^zd.Eh, ok: bool) {
+get_component_instance :: proc(reg: ^Component_Registry, name: string, owner : ^zd.Eh) -> (instance: ^zd.Eh, ok: bool) {
     descriptor: Template
     descriptor, ok = reg.templates[name]
+    component_name := fmt.aprintf ("%s.%s", owner.name, name)
     if ok {
         switch template in descriptor {
         case Leaf_Template:
-            instance = template.instantiate(name_prefix, name, owner)
+            instance = template.instantiate(component_name, owner)
         case Container_Template:
-            instance = container_instantiator(reg, owner, name_prefix, template.decl)
+            instance = container_instantiator(reg, owner, template.decl, component_name)
         }
 	reg.stats.ninstances += 1
     }
     return instance, ok
 }
 
-container_instantiator :: proc(reg: ^Component_Registry, owner : ^zd.Eh, name_prefix: string, decl: ir.Container_Decl) -> ^zd.Eh {
+container_instantiator :: proc(reg: ^Component_Registry, owner : ^zd.Eh, decl: ir.Container_Decl, container_name : string) -> ^zd.Eh {
 
-    container_name := fmt.aprintf ("%s.%s", name_prefix, decl.name)
     container := zd.make_container(container_name, owner)
 
     children := make([dynamic]^zd.Eh)
@@ -112,7 +116,7 @@ container_instantiator :: proc(reg: ^Component_Registry, owner : ^zd.Eh, name_pr
     // collect children
     {
         for child_decl in decl.children {
-            child_instance, ok := get_component_instance(reg, container_name, child_decl.name, container)
+            child_instance, ok := get_component_instance(reg, child_decl.name, container)
             //fmt.assertf (ok, "\n*** Error: Can't find component %v\n", child_decl.name)
 	    if !ok {
 		fmt.printf ("\n*** Error: Can't find component %v\n", child_decl.name)
@@ -149,6 +153,11 @@ container_instantiator :: proc(reg: ^Component_Registry, owner : ^zd.Eh, name_pr
                 source_ok = true
 
                 target_component, target_ok = child_id_map[c.target.id]
+		if !target_ok {
+		    fmt.printf ("internal error: .Down connection target not ok %v\n", c.target)
+		    os.exit (1)
+		}
+		fmt.assertf (target_ok, "PANIC: c %v .Down %v\n", c, target_component)
                 connector.receiver = {
 		    target_component.name,
                     &target_component.input,
@@ -158,6 +167,15 @@ container_instantiator :: proc(reg: ^Component_Registry, owner : ^zd.Eh, name_pr
                 connector.direction = .Across
                 source_component, source_ok = child_id_map[c.source.id]
                 target_component, target_ok = child_id_map[c.target.id]
+
+		if !source_ok {
+		    fmt.printf ("internal error: .Across connection source not ok %v\n", c.source)
+		    os.exit (1)
+		}
+		if !target_ok {
+		    fmt.printf ("internal error: .Across connection target not ok %v\n", c.target)
+		    os.exit (1)
+		}
 
                 connector.sender = {
 		    source_component.name,
@@ -173,6 +191,10 @@ container_instantiator :: proc(reg: ^Component_Registry, owner : ^zd.Eh, name_pr
             case .Up:
                 connector.direction = .Up
                 source_component, source_ok = child_id_map[c.source.id]
+		if !source_ok {
+		    fmt.printf ("internal error: .Up connection source not ok %v\n", c.source)
+		    os.exit (1)
+		}
                 connector.sender = {
 		    source_component.name,
                     source_component,

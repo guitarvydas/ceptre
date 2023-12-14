@@ -8,10 +8,10 @@ D2J=../tools/das2json/das2json
 #PREPROCESS_JSON=preprocess.json
 #PREPROCESSED_CEP=../preprocessed.dc.cep
 
-dev: preprocess ../dc.cep
+dev: preprocess ../dc.cep forced2j $(0D) $(STD)
 	./preprocess ../dc.cep
 
-../preprocess.dc.cep: preprocess ../dc.cep
+../preprocess.dc.cep: preprocess ../dc.cep forced2j $(0D) $(STD)
 	./preprocess ../dc.cep >../preprocessed.dc.cep
 
 preprocess.json: preprocess.drawio $(D2J)
@@ -21,7 +21,7 @@ preprocess: preprocess.drawio $(0D) $(STD) preprocess.json
 	echo building preprocess
 	odin build . $(ODIN_FLAGS) 
 
-$(D2J):
+forced2j:
 	(cd ../tools/das2json ; make)
 
 
