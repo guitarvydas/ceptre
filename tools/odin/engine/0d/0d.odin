@@ -306,7 +306,7 @@ route :: proc(container: ^Eh, from: ^Eh, message: ^Message) {
 	/* if 0 == len (name) { */
 	/*     name = container.name */
 	/* } */
-	fmt.printf (" *** message '%v' from %v dropped on floor...\n%v [%v]\n\n", message.port, from.name, message.datum.repr (message.datum), message.cause)
+	fmt.printf ("\n %v: message '%v' from %v dropped on floor...\n%v [%v]\n\n", container.name, message.port, from.name, message.datum.repr (message.datum), message.cause)
 	dump_possible_connections (container)
 	fmt.printf ("\n***\n")
     }
