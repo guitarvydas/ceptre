@@ -44,7 +44,6 @@ initialize_project_specific_components :: proc (leaves: ^[dynamic]reg.Leaf_Templ
 ////////
 
 run :: proc (r : ^reg.Component_Registry, source_file, main_container_name, diagram_source_file : string, injectfn : #type proc (^zd.Eh, string)) {
-    fmt.printf ("main_container_name %s diagram_source_file %s\n", main_container_name, diagram_source_file)
     // get entrypoint container
     main_container, ok := reg.get_component_instance(r, main_container_name, owner=nil)
     fmt.assertf(

@@ -76,15 +76,11 @@ process_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
         return
     }
     
-    send_output :: proc(eh: ^zd.Eh, port: string, output: []byte, causingMsg: ^zd.Message) {
-        if len(output) > 0 {
-            zd.send (eh, port, zd.new_datum_bytes (output), causingMsg)
-        }
-    }
 
     switch msg.port {
     case "input":
-        handle := process.process_start(eh.instance_data.(string))
+	cmd := eh.instance_data.(string)
+        handle := process.process_start(cmd)
         defer process.process_destroy_handle(handle)
 
         // write input, wait for finish
@@ -120,8 +116,8 @@ process_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
 		// fire only one output port
 		// on error, send both, stdout and stderr to the error port
 		if len (stderr) > 0 {
-                    send_output (eh, "error", stdout, msg)
-		    zd.send_string(eh, "error", stderr, msg)
+		    fmt.printf ("%v: %v\n", cmd, stderr) // debug
+		    zd.send_string(eh, "error", fmt.aprintf ("%v: %v", cmd, stderr), msg)
 		} else {
                     zd.send_string (eh, "output", transmute(string)stdout, msg)
 		}
@@ -235,9 +231,11 @@ trash_handle :: proc(eh: ^zd.Eh, msg: ^zd.Message) {
 }
 
 ////////
-literal_instantiate :: proc (quoted_name: string, owner : ^zd.Eh) -> ^zd.Eh {
-    name_with_id := gensym(quoted_name)
-    pstr := string_dup_to_heap (quoted_name [1:(len (quoted_name) - 1)])
+literal_instantiate :: proc (name: string, owner : ^zd.Eh) -> ^zd.Eh {
+    i := strings.index_rune (name, '\'')
+    quoted := name [i+1:(len (name) - 1)]
+    name_with_id := gensym(name)
+    pstr := string_dup_to_heap (quoted)
     return zd.make_leaf (name_with_id, owner, pstr^, literal_handle)
 }
 
