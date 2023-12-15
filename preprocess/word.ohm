@@ -9,7 +9,7 @@ RTWord {
     | word -- word
 
   word = legalchar+
-  legalchar = ~separator ~space any
+  legalchar = "_" | (~separator ~space any)
 
   hashSpace = "# "
   integer = digit+
