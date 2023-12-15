@@ -67,7 +67,7 @@ print_error_maybe :: proc (main_container : ^zd.Eh) -> (ok: bool) {
     error_port := "error"
     dont_care, found := zd.fetch_first_output (main_container, error_port)
     if found {
-	fmt.println("\n\n--- !!! ERRORS !!! ---")
+	fmt.println("\n\n--- !!! ERRORS found at the top level !!! ---")
 	zd.print_specific_output (main_container, error_port)
     }
     return !found
