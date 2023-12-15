@@ -299,12 +299,25 @@ route :: proc(container: ^Eh, from: ^Eh, message: ^Message) {
     }
     if ! was_sent {
 	fmt.printf ("\n\n*** Error: ***")
+	/* // the following code causes a core dump */
+	/* fmt.printf ("\nfrom.name = %s %v\n", from.name, from.name) */
+	/* name := from.name */
+	/* fmt.print ("\nname = %v\n", name) */
+	/* if 0 == len (name) { */
+	/*     name = container.name */
+	/* } */
 	fmt.printf (" *** message '%v' from %v dropped on floor...\n%v [%v]\n\n", message.port, from.name, message.datum.repr (message.datum), message.cause)
+	dump_possible_connections (container)
+	fmt.printf ("\n***\n")
+    }
+}
+
+dump_possible_connections :: proc (container: ^Eh) {
+    if false {
 	fmt.printf ("\n*** possible connections:")
 	for connector in container.connections {
 	    fmt.printf ("\n\n%v", connector)
 	}
-	fmt.printf ("\n***\n")
     }
 }
 

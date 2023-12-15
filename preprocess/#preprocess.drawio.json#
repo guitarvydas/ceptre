@@ -115,20 +115,20 @@
         "name": "Delineate Words",
         "children": [
             {
-                "name": "Ohm (using file names)",
+                "name": "Translate",
                 "id": 11
             },
             {
-                "name": "'Word'",
-                "id": 12
+                "name": "'word.sem.js'",
+                "id": 13
             },
             {
                 "name": "'word.ohm'",
-                "id": 16
+                "id": 18
             },
             {
-                "name": "'word.sem.js'",
-                "id": 18
+                "name": "'Word'",
+                "id": 19
             }
         ],
         "connections": [
@@ -140,10 +140,10 @@
                 },
                 "source_port": "input",
                 "target": {
-                    "name": "'word.sem.js'",
-                    "id": 18
+                    "name": "",
+                    "id": 16
                 },
-                "target_port": "go"
+                "target_port": "C"
             },
             {
                 "dir": 0,
@@ -153,10 +153,23 @@
                 },
                 "source_port": "input",
                 "target": {
-                    "name": "'Word'",
-                    "id": 12
+                    "name": "Translate",
+                    "id": 11
                 },
-                "target_port": "go"
+                "target_port": "input"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "input",
+                "target": {
+                    "name": "'word.sem.js'",
+                    "id": 13
+                },
+                "target_port": "A"
             },
             {
                 "dir": 0,
@@ -167,32 +180,19 @@
                 "source_port": "input",
                 "target": {
                     "name": "'word.ohm'",
-                    "id": 16
+                    "id": 18
                 },
-                "target_port": "go"
-            },
-            {
-                "dir": 0,
-                "source": {
-                    "name": "",
-                    "id": 0
-                },
-                "source_port": "input",
-                "target": {
-                    "name": "Ohm (using file names)",
-                    "id": 11
-                },
-                "target_port": "input"
+                "target_port": "B"
             },
             {
                 "dir": 1,
                 "source": {
                     "name": "'Word'",
-                    "id": 12
+                    "id": 19
                 },
-                "source_port": "output",
+                "source_port": "\u03b1",
                 "target": {
-                    "name": "Ohm (using file names)",
+                    "name": "Translate",
                     "id": 11
                 },
                 "target_port": "grammar name"
@@ -201,32 +201,19 @@
                 "dir": 1,
                 "source": {
                     "name": "'word.ohm'",
-                    "id": 16
-                },
-                "source_port": "output",
-                "target": {
-                    "name": "Ohm (using file names)",
-                    "id": 11
-                },
-                "target_port": "ohmfn"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "'word.sem.js'",
                     "id": 18
                 },
-                "source_port": "output",
+                "source_port": "\u03b1",
                 "target": {
-                    "name": "Ohm (using file names)",
+                    "name": "Translate",
                     "id": 11
                 },
-                "target_port": "semanticsfn"
+                "target_port": "grammarfn"
             },
             {
                 "dir": 2,
                 "source": {
-                    "name": "Ohm (using file names)",
+                    "name": "Translate",
                     "id": 11
                 },
                 "source_port": "error",
@@ -239,7 +226,7 @@
             {
                 "dir": 2,
                 "source": {
-                    "name": "Ohm (using file names)",
+                    "name": "Translate",
                     "id": 11
                 },
                 "source_port": "output",
@@ -256,15 +243,15 @@
         "name": "Escape Whitespace",
         "children": [
             {
-                "name": "'escapes.ohm'",
+                "name": "escapes.ohm'",
                 "id": 5
             },
             {
-                "name": "'escapessupport.js'",
+                "name": "escapessupport.js'",
                 "id": 10
             },
             {
-                "name": "'escapes.rwr'",
+                "name": "escapes.rwr'",
                 "id": 13
             },
             {
@@ -285,7 +272,7 @@
                 },
                 "source_port": "input",
                 "target": {
-                    "name": "'escapessupport.js'",
+                    "name": "escapessupport.js'",
                     "id": 10
                 },
                 "target_port": "go"
@@ -311,7 +298,7 @@
                 },
                 "source_port": "input",
                 "target": {
-                    "name": "'escapes.ohm'",
+                    "name": "escapes.ohm'",
                     "id": 5
                 },
                 "target_port": "go"
@@ -324,7 +311,7 @@
                 },
                 "source_port": "input",
                 "target": {
-                    "name": "'escapes.rwr'",
+                    "name": "escapes.rwr'",
                     "id": 13
                 },
                 "target_port": "go"
@@ -345,7 +332,7 @@
             {
                 "dir": 1,
                 "source": {
-                    "name": "'escapes.ohm'",
+                    "name": "escapes.ohm'",
                     "id": 5
                 },
                 "source_port": "output",
@@ -358,7 +345,7 @@
             {
                 "dir": 1,
                 "source": {
-                    "name": "'escapes.rwr'",
+                    "name": "escapes.rwr'",
                     "id": 13
                 },
                 "source_port": "output",
@@ -384,7 +371,7 @@
             {
                 "dir": 1,
                 "source": {
-                    "name": "'escapessupport.js'",
+                    "name": "escapessupport.js'",
                     "id": 10
                 },
                 "source_port": "output",
@@ -480,7 +467,7 @@
                 },
                 "source_port": "grammarfn",
                 "target": {
-                    "name": "All Before 4",
+                    "name": "All Beore 4",
                     "id": 16
                 },
                 "target_port": "2"
@@ -1482,5 +1469,24 @@
                 "target_port": "error"
             }
         ]
+    }
+]
+]    },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "syncfilewrite",
+                    "id": 13
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            }
+        ]
+    }
+]    ]
     }
 ]

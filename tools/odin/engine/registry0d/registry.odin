@@ -157,7 +157,6 @@ container_instantiator :: proc(reg: ^Component_Registry, owner : ^zd.Eh, decl: i
 		    fmt.printf ("internal error: .Down connection target not ok %v\n", c.target)
 		    os.exit (1)
 		}
-		fmt.assertf (target_ok, "PANIC: c %v .Down %v\n", c, target_component)
                 connector.receiver = {
 		    target_component.name,
                     &target_component.input,

@@ -34,6 +34,10 @@ initialize_project_specific_components :: proc (leaves: ^[dynamic]reg.Leaf_Templ
     append(leaves, std.string_constant ("Word"))
     append(leaves, std.string_constant ("word.sem.js"))
     append(leaves, std.string_constant ("word.ohm"))
+    append(leaves, std.string_constant ("Escapes"))
+    append(leaves, std.string_constant ("escapes.ohm"))
+    append(leaves, std.string_constant ("escapes.rwr"))
+    append(leaves, std.string_constant ("escapessupport.js"))
 }
 
 
