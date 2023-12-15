@@ -61,7 +61,7 @@ run :: proc (r : ^reg.Component_Registry, source_file, main_container_name, diag
 
 
 print_output :: proc (main_container : ^zd.Eh) {
-    zd.print_specific_output (main_container, "output")
+    zd.print_specific_output (main_container, "output", stderr=false)
 }
 print_error_maybe :: proc (main_container : ^zd.Eh) -> (ok: bool) {
     error_port := "error"
@@ -70,7 +70,7 @@ print_error_maybe :: proc (main_container : ^zd.Eh) -> (ok: bool) {
     err := found && 0 != len (estr)
     if err {
 	fmt.println("\n\n--- !!! ERRORS found at the top level !!! ---")
-	zd.print_specific_output (main_container, error_port)
+	zd.print_specific_output (main_container, error_port, stderr=true)
     }
     return err
 }

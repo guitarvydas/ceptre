@@ -386,14 +386,18 @@ fetch_first_output :: proc (eh :^Eh, port: Port_Type) -> (Datum, bool) {
     return Datum{}, false
 }
 
-print_specific_output :: proc(eh: ^Eh, port: string) {
+print_specific_output :: proc(eh: ^Eh, port: string, stderr : bool) {
     sb: strings.Builder
     defer strings.builder_destroy(&sb)
 
     datum, found := fetch_first_output (eh, port)
     if found {
 	fmt.sbprintf(&sb, "%v", datum.repr (&datum))
-	fmt.println(strings.to_string(sb))
+	if stderr {
+	    fmt.eprintln(strings.to_string(sb))
+	} else {
+	    fmt.println(strings.to_string(sb))
+	}
     }
 }
 
