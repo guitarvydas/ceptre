@@ -4,16 +4,16 @@
         "name": "main",
         "children": [
             {
-                "name": "Read Text File",
-                "id": 3
-            },
-            {
                 "name": "Delineate Words",
                 "id": 7
             },
             {
                 "name": "Escape Whitespace",
-                "id": 10
+                "id": 9
+            },
+            {
+                "name": "Read Text File",
+                "id": 15
             }
         ],
         "connections": [
@@ -26,7 +26,7 @@
                 "source_port": "input",
                 "target": {
                     "name": "Read Text File",
-                    "id": 3
+                    "id": 15
                 },
                 "target_port": "input"
             },
@@ -39,7 +39,7 @@
                 "source_port": "output",
                 "target": {
                     "name": "Escape Whitespace",
-                    "id": 10
+                    "id": 9
                 },
                 "target_port": "input"
             },
@@ -47,7 +47,7 @@
                 "dir": 1,
                 "source": {
                     "name": "Read Text File",
-                    "id": 3
+                    "id": 15
                 },
                 "source_port": "str",
                 "target": {
@@ -60,7 +60,7 @@
                 "dir": 2,
                 "source": {
                     "name": "Escape Whitespace",
-                    "id": 10
+                    "id": 9
                 },
                 "source_port": "output",
                 "target": {
@@ -72,8 +72,21 @@
             {
                 "dir": 2,
                 "source": {
+                    "name": "Read Text File",
+                    "id": 15
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            },
+            {
+                "dir": 2,
+                "source": {
                     "name": "Escape Whitespace",
-                    "id": 10
+                    "id": 9
                 },
                 "source_port": "error",
                 "target": {
@@ -87,19 +100,6 @@
                 "source": {
                     "name": "Delineate Words",
                     "id": 7
-                },
-                "source_port": "error",
-                "target": {
-                    "name": "",
-                    "id": 0
-                },
-                "target_port": "error"
-            },
-            {
-                "dir": 2,
-                "source": {
-                    "name": "Read Text File",
-                    "id": 3
                 },
                 "source_port": "error",
                 "target": {
@@ -1513,4 +1513,26 @@
             }
         ]
     }
+]]    "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            }
+        ]
+    }
+]
+]: "syncfilewrite",
+                    "id": 13
+                },
+                "source_port": "error",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "error"
+            }
+        ]
+    }
+] }
 ]

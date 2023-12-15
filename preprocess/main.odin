@@ -53,8 +53,8 @@ run :: proc (r : ^reg.Component_Registry, source_file, main_container_name, diag
         diagram_source_file,
     )
     injectfn (main_container, source_file)
-    no_error := print_error_maybe (main_container)
-    if no_error {
+    err := print_error_maybe (main_container)
+    if !err {
 	print_output (main_container)
     }
 }
@@ -65,12 +65,14 @@ print_output :: proc (main_container : ^zd.Eh) {
 }
 print_error_maybe :: proc (main_container : ^zd.Eh) -> (ok: bool) {
     error_port := "error"
-    dont_care, found := zd.fetch_first_output (main_container, error_port)
-    if found {
+    edatum, found := zd.fetch_first_output (main_container, error_port)
+    estr := edatum.repr (&edatum)
+    err := found && 0 != len (estr)
+    if err {
 	fmt.println("\n\n--- !!! ERRORS found at the top level !!! ---")
 	zd.print_specific_output (main_container, error_port)
     }
-    return !found
+    return err
 }
 
 parse_command_line_args :: proc () -> (source_file : string) {

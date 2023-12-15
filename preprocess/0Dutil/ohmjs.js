@@ -188,4 +188,3 @@ function main () {
 
 var result = main ()
 console.log (result.trim ());
-console.error ("");
