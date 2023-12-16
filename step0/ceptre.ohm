@@ -1,5 +1,16 @@
+Type_decl = Type_id ":" "type" "."
+Typed_Item_id = Typed_Item_id ":" Type_id "."
+
+FWD_Predicate_Decl = Predicate_id Typed_Item_id* ":" "pred" "."
+BWD_Predicate_Decl = Predicate_id Typed_Item_id* ":" "bwd"  "."
+
+External_Predicate_Decl = Predicate_id Typed_Item_id* ":" Type_id "."
+
+
+
+
 Ceptre {
-  main = top_level+       
+  Main = Top_level+       
   top_level =
     | Backward_chaining_predicate_declaration
     | Permanent_fact
@@ -13,14 +24,21 @@ Parameterid =
   | logicVar
   | var
 
+Permanent_fact = BWD_Predicate "."
+
+Context = Contextid "=" "{" 
+
+BWD_Predicate = Predicate (var | constant)*
+FWD_Predicate = Predicate (var | constant | logical_var)*
+
+constant = digit+
 atom =
   | digit+
   | id
 
-logicVar = upper idrest*
-var = id
+logicVar = "❲" upper idrest* "❳"
+var = "❲" lower idrest* "❳" ("/" var)?
 
-id = lower idrest*
 idrest = letter | "_" | digit
 
 comment = "%" (~nl any)* nl
