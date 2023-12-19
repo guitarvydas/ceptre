@@ -1,13 +1,71 @@
-Type_decl = Type_id ":" "type" "."
-Typed_Item_id = Typed_Item_id ":" Type_id "."
+Ceptre {
 
-FWD_Predicate_Decl = Predicate_id Typed_Item_id* ":" "pred" "."
-BWD_Predicate_Decl = Predicate_id Typed_Item_id* ":" "bwd"  "."
+Top_Level = (Top_Level_Rule | Type_Decl | Stage_decl | Initial_Context_Decl)+
+
+
+Top_Level_Rule = w<"qui"> "*" w<"stage"> Stage_id "*" Rule+
+Type_decl = Type_id ":" w<"type"> "."
+Stage_decl = 
+  | Stage_id "{" Rule+ "}" "#interactive" -- interactive
+  | Stage_id "{" Rule+ "}"                -- nondeterministic
+Initial_Context_Decl = w<"context"> Context_id "=" "{" listOf<Clause,","> "}" "."
+
+
+
+FWD_Predicate_Decl = Predicate_id Typed_Item_id* ":" w<"pred"> "."
+BWD_Predicate_Decl = Predicate_id Typed_Item_id* ":" w<"bwd">  "."
 
 External_Predicate_Decl = Predicate_id Typed_Item_id* ":" Type_id "."
 
+Rule = Rule_id ":" Inhale "-o" Exhale "."
+
+Clause = 
+  | w<"stage"> Stage_id            -- stage
+  | "(" ")"                     -- empty
+  | "(" Clause ")"              -- parenthesized
+  | Predicate_id Predicate_arg* -- basic
+
+Predicate_arg =
+  | logicVar -- logicVar
+  | var      -- var
+  | constant -- const
+
+constant = digit+
+logicVar = ~keyword "❲" upper idrest* "❳"
+var = ~keyword "❲" lower idrest* "❳"
+
+keyword = w<"stage"> | w<"qui"> | w<"type"> | w<"context"> | w<"pred"> | w<"bwd">
+
+Inhale =
+  | "$" Clause ("*" Inhale)? -- dollarmatch
+  |     Clause ("*" Inhale)? --       match
+
+Exhale =
+  | "!" Clause ("*" Exhale)? -- bangmutate
+  |     Clause ("*" Exhale)? --     mutate
+
+ 
+
+Type_id = id
+Stage_id = id
+Predicate_id = id
+Rule_id = id
+Context_id = id
+
+idrest = 
+  | ~"❳" any
+
+w<s> = "❲" s "❳"
+comment = "%" (~nl any)* nl
+space += comment
 
 
+}
+
+----- left overs -----
+
+
+Typed_Item_id = Typed_Item_id ":" Type_id "."
 
 Ceptre {
   Main = Top_level+       
@@ -31,16 +89,4 @@ Context = Contextid "=" "{"
 BWD_Predicate = Predicate (var | constant)*
 FWD_Predicate = Predicate (var | constant | logical_var)*
 
-constant = digit+
-atom =
-  | digit+
-  | id
-
-logicVar = "❲" upper idrest* "❳"
-var = "❲" lower idrest* "❳" ("/" var)?
-
-idrest = letter | "_" | digit
-
-comment = "%" (~nl any)* nl
-space += comment
 }

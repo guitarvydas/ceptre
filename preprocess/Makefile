@@ -9,10 +9,6 @@ D2J=../tools/das2json/das2json
 #PREPROCESSED_CEP=../preprocessed.dc.cep
 
 
-dev: preprocess ../dc.cep forced2j $(0D) $(STD)
-	(cd ../tools/das2json ; make)
-	./preprocess ../dc.cep
-
 ../preprocess.dc.cep: preprocess ../dc.cep forced2j $(0D) $(STD)
 	(cd ../tools/das2json ; make)
 	./preprocess ../dc.cep >../preprocessed.dc.cep
