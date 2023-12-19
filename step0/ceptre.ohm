@@ -1,6 +1,6 @@
 Ceptre {
 
-Top_Level = (Top_Level_Rule | Type_Decl | Stage_decl | Initial_Context_Decl)+
+Top_Level = (Top_Level_Rule | Type_decl | Stage_decl | Initial_Context_Decl)+
 
 
 Top_Level_Rule = w<"qui"> "*" w<"stage"> Stage_id "*" Rule+
@@ -12,10 +12,10 @@ Initial_Context_Decl = w<"context"> Context_id "=" "{" listOf<Clause,","> "}" ".
 
 
 
-FWD_Predicate_Decl = Predicate_id Typed_Item_id* ":" w<"pred"> "."
-BWD_Predicate_Decl = Predicate_id Typed_Item_id* ":" w<"bwd">  "."
+FWD_Predicate_Decl = Predicate_id Formal_arg* ":" w<"pred"> "."
+BWD_Predicate_Decl = Predicate_id Formal_arg* ":" w<"bwd">  "."
 
-External_Predicate_Decl = Predicate_id Typed_Item_id* ":" Type_id "."
+External_Predicate_Decl = Predicate_id Formal_arg* ":" Type_id "."
 
 Rule = Rule_id ":" Inhale "-o" Exhale "."
 
@@ -25,6 +25,10 @@ Clause =
   | "(" Clause ")"              -- parenthesized
   | Predicate_id Predicate_arg* -- basic
 
+Formal_arg =
+  | logicVar -- logicVar
+  | var      -- var
+
 Predicate_arg =
   | logicVar -- logicVar
   | var      -- var
@@ -32,7 +36,7 @@ Predicate_arg =
 
 constant = digit+
 logicVar = ~keyword "❲" upper idrest* "❳"
-var = ~keyword "❲" lower idrest* "❳"
+var = id
 
 keyword = w<"stage"> | w<"qui"> | w<"type"> | w<"context"> | w<"pred"> | w<"bwd">
 
@@ -52,41 +56,11 @@ Predicate_id = id
 Rule_id = id
 Context_id = id
 
-idrest = 
-  | ~"❳" any
+id = ~keyword "❲" lower idrest* "❳"
+idrest = ~"❳" any
 
 w<s> = "❲" s "❳"
-comment = "%" (~nl any)* nl
+comment = "⦑" (~"⦒" any) "⦒"
 space += comment
-
-
-}
-
------ left overs -----
-
-
-Typed_Item_id = Typed_Item_id ":" Type_id "."
-
-Ceptre {
-  Main = Top_level+       
-  top_level =
-    | Backward_chaining_predicate_declaration
-    | Permanent_fact
-    | Context
-    | Stage
-    | Rule
-
-Backward_chaining_predicate =
-  | Predicate_name Parameterid* ":" "bwd" "."
-Parameterid =
-  | logicVar
-  | var
-
-Permanent_fact = BWD_Predicate "."
-
-Context = Contextid "=" "{" 
-
-BWD_Predicate = Predicate (var | constant)*
-FWD_Predicate = Predicate (var | constant | logical_var)*
 
 }

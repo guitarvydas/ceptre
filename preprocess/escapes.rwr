@@ -1,7 +1,7 @@
 Escapes {
   text [c+] = ‛«c»’
   char_string [ldq cs* rdq] = ‛«ldq»«_.encodews (cs)»«rdq»’
-  char_comment [kcomment cs* nl] = ‛«kcomment»«_.encodews (cs)»«nl»’
+  char_comment [kcomment cs* nl] = ‛⦑«kcomment»«_.encodews (cs)»⦒\n’
   char_word [lb cs+ rb] = ‛«lb»«encodeURIComponent (cs)»«rb»’
   char_any [c] = ‛«c»’
 

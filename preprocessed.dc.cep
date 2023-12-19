@@ -46,9 +46,9 @@
 }
 ❲qui❳ * ❲stage❳ ❲adventure❳  -o  ❲stage❳ ❲fight_init❳ * ❲fight_screen❳.
 
-% drop_amount M N means a monster of size M can drop N coins
+⦑%%20drop_amount%20M%20N%20means%20a%20monster%20of%20size%20M%20can%20drop%20N%20coins⦒
 ❲drop_amount❳ ❲nat❳ ❲nat❳ : ❲bwd❳.
-❲drop_amount❳ ❲X❳ ❲X❳. % for now
+❲drop_amount❳ ❲X❳ ❲X❳. ⦑%%20for%20now⦒
 
 ❲stage❳ ❲fight_init❳ = {
   ❲init❳ : ❲fight_screen❳  -o  ❲gen_monster❳ * ❲fight_in_progress❳.
@@ -91,7 +91,7 @@
 ❲qui❳ * ❲stage❳ ❲fight❳ * $❲flee_screen❳        -o  ❲stage❳ ❲flee❳.
 
 ❲stage❳ ❲flee❳ = {
-  % lose spoils
+  ⦑%%20lose%20spoils⦒
   ❲do%2Fflee❳ :    ❲flee_screen❳ * ❲spoils❳ ❲X❳ * ❲monster❳ ❲_❳ * ❲monster_hp❳ ❲_❳
             -o ().
 }
