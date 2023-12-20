@@ -1,10 +1,10 @@
-defconst { max-hp 10 }
+defconst max-hp { 10 }
 
 defconst damage { [ sword = 4 ] }
 
 defconst cost { [ sword = 10 ]}
 
-defconst context { init-tok }
+defconst context {[ init-tok ]}
 
 defstage init {
   i { init-tok, max-hp ?N -o health @N, treasure 0, ndays 0, weapon-damage 4 }
