@@ -37,7 +37,7 @@ definteractive shop {
         -o treasure @T', weapon-damage @D }
 }
 
-deftop { qui shop -o state main }
+deftop { qui shop -o stage main }
 
 defstage adventure {
   init { adventure-screen -o spoils 0 }
@@ -60,7 +60,7 @@ defpred try-fight ()
 defpred fight-in-progress ()
 
 defstage fight-auto {
-  fight/hit { try-fight, $fight-in-progree, monster-hp ?MHP, $weapon-damaga ?D, subtract ?MHP ?D (some ?MHP')
+  fight/hit { try-fight, $fight-in-progress, monster-hp ?MHP, $weapon-damage ?D, subtract ?MHP ?D (some ?MHP')
               -o monster-hp ?MHP' }
   win { fight-in-progress, monster-hp ?MHP, $weapon-damage ?D, subtract ?MHP ?D none
         -o win-screen }
@@ -77,7 +77,7 @@ deftop {qui fight-auto, $die-screen -o stage die }
 
 definteractive fight {
   do-fight {choice, $fight-in-progress -o try-fight }
-  do-free {choice, fight-in-progress -o flee-screen }
+  do-flee {choice, fight-in-progress -o flee-screen }
 }
 
 deftop { qui fight, $fight-in-progress -o stage fight-auto }
@@ -91,7 +91,7 @@ deftop { qui flee -o stage main, main-screen }
 defpred go-home-or-continue ()
 
 definteractive win {
-  win {win-screen, monster ?Size, drop_amount ?Size ?Drop -o drop Drop }
+  win {win-screen, monster ?Size, drop_amount ?Size ?Drop -o drop @Drop }
   collect-spoils { drop ?X, spoils ?Y, plus ?X ?Y ?Z -o spoils ?Z, go-home-or-continue }
   go-home { go-home-or-continue, spoils ?X, treasure ?Y, plus ?X ?Y ?Z -o treasure @Z, main-screen }
   continue { go-home-or-continue, -o fight-screen }
