@@ -1,0 +1,20 @@
+Word {
+  input = item+
+  item =
+    | string -- string
+    | space -- space
+    | separator -- separator
+    | integer -- integer
+    | word -- word
+
+  separator = ":" | "(" | ")" | "{" | "}" | "-o" | "." | "=" | "*" | "," | "$" | "#interactive"
+
+  word = legalchar+
+  legalchar = ~separator ~space any
+
+  integer = digit+
+  comment = "%" (~"\n" any)* "\n"
+  space += comment
+  string = dq (~dq any)* dq
+  dq = "\""
+}
