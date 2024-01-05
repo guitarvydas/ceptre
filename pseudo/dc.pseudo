@@ -14,7 +14,7 @@ deftop { qui init -o stage main,  main-screen }
 
 definteractive main {
   do/rest { main-screen -o rest-screen }
-  do/adventure { main-screen o- adventure-screen }
+  do/adventure { main-screen -o adventure-screen }
   do/shop { main-screen -o shop-screen }
   do/quit { main-screen -o quit }
 }
