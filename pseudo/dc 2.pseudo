@@ -1,0 +1,109 @@
+defconst max-hp { 10 }
+
+defconst damage { [ sword = 4 ] }
+
+defconst cost { [ sword = 10 ]}
+
+defconst context {[ init-tok ]}
+
+defstage init {
+  i { init-tok, max-hp ?N -o health @N, treasure 0, ndays 0, weapon-damage 4 }
+}
+
+deftop { qui init -o stage main,  main-screen }
+
+definteractive main {
+  do/rest { main-screen -o rest-screen }
+  do/adventure { main-screen -o adventure-screen }
+  do/shop { main-screen -o shop-screen }
+  do/quit { main-screen -o quit }
+}
+
+deftop { qui main, $rest-screen -o stage rest }
+deftop { qui main, $shop-screen -o stage shop }
+deftop { qui main, $adventure-screen -o stage adventure }
+deftop { qui main, $quit -o () }
+
+defstage rest {
+  recharge { rest-screen, health ?HP, max-hp ?Max, recharge-hp ?Recharge, cplus ?HP ?Recharge ?Max ?N, ndays ?NDAYS
+             -o health @N, ndays (@NDAYS + 1) }
+}
+
+deftop { qui rest -o stage main, main-screen }
+
+definteractive shop {
+  leave { shop-screen -o main-screen }
+  buy { treasure ?T, cost ?W ?C, damage-of ?W ?D, weapon_damage _, subtract ?T ?C (some T')
+        -o treasure @T', weapon-damage @D }
+}
+
+deftop { qui shop -o stage main }
+
+defstage adventure {
+  init { adventure-screen -o spoils 0 }
+}
+
+deftop { qui adventure -o stage fight-init, fight-screen }
+
+%TBD declbwd drop-amount (num num)
+%TBD top { drop-amount ?X ?X }
+
+defstage fight-init {
+  init { fight-screen -o gen-monster, fight-in-progress }
+  gen-a-monster { gen-monster, monster-size ?Size -o monster @Size, monster-hp @Size }
+}
+
+deftop {qui fight-init -o stage fight, choice }
+
+defpred try-fight ()
+
+defpred fight-in-progress ()
+
+defstage fight-auto {
+  fight/hit { try-fight, $fight-in-progress, monster-hp ?MHP, $weapon-damage ?D, subtract ?MHP ?D (some ?MHP')
+              -o monster-hp ?MHP' }
+  win { fight-in-progress, monster-hp ?MHP, $weapon-damage ?D, subtract ?MHP ?D none
+        -o win-screen }
+  fight/miss {try-fight, $fight-in-progress, $monster ?Size, health ?HP, subtract ?HP ?Size (some ?HP') -o health ?HP' }
+  die-from-damages { health 0, fight-in-progress -o die-screen }
+  fight/die { try-fight, fight-in-progress, monster ?Size, health ?HP, subtract ?HP ?Size none -o die-screen }
+}
+
+defpred choice ()
+
+deftop {qui fight-auto, $fight-in-progress -o stage fight, choice }
+deftop {qui fight-auto, $win-screen -o stage win }
+deftop {qui fight-auto, $die-screen -o stage die }
+
+definteractive fight {
+  do-fight {choice, $fight-in-progress -o try-fight }
+  do-flee {choice, fight-in-progress -o flee-screen }
+}
+
+deftop { qui fight, $fight-in-progress -o stage fight-auto }
+deftop { qui fight, $flee-screen -o stage flee }
+
+defstage flee {
+  do/flee { flee-screen, spoils ?X, monster _, monster-hp _ -o () }
+}
+
+deftop { qui flee -o stage main, main-screen }
+defpred go-home-or-continue ()
+
+definteractive win {
+  win {win-screen, monster ?Size, drop_amount ?Size ?Drop -o drop @Drop }
+  collect-spoils { drop ?X, spoils ?Y, plus ?X ?Y ?Z -o spoils ?Z, go-home-or-continue }
+  go-home { go-home-or-continue, spoils ?X, treasure ?Y, plus ?X ?Y ?Z -o treasure @Z, main-screen }
+  continue { go-home-or-continue, -o fight-screen }
+}
+
+deftop { qui win, $main-screen -o stage main }
+deftop { qui win, $fight-screen -o stage fight-init }
+defpred end ()
+definteractive die {
+  quit { die-screen -o end }
+  restart { die-screen, monster-hp _, spoils _, ndays _, treasure _, weapon-damage _ -o init-tok }
+}
+
+deftop { qui die, end -o () }
+deftop { qui die, $init-tok -o stage init }
