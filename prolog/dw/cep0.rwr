@@ -1,0 +1,17 @@
+cep0 {
+  Rules [Rule+] = ‛«Rule»’
+  Rule [id kcolon Inhale klolli Exhale] ‛«_.resetfbindexing()»’ = ‛«id»(FB,«_.getlastindex()»):-«Inhale»,«Exhale».’
+  Inhale [MatchClause+] = ‛«MatchClause»’
+  Exhale [GenerateClause+] = ‛«GenerateClause»’
+  MatchClause [Pred MoreMatchClause?] = ‛\nmember(«Pred»,FB«_.getpriorindex()»),del(«Pred»,FB«_.getpriorindex()»,FB«_.getcurrentindex()»)’
+  MoreMatchClause [kstar MatchClause] = ‛,«MatchClause»’
+  GenerateClause [Pred MoreGenerateClause?] = ‛\nadd(«Pred»)«MoreGenerateClause»’
+  MoreGenerateClause [kstar GenerateClause] = ‛,«GenerateClause»’
+  Pred_withargs [PredName PredArg+] = ‛«PredName»«PredArg»’
+  Pred_noargs [PredName] = ‛«PredName»’
+  PredArg [name] = ‛«name»’
+  id [lb lower idrest* rb] = ‛«lower»«idrest»’
+  LogicVariable [lb upper idrest* rb] = ‛«upper»«idrest»’
+  idrest_singlequote [c] = ‛__’
+  idrest_other [c]       = ‛«c»’
+}

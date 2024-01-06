@@ -1,0 +1,21 @@
+cep0 {
+  Rules = Rule+
+  Rule = id ":" Inhale "-o" Exhale
+  Inhale = MatchClause+
+  Exhale = GenerateClause+
+  MatchClause = Pred MoreMatchClause?
+  MoreMatchClause = "*" MatchClause
+  GenerateClause = Pred MoreGenerateClause?
+  MoreGenerateClause = "*" GenerateClause
+  Pred =
+    | PredName PredArg+ -- withargs
+    | PredName          -- noargs
+  PredName = id
+  PredArg = id | LogicVariable
+  id = "❲" lower idrest* "❳"
+  LogicVariable = "❲" upper idrest* "❳"
+  idrest =
+    | ~"❲" ~"❳" sq  -- singlequote
+    | ~"❲" ~"❳" any -- other
+  sq = "'"
+}

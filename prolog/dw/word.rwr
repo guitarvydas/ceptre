@@ -1,0 +1,7 @@
+Word {
+  input [item+] = ‛«item»’
+  word [legalchar+] = ‛❲«legalchar»❳’
+  integer [digit+] = ‛«digit»’
+  comment [kpct any* nl] = ‛’
+  string [dq1 any* dq2] = ‛«dq1»«any»«dq2»’
+}

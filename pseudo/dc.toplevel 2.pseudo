@@ -1,0 +1,80 @@
+defconst max-hp { 10 }
+
+defconst damage { [ sword = 4 ] }
+
+defconst cost { [ sword = 10 ]}
+
+defconst context {[ init-tok ]}
+
+defstage init {
+  i { init-tok, max-hp ?N -o health @N, treasure 0, ndays 0, weapon-damage 4 }
+}
+
+deftop { qui init -o stage main,  main-screen }
+
+definteractive main {
+}
+
+deftop { qui main, $rest-screen -o stage rest }
+deftop { qui main, $shop-screen -o stage shop }
+deftop { qui main, $adventure-screen -o stage adventure }
+deftop { qui main, $quit -o () }
+
+defstage rest {
+}
+
+deftop { qui shop -o stage main }
+
+defstage adventure {
+  init { adventure-screen -o spoils 0 }
+}
+
+deftop { qui adventure -o stage fight-init, fight-screen }
+
+%TBD declbwd drop-amount (num num)
+%TBD top { drop-amount ?X ?X }
+
+defstage fight-init {
+}
+
+deftop {qui fight-init -o stage fight, choice }
+
+-----
+
+
+defpred try-fight ()
+
+defpred fight-in-progress ()
+
+defstage fight-auto {
+}
+
+defpred choice ()
+
+deftop {qui fight-auto, $fight-in-progress -o stage fight, choice }
+deftop {qui fight-auto, $win-screen -o stage win }
+deftop {qui fight-auto, $die-screen -o stage die }
+
+definteractive fight {
+}
+
+deftop { qui fight, $fight-in-progress -o stage fight-auto }
+deftop { qui fight, $flee-screen -o stage flee }
+
+defstage flee {
+}
+
+deftop { qui flee -o stage main, main-screen }
+defpred go-home-or-continue ()
+
+definteractive win {
+}
+
+deftop { qui win, $main-screen -o stage main }
+deftop { qui win, $fight-screen -o stage fight-init }
+defpred end ()
+definteractive die {
+}
+
+deftop { qui die, end -o () }
+deftop { qui die, $init-tok -o stage init }

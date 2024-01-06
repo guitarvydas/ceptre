@@ -1,0 +1,78 @@
+Ceptre {
+
+Top_Level = (Constant_Fact | Top_Level_Rule | Type_decl | Stage_decl | FWD_Predicate_Decl | BWD_Predicate_Decl | Initial_Context_Decl)+
+
+
+Constant_Fact = Clause "."
+Top_Level_Rule = w<"qui"> "*" w<"stage"> Stage_id ("*" Inhale)? "-o" Exhale "." 
+Type_decl = Type_id ":" w<"type"> "."
+Stage_decl = 
+  | w<"stage"> Stage_id "=" "{" Rule+ "}" "#interactive" -- interactive
+  | w<"stage"> Stage_id "=" "{" Rule+ "}"                -- nondeterministic
+Initial_Context_Decl = w<"context"> Context_id "=" "{" listOf<Clause,","> "}" "."
+
+
+
+FWD_Predicate_Decl = Predicate_id Formal_arg* ":" w<"pred"> "."
+BWD_Predicate_Decl = Predicate_id Formal_arg* ":" w<"bwd">  "."
+
+External_Predicate_Decl = Predicate_id Formal_arg* ":" Type_id "."
+
+Rule = Rule_id ":" Inhale "-o" Exhale "."
+
+Clause = 
+  | w<"stage"> Stage_id         -- stage
+  | "(" ")"                     -- empty
+  | "(" Clause ")"              -- parenthesized
+  | Infix_Operation             -- infix
+  | Predicate_id Predicate_arg* -- basic
+
+Formal_arg =
+  | logicVar -- logicVar
+  | var      -- var
+
+Predicate_arg =
+  | &"(" Clause -- parenthesized 
+  | logicVar -- logicVar
+  | var      -- var
+  | constant -- const
+
+Constant_Predicate_arg = ~logicVar Predicate_arg
+
+Infix_Operation =
+  | logicVar plus constant
+  | constant plus logicVar
+
+constant = digit+
+logicVar = ~keyword "❲" upperOR_ idrest* "❳"
+var = id
+
+upperOR_ = upper | "_"
+
+keyword = w<"stage"> | w<"qui"> | w<"type"> | w<"context"> | w<"pred"> | w<"bwd">
+
+Inhale =
+  | "$" Clause ("*" Inhale)? -- dollarmatch
+  |     Clause ("*" Inhale)? --       match
+
+Exhale =
+  | "!" Clause ("*" Exhale)? -- bangmutate
+  |     Clause ("*" Exhale)? --     mutate
+
+ 
+
+Type_id = id
+Stage_id = id
+Predicate_id = id
+Rule_id = id
+Context_id = id
+
+id = ~keyword "❲" lower idrest* "❳"
+idrest = ~"❳" any
+
+plus = "❲" "%2B" "❳"
+w<s> = "❲" s "❳"
+comment = "⦑" (~"⦒" any)* "⦒"
+space += comment
+
+}
