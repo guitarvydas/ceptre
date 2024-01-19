@@ -1,0 +1,24 @@
+stage fight_auto = {
+fight/hit : try_fight * $fight_in_progress * monster_hp MHP * $weapon_damage D * subtract MHP D (some MHP’) -o monster_hp MHP’.
+win: fight_in_progress * monster_hp MHP * $weapon_damage D * subtract MHP D none -o win_screen.
+fight/miss: try_fight * $fight_in_progress * $monster Size * health HP * subtract HP Size (some HP’) -o health HP’. 
+die_from_damages: health z * fight_in_progress -o die_screen.
+fight/die: try_fight * fight_in_progress * monster Size * health HP * subtract HP Size none -o die_screen.
+}
+
+
+fight/hit
+  IF
+      try_fight
+    & fight_in_progress
+    & monster_hp MHP
+    & weapon_damage D
+    & subtract MHP D (some MHP')
+  THEN
+    rm try_fight
+    rm fight_in_progress
+    rm monster_hp MHP
+    rm weapon_damage D
+    insert fight_in_progress
+    insert weapon_damage D
+    insert monster_hp MHP'
